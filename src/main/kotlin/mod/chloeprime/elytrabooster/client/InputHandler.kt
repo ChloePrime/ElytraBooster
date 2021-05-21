@@ -18,6 +18,9 @@ import net.minecraftforge.fml.common.Mod
 @Mod.EventBusSubscriber(Dist.CLIENT)
 internal object InputHandler {
     private var input: IElytraInputCap? = null
+    private val BOOST_FORCE_ATTRIBUTE by lazy {
+        ElytraBoosterApi.Attributes.BOOST_SPEED.get()
+    }
 
     @SubscribeEvent
     fun onInput(e: TickEvent.ClientTickEvent) {
@@ -34,13 +37,18 @@ internal object InputHandler {
      */
     @SubscribeEvent
     fun handleTurning(e: TickEvent.RenderTickEvent) {
-        if (input == null || input!!.moveStrafe in -1e-5..1e-5) return
+        if (input == null) return
+        if (input!!.moveStrafe in -1e-5..1e-5 && input!!.moveForward in -1e-5..1e-5) {
+            return
+        }
 
         val player = Minecraft.getInstance().player ?: return
         if (!ElytraBoosterApi.isFlyingWithBooster(player)) return
 
-        player.rotationYaw += Aerodynamics.getAngularAcceleration(player.motion) *
-                -input!!.moveStrafe * Time.deltaTime
+        val maxSpeed = player.getAttributeValue(BOOST_FORCE_ATTRIBUTE)
+        player.rotationYaw +=
+            Aerodynamics.getAngularAcceleration(player.motion, maxSpeed.toFloat()) *
+                -input!!.moveStrafe * CameraRoll.rollRate * Time.deltaTime
     }
 
     private fun recordInput(player: ClientPlayerEntity): IElytraInputCap {

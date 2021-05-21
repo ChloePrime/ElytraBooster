@@ -33,9 +33,16 @@ object Aerodynamics {
         )
     }
 
-    fun getAngularAcceleration(motion: Vector3d): Float {
-        val speed = motion.fastLength().toFloat() + 1
-        // TODO 将角加速度变为Attribute
-        return Math.PI.toFloat() / 4 / (speed * speed)
+    /**
+     * 标准转弯速度，
+     * 取 30°/s （由于转弯操作会乘上Time.deltaTime，所以时间单位为秒）
+     */
+    private const val STANDARD_ROTATE_SPEED = Math.PI.toFloat() / 6
+
+    fun getAngularAcceleration(motion: Vector3d, goalSpeed: Float): Float {
+        if (goalSpeed < 1e-5F) {
+            return 0F
+        }
+        return STANDARD_ROTATE_SPEED * motion.fastLength().toFloat() / goalSpeed
     }
 }

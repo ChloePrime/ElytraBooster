@@ -9,16 +9,19 @@ import net.minecraft.util.math.MathHelper
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.EntityViewRenderEvent
+import net.minecraftforge.event.TickEvent
+import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
+import kotlin.math.abs
 
 /**
  * 鞘翅飞行时按左右键旋转镜头
- * 只是个特效而已
+ * 是特效，同时也控制旋转速度。
  */
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(Dist.CLIENT)
-object CameraRollEffect {
+object CameraRoll {
     /**
      * 单位为角度（Degrees）
      */
@@ -31,11 +34,22 @@ object CameraRollEffect {
     private var roll = 0.0F
     private var targetRoll = 0.0F
 
-    @SubscribeEvent
-    fun onCameraSetup(e: EntityViewRenderEvent.CameraSetup) {
-        val mc = Minecraft.getInstance()
-        if (mc.gameSettings.pointOfView != PointOfView.FIRST_PERSON) return
-        val player = mc.player ?: return
+    private val MINECRAFT = Minecraft.getInstance()
+
+    /**
+     * 当前视角倾斜占倾斜上限的百分比
+     */
+    val rollRate get() = abs(roll / MAX_ROLL_ANGLE)
+
+    /**
+     * 此处处理roll计算
+     * 涉及到旋转速度这一玩法因素
+     */
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    fun onRenderTick(e: TickEvent.RenderTickEvent) {
+        if (e.phase === TickEvent.Phase.END || MINECRAFT.isGamePaused) return
+
+        val player = MINECRAFT.player ?: return
 
         targetRoll = if (!ElytraBoosterApi.isFlyingWithBooster(player)) {
             0.0F
@@ -45,7 +59,18 @@ object CameraRollEffect {
         }
 
         roll += (targetRoll - roll) * getActualSmoothSpeed(player)
-        e.roll += roll
+    }
+
+    /**
+     * 特效
+     * 此处不涉及玩法
+     */
+    @SubscribeEvent
+    fun onCameraSetup(e: EntityViewRenderEvent.CameraSetup) {
+        if (MINECRAFT.world == null) return
+        if (MINECRAFT.gameSettings.pointOfView === PointOfView.FIRST_PERSON) {
+            e.roll += roll
+        }
     }
 
     private fun getActualSmoothSpeed(player: PlayerEntity): Float {
