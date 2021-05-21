@@ -1,0 +1,7 @@
+{
+  "elytra_booster.item.energy": "%d FE / %d FE (%s%%)",
+  "elytra_booster.item.durability": "Durability: %d / %d (%s%%)",
+  "item.elytra_booster.boosted_elytra": "Boosted Elytra",
+  "item.elytra_booster.boosted_elytra_creative": "Boosted Elytra (Creative)",
+  "elytra_booster.boost_force": "Propulsive Force"
+}

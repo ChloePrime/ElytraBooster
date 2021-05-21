@@ -1,0 +1,101 @@
+package mod.chloeprime.elytrabooster.common.item
+
+import com.google.common.collect.ImmutableMultimap
+import com.google.common.collect.Multimap
+import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
+import mod.chloeprime.elytrabooster.api.common.IBoostedElytraItem
+import mod.chloeprime.elytrabooster.common.util.Aerodynamics
+import mod.chloeprime.elytrabooster.common.util.withLength
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.ai.attributes.Attribute
+import net.minecraft.entity.ai.attributes.AttributeModifier
+import net.minecraft.inventory.EquipmentSlotType
+import net.minecraft.item.ElytraItem
+import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemStack
+import net.minecraft.util.math.vector.Vector3d
+import net.minecraftforge.event.TickEvent
+import net.minecraftforge.eventbus.api.EventPriority
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.common.Mod
+import java.util.*
+
+/**
+ * 无任何消耗的推进鞘翅
+ * @author ChloePrime
+ */
+open class BoostedElytraItemBase(
+    properties: Properties,
+    boostForce: Double
+) : ElytraItem(setGroup(properties)), IBoostedElytraItem {
+    companion object {
+        @JvmStatic
+        protected val SLOT = EquipmentSlotType.CHEST
+        private val ATTRIBUTE_MODIFIER_ID = UUID.fromString("391c255a-2c1f-4bd6-8ff4-9d4b36590c80")
+
+        private fun setGroup(prop: Properties): Properties {
+            return prop.group(ItemGroup.TRANSPORTATION)
+        }
+    }
+
+    override fun canElytraFly(stack: ItemStack, entity: LivingEntity) = true
+    override fun getEquipmentSlot(stack: ItemStack) = SLOT
+
+    private val attributes by lazy {
+        ImmutableMultimap.of(
+            ElytraBoosterApi.Attributes.BOOST_SPEED.get(),
+            AttributeModifier(ATTRIBUTE_MODIFIER_ID,
+                "Boosted Elytra Boost Force",
+                boostForce,
+                AttributeModifier.Operation.ADDITION
+            )
+        )
+    }
+    /**
+     * 提供推力属性
+     */
+    override fun getAttributeModifiers(
+        slot: EquipmentSlotType,
+        stack: ItemStack
+    ): Multimap<Attribute, AttributeModifier> {
+        return if (slot == SLOT) attributes else super.getAttributeModifiers(slot, stack)
+    }
+}
+
+/**
+ * 让推进鞘翅真正附加推力
+ * 加速度公式 a = a0 * lookVec - kv^2 * e(motion)
+ * @author ChloePrime
+ */
+@Mod.EventBusSubscriber
+internal object ElytraBoostingEventHandler {
+    private const val RESISTANCE_FACTOR = Aerodynamics.RESISTANCE_FACTOR
+
+    /**
+     * 双端执行
+     */
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    fun onPlayerTick(e: TickEvent.PlayerTickEvent) {
+        if (e.phase === TickEvent.Phase.END) return
+        if (!ElytraBoosterApi.isFlyingWithBooster(e.player)) return
+
+        val input = ElytraBoosterApi.getElytraInput(e.player)
+        // 空气阻力公式 F=0.5CρSv^2=cv^2 c为常数，v为速度
+
+        // v = √a0 / √k
+        // a0 = v^2 * k * 加速度方向
+        val a0 = Aerodynamics.getAccelerationForPlayer(e.player) * input.moveForward
+
+        val motion: Vector3d = e.player.motion
+        val lookDir = e.player.lookVec
+        // kv^2
+        val airResistance = RESISTANCE_FACTOR * motion.lengthSquared()
+        val airResistanceVec = motion.withLength(airResistance)
+        // a=F/m=cF，c为常数
+        e.player.motion = motion.add(
+            a0 * lookDir.x - airResistanceVec.x,
+            a0 * lookDir.y - airResistanceVec.y,
+            a0 * lookDir.z - airResistanceVec.z
+        )
+    }
+}
