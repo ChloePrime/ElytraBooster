@@ -35,7 +35,7 @@ object ElyBoosterModConfig {
             MAX_FE_KEY, 50000, 0, Int.MAX_VALUE
         )
         T1_FE_COST = builder.comment(FE_COST_COMMENT).define(
-            FE_COST_KEY, "10*x+50*y-2"
+            FE_COST_KEY, "10*x+50*y+2"
         )
         T1_DURABILITY = builder.comment(DURABILITY_COMMENT).defineInRange(
             DURABILITY_KEY, 432, 0, Int.MAX_VALUE
