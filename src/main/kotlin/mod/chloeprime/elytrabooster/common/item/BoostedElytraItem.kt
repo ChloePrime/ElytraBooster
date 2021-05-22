@@ -171,7 +171,7 @@ open class BoostedElytraItem(
             val dur = stack.maxDamage - stack.damage
             tooltip.add(
                 translated("elytra_booster.item.durability") + TextFormats.getProgressText(
-                    dur, stack.maxDamage, 0x808080
+                    dur, stack.maxDamage, 0xA0A0A0
                 )
             )
         }

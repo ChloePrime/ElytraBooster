@@ -2,6 +2,9 @@ package mod.chloeprime.elytrabooster.common.util
 
 import net.minecraft.util.text.IFormattableTextComponent
 
+/**
+ * 本Mod中部分文本的统一化生成方法
+ */
 object TextFormats {
     /**
      * 求 [dividend] 占 [divisor] 的百分比，
