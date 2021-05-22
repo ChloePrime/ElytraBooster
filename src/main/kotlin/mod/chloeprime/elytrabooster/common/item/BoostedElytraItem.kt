@@ -5,6 +5,8 @@ import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
 import mod.chloeprime.elytrabooster.common.network.ModNetworking
 import mod.chloeprime.elytrabooster.common.network.SEnergyUpdatePacket
 import mod.chloeprime.elytrabooster.common.util.TextFormats
+import mod.chloeprime.elytrabooster.common.util.plus
+import mod.chloeprime.elytrabooster.common.util.translated
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -16,8 +18,6 @@ import net.minecraft.util.Direction
 import net.minecraft.util.NonNullList
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.StringTextComponent
-import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.World
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
@@ -67,7 +67,7 @@ open class BoostedElytraItem(
     override fun elytraFlightTick(stack: ItemStack, entity: LivingEntity, flightTicks: Int): Boolean {
         return super.elytraFlightTick(stack, entity, flightTicks) && run {
             if (entity.world.isRemote) {
-                return true
+                return@run true
             }
             entity.getCapability(INPUT_CAP!!).map { input ->
                 stack.getCapability(ENERGY_CAP!!).map {
@@ -99,7 +99,7 @@ open class BoostedElytraItem(
         return CapProvider()
     }
 
-    private inner class CapProvider: ICapabilitySerializable<IntNBT> {
+    private inner class CapProvider : ICapabilitySerializable<IntNBT> {
         private var instance = createInstance(0)
 
         override fun <T : Any?> getCapability(cap: Capability<T>, side: Direction?): LazyOptional<T> {
@@ -161,9 +161,8 @@ open class BoostedElytraItem(
         if (ENERGY_CAP != null) {
             stack.getCapability(ENERGY_CAP!!).ifPresent {
                 tooltip.add(
-                    TextFormats.getTranslatedProgressText(
-                        "elytra_booster.item.energy",
-                        it.energyStored, it.maxEnergyStored
+                    TextFormats.getProgressText(
+                        it.energyStored, it.maxEnergyStored, 0x00FFFF,"FE"
                     )
                 )
             }
@@ -171,8 +170,8 @@ open class BoostedElytraItem(
         if (stack.isDamageable) {
             val dur = stack.maxDamage - stack.damage
             tooltip.add(
-                TextFormats.getTranslatedProgressText(
-                    "elytra_booster.item.durability", dur, stack.maxDamage
+                translated("elytra_booster.item.durability") + TextFormats.getProgressText(
+                    dur, stack.maxDamage, 0x808080
                 )
             )
         }

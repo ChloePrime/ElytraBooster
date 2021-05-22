@@ -34,7 +34,7 @@ open class BoostedElytraItemBase(
         private val ATTRIBUTE_MODIFIER_ID = UUID.fromString("391c255a-2c1f-4bd6-8ff4-9d4b36590c80")
 
         private fun setGroup(prop: Properties): Properties {
-            return prop.group(ItemGroup.TRANSPORTATION)
+            return prop.group(ModItemGroup)
         }
     }
 
