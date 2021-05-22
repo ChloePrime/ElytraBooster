@@ -11,7 +11,6 @@ import net.minecraft.entity.ai.attributes.Attribute
 import net.minecraft.entity.ai.attributes.AttributeModifier
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.item.ElytraItem
-import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.event.TickEvent
@@ -19,6 +18,7 @@ import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
 import java.util.*
+import java.util.function.DoubleSupplier
 
 /**
  * 无任何消耗的推进鞘翅
@@ -26,7 +26,7 @@ import java.util.*
  */
 open class BoostedElytraItemBase(
     properties: Properties,
-    boostForce: Double
+    boostForce: DoubleSupplier
 ) : ElytraItem(setGroup(properties)), IBoostedElytraItem {
     companion object {
         @JvmStatic
@@ -46,7 +46,7 @@ open class BoostedElytraItemBase(
             ElytraBoosterApi.Attributes.BOOST_SPEED.get(),
             AttributeModifier(ATTRIBUTE_MODIFIER_ID,
                 "Boosted Elytra Boost Force",
-                boostForce,
+                boostForce.asDouble,
                 AttributeModifier.Operation.ADDITION
             )
         )

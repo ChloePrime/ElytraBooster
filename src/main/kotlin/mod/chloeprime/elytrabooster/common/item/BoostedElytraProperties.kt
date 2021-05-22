@@ -2,21 +2,23 @@ package mod.chloeprime.elytrabooster.common.item
 
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
 import net.minecraft.item.Item
+import java.util.function.DoubleSupplier
+import java.util.function.IntSupplier
 import java.util.function.ToIntFunction
 
 class BoostedElytraProperties(
-    var boostForce: Double,
-    var maxEnergy: Int,
+    var boostForce: DoubleSupplier,
+    var maxEnergy: IntSupplier,
     var costFormula: ToIntFunction<IElytraInputCap>
 ): Item.Properties() {
-    constructor() : this(0.0, 0, ToIntFunction { 0 })
+    constructor() : this({ 0.0 }, { 0 }, ToIntFunction { 0 })
 
-    fun boostForce(boostForce: Double): BoostedElytraProperties {
+    fun boostForce(boostForce: DoubleSupplier): BoostedElytraProperties {
         this.boostForce = boostForce
         return this
     }
 
-    fun maxEnergy(maxEnergy: Int): BoostedElytraProperties {
+    fun maxEnergy(maxEnergy: IntSupplier): BoostedElytraProperties {
         this.maxEnergy = maxEnergy
         return this
     }
@@ -25,5 +27,4 @@ class BoostedElytraProperties(
         this.costFormula = costFormula
         return this
     }
-
 }

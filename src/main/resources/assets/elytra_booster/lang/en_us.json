@@ -1,6 +1,7 @@
 {
   "elytra_booster.item.durability": "Durability: ",
-  "item.elytra_booster.boosted_elytra": "Boosted Elytra",
+  "item.elytra_booster.boosted_elytra_fe_t1": "Electric Boosted Elytra",
+  "item.elytra_booster.boosted_elytra_fe_t2": "Plasma Boosted Elytra",
   "item.elytra_booster.boosted_elytra_creative": "Boosted Elytra (Creative)",
   "itemGroup.elytra_booster": "Boosted Elytra",
   "elytra_booster.boost_force": "Propulsive Force"
