@@ -1,7 +1,6 @@
 package mod.chloeprime.elytrabooster.common.network
 
-import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
-import mod.chloeprime.elytrabooster.common.util.setEnergy
+import mod.chloeprime.elytrabooster.common.caps.energy
 import net.minecraft.client.Minecraft
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.network.PacketBuffer
@@ -17,9 +16,9 @@ import javax.management.openmbean.InvalidOpenTypeException
  */
 class SEnergyUpdatePacket(
     // 以 byte 存储
-    val slot: EquipmentSlotType,
+    private val slot: EquipmentSlotType,
     // 以 var int 存储
-    val energy: Int
+    private val energy: Int
 ) {
     /**
      * Encoder
@@ -52,8 +51,8 @@ class SEnergyUpdatePacket(
     fun handlePackage(ctx: Supplier<NetworkEvent.Context>) {
         ctx.get().enqueueWork {
             val player = Minecraft.getInstance().player ?: return@enqueueWork
-            player.getItemStackFromSlot(slot).getCapability(ENERGY_CAP).ifPresent {
-                it.setEnergy(this.energy)
+            player.getItemStackFromSlot(slot).getCapability(ENERGY_CAP).ifPresent { battery ->
+                battery.energy = this.energy
             }
         }
         ctx.get().packetHandled = true

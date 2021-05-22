@@ -2,6 +2,8 @@ package mod.chloeprime.elytrabooster.common.item
 
 import mod.chloeprime.elytrabooster.api.common.IBoostedElytraItem
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
+import mod.chloeprime.elytrabooster.common.caps.SettableEnergyStorage
+import mod.chloeprime.elytrabooster.common.caps.energy
 import mod.chloeprime.elytrabooster.common.network.ModNetworking
 import mod.chloeprime.elytrabooster.common.network.SEnergyUpdatePacket
 import mod.chloeprime.elytrabooster.common.util.TextFormats
@@ -26,7 +28,6 @@ import net.minecraftforge.common.capabilities.CapabilityInject
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.common.capabilities.ICapabilitySerializable
 import net.minecraftforge.common.util.LazyOptional
-import net.minecraftforge.energy.EnergyStorage
 import net.minecraftforge.energy.IEnergyStorage
 import net.minecraftforge.fml.network.PacketDistributor
 
@@ -82,14 +83,14 @@ open class BoostedElytraItem(
      * 消耗能源，
      * 然后向玩家发送网络包以刷新客户端显示
      */
-    private fun extractEnergyAndUpdate(battery: IEnergyStorage, amount: Int, entity: LivingEntity): Int {
-        return battery.extractEnergy(amount, false).also {
-            if (amount > 0 && !entity.world.isRemote && entity is ServerPlayerEntity) {
-                ModNetworking.CHANNEL.send(
-                    PacketDistributor.PLAYER.with { entity },
-                    SEnergyUpdatePacket(SLOT, battery.energyStored)
-                )
-            }
+    private fun extractEnergyAndUpdate(battery: IEnergyStorage, amount: Int, entity: LivingEntity){
+        val dirty = battery.energyStored > 0 && amount > 0
+        battery.energy -= amount
+        if (dirty && !entity.world.isRemote && entity is ServerPlayerEntity) {
+            ModNetworking.CHANNEL.send(
+                PacketDistributor.PLAYER.with { entity },
+                SEnergyUpdatePacket(SLOT, battery.energyStored)
+            )
         }
     }
 
@@ -103,7 +104,7 @@ open class BoostedElytraItem(
         private var instance = createInstance(0)
 
         override fun <T : Any?> getCapability(cap: Capability<T>, side: Direction?): LazyOptional<T> {
-            return ENERGY_CAP!!.orEmpty(cap, instance)
+            return ENERGY_CAP!!.orEmpty(cap, instance.cast())
         }
 
         override fun serializeNBT(): IntNBT {
@@ -117,8 +118,8 @@ open class BoostedElytraItem(
             instance = createInstance(energyInNbt)
         }
 
-        private fun createInstance(energy: Int) = LazyOptional.of<IEnergyStorage> {
-            EnergyStorage(maxEnergy, maxEnergy, maxEnergy, energy)
+        private fun createInstance(energy: Int) = LazyOptional.of {
+            SettableEnergyStorage(maxEnergy.asInt, maxEnergy.asInt, 0, energy)
         }
     }
 
