@@ -66,6 +66,9 @@ open class BoostedElytraItem(
 
     override fun elytraFlightTick(stack: ItemStack, entity: LivingEntity, flightTicks: Int): Boolean {
         return super.elytraFlightTick(stack, entity, flightTicks) && run {
+            if (entity.world.isRemote) {
+                return true
+            }
             entity.getCapability(INPUT_CAP!!).map { input ->
                 stack.getCapability(ENERGY_CAP!!).map {
                     extractEnergyAndUpdate(it, costFormula.applyAsInt(input), entity)
