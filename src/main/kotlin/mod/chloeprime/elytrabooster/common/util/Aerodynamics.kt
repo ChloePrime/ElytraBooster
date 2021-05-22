@@ -1,6 +1,7 @@
 package mod.chloeprime.elytrabooster.common.util
 
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
+import mod.chloeprime.elytrabooster.common.config.ElyBoosterModConfig
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.vector.Vector3d
 
@@ -21,10 +22,14 @@ object Aerodynamics {
      * 而当阻力系数过小，使得推力过小时，推进加速度将被原版的空气阻力覆盖，
      * 导致无法爬升。
      */
-    const val RESISTANCE_FACTOR = (0.5F * 0.2F * 1.2258F * 2 / 50F) / 400F * 540F
+    private const val AIR_DRAG_BASE = (0.5F * 0.2F * 1.2258F * 2 / 50F) / 400F * 540F
+
+    val AIR_DRAG by lazy {
+        AIR_DRAG_BASE * ElyBoosterModConfig.AIR_DRAG_SCALE.get().toFloat()
+    }
 
     fun getAccelerationForGoalSpeed(goalSpeed: Float): Float {
-        return goalSpeed * goalSpeed * RESISTANCE_FACTOR
+        return goalSpeed * goalSpeed * AIR_DRAG
     }
 
     fun getAccelerationForPlayer(player: PlayerEntity): Float {

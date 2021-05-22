@@ -3,18 +3,22 @@ package mod.chloeprime.elytrabooster.common.config
 import net.minecraftforge.common.ForgeConfigSpec
 
 private const val MAX_FE_COMMENT = "Max FE Stored"
-private const val FE_COST_COMMENT = "FE Cost Formula"
+private const val FE_COST_COMMENT = "FE Cost Formula ('x' means input value of turning and 'y' means input value of forward boost.)"
 private const val DURABILITY_COMMENT = "Max Durability"
 private const val BOOST_FORCE_COMMENT = "Propulsive Force"
 
-private const val MAX_FE_KEY = "max_fe"
-private const val FE_COST_KEY = "fe_formula"
+private const val MAX_FE_KEY = "maxEnergy"
+private const val FE_COST_KEY = "energyCostFormula"
 private const val DURABILITY_KEY = "durability"
-private const val BOOST_FORCE_KEY = "boost_force"
+private const val BOOST_FORCE_KEY = "boostForce"
 
 object ElyBoosterModConfig {
 
     val CONFIG: ForgeConfigSpec
+
+    /* 空气动力学参数 */
+
+    val AIR_DRAG_SCALE: ForgeConfigSpec.DoubleValue
 
     /* T1 电动鞘翅 */
 
@@ -29,6 +33,19 @@ object ElyBoosterModConfig {
 
     init {
         val builder = ForgeConfigSpec.Builder()
+
+        builder.comment("Aerodynamics Constants").push("aerodynamics")
+        AIR_DRAG_SCALE = builder
+            .comment(
+                "Air Drag Factor (Scale against base value)",
+                "Note that boost acceleration is multiplied by this value.",
+                "So, the larger this value is, ",
+                "the easier it is to fly.",
+                "",
+                "Modifying this value is NOT SUGGESTED unless you know how the source code works."
+            )
+            .defineInRange("airDrag", 1.0, 0.0, Double.MAX_VALUE)
+        builder.pop()
 
         builder.comment("T1 Electric Elytra Settings").push("fe_t1")
         T1_MAX_FE = builder.comment(MAX_FE_COMMENT).defineInRange(
@@ -53,5 +70,4 @@ object ElyBoosterModConfig {
 
         CONFIG = builder.build()
     }
-
 }

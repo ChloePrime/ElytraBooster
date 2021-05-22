@@ -69,8 +69,6 @@ open class BoostedElytraItemBase(
  */
 @Mod.EventBusSubscriber
 internal object ElytraBoostingEventHandler {
-    private const val RESISTANCE_FACTOR = Aerodynamics.RESISTANCE_FACTOR
-
     /**
      * 双端执行
      */
@@ -89,7 +87,7 @@ internal object ElytraBoostingEventHandler {
         val motion: Vector3d = e.player.motion
         val lookDir = e.player.lookVec
         // kv^2
-        val airResistance = RESISTANCE_FACTOR * motion.lengthSquared()
+        val airResistance = Aerodynamics.AIR_DRAG * motion.lengthSquared()
         val airResistanceVec = motion.withLength(airResistance)
         // a=F/m=cF，c为常数
         e.player.motion = motion.add(
