@@ -77,7 +77,7 @@ internal object ElytraBoostingEventHandler {
         if (e.phase === TickEvent.Phase.END) return
         if (!ElytraBoosterApi.isFlyingWithBooster(e.player)) return
 
-        val input = ElytraBoosterApi.getElytraInput(e.player)
+        val input = ElytraBoosterApi.getElytraInputOrNull(e.player) ?: return
         // 空气阻力公式 F=0.5CρSv^2=cv^2 c为常数，v为速度
 
         // v = √a0 / √k

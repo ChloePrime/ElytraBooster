@@ -29,7 +29,7 @@ internal object InputHandler {
         val player = Minecraft.getInstance().player ?: return
         if (!ElytraBoosterApi.isFlyingWithBooster(player)) return
 
-        input = recordInput(player)
+        recordInput(player)
     }
 
     /**
@@ -51,21 +51,19 @@ internal object InputHandler {
                 -input!!.moveStrafe * CameraRoll.rollRate * Time.deltaTime
     }
 
-    private fun recordInput(player: ClientPlayerEntity): IElytraInputCap {
-        val inputStorage = ElytraBoosterApi.getElytraInput(player)
+    private fun recordInput(player: ClientPlayerEntity) {
+        input = ElytraBoosterApi.getElytraInputOrNull(player) ?: return
 
         val curInput = player.movementInput
         val dirty =
-            inputStorage.moveStrafe != curInput.moveStrafe ||
-                    inputStorage.moveForward != curInput.moveForward
+            input!!.moveStrafe != curInput.moveStrafe ||
+                    input!!.moveForward != curInput.moveForward
 
-        inputStorage.moveStrafe = curInput.moveStrafe
-        inputStorage.moveForward = curInput.moveForward
+        input!!.moveStrafe = curInput.moveStrafe
+        input!!.moveForward = curInput.moveForward
 
         if (dirty) {
-            ModNetworking.CHANNEL.sendToServer(CElytraInputPacket(inputStorage))
+            ModNetworking.CHANNEL.sendToServer(CElytraInputPacket(input!!))
         }
-
-        return inputStorage
     }
 }
