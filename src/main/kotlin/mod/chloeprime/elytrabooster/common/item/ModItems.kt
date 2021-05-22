@@ -1,6 +1,7 @@
 package mod.chloeprime.elytrabooster.common.item
 
 import mod.chloeprime.elytrabooster.ElytraBoosterMod
+import mod.chloeprime.elytrabooster.common.config.ElyBoosterModConfig
 import net.minecraft.item.Item
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
@@ -16,12 +17,12 @@ object ModItems {
     val BOOSTED_ELYTRA = REGISTRY.register("boosted_elytra") {
         BoostedElytraItem(
             BoostedElytraProperties().apply {
-                boostForce = 1.5
-                maxEnergy = 50000
+                boostForce = ElyBoosterModConfig.T1_BOOST_FORCE.get()
+                maxEnergy = ElyBoosterModConfig.T1_MAX_FE.get()
                 costFormula = ToIntFunction {
                     (abs(it.moveForward) * 50 + abs(it.moveStrafe) * 10).toInt() + 2
                 }
-                maxDamage(432)
+                maxDamage(ElyBoosterModConfig.T1_DURABILITY.get())
             }
         )
     }!!
@@ -29,7 +30,7 @@ object ModItems {
     val CREATIVE_BOOSTED_ELYTRA = REGISTRY.register("boosted_elytra_creative") {
         BoostedElytraItemBase(
             Item.Properties().maxStackSize(1),
-            4.0
+            ElyBoosterModConfig.CREATIVE_BOOST_POWER.get()
         )
     }!!
 }

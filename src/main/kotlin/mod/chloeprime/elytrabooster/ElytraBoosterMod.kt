@@ -1,11 +1,11 @@
 package mod.chloeprime.elytrabooster
 
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
-import mod.chloeprime.elytrabooster.common.item.BoostedElytraItemBase
+import mod.chloeprime.elytrabooster.common.config.ElyBoosterModConfig
 import mod.chloeprime.elytrabooster.common.item.ModItems
+import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.registries.DeferredRegister
-import net.minecraftforge.registries.ForgeRegistries
+import net.minecraftforge.fml.config.ModConfig
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 
 /**
@@ -16,6 +16,8 @@ object ElytraBoosterMod {
     const val MODID = "elytra_booster"
 
     init {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ElyBoosterModConfig.CONFIG)
+
         ModItems.REGISTRY.register(MOD_CONTEXT.getKEventBus())
         ElytraBoosterApi.Attributes.REGISTRY.register(MOD_CONTEXT.getKEventBus())
     }
