@@ -24,7 +24,7 @@ object ElytraBoosterApi {
         val BOOST_SPEED: RegistryObject<Attribute> = REGISTRY.register("boost_speed") {
             RangedAttribute(
                 "$MODID.boost_force",
-                1.0, 0.0, Double.MAX_VALUE
+                0.0, 0.0, Double.MAX_VALUE
             ).apply {
                 shouldWatch = true
             }
