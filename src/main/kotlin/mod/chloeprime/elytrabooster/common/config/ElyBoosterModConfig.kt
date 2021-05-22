@@ -42,6 +42,10 @@ object ElyBoosterModConfig {
 
     val CREATIVE_BOOST_POWER: ForgeConfigSpec.DoubleValue
 
+    /* 杂项 */
+
+    val BAN_FIREWORK_BOOST: ForgeConfigSpec.BooleanValue
+
     init {
         val builder = ForgeConfigSpec.Builder()
 
@@ -54,48 +58,56 @@ object ElyBoosterModConfig {
                 "the easier it is to fly.",
                 "",
                 "Modifying this value is NOT SUGGESTED unless you know how the source code works."
-            )
-            .defineInRange("airDrag", 1.0, 0.0, Double.MAX_VALUE)
+            ).defineInRange("airDrag", 1.0, 0.0, Double.MAX_VALUE)
         builder.pop()
 
         /* 电动 T1 */
 
         builder.comment("T1 Electric Elytra Settings").push("fe_t1")
-        FE_T1_MAX_FE = builder.comment(MAX_FE_COMMENT).defineInRange(
-            MAX_FE_KEY, 50000, 0, Int.MAX_VALUE
-        )
-        FE_T1_FE_COST = builder.comment(FE_COST_COMMENT).define(
-            FE_COST_KEY, "10*x+50*y+2"
-        )
-        FE_T1_DURABILITY = builder.comment(DURABILITY_COMMENT).defineInRange(
-            DURABILITY_KEY, 432, 0, Int.MAX_VALUE
-        )
-        FE_T1_BOOST_FORCE = builder.comment(BOOST_FORCE_COMMENT).defineInRange(
-            BOOST_FORCE_KEY, 1.5, 0.0, Double.MAX_VALUE
-        )
+        FE_T1_MAX_FE = builder
+            .comment(MAX_FE_COMMENT)
+            .defineInRange(MAX_FE_KEY, 50000, 0, Int.MAX_VALUE)
+        FE_T1_FE_COST = builder
+            .comment(FE_COST_COMMENT)
+            .define(FE_COST_KEY, "10*x+50*y+2")
+        FE_T1_DURABILITY = builder
+            .comment(DURABILITY_COMMENT)
+            .defineInRange(DURABILITY_KEY, 432, 0, Int.MAX_VALUE)
+        FE_T1_BOOST_FORCE = builder
+            .comment(BOOST_FORCE_COMMENT)
+            .defineInRange(BOOST_FORCE_KEY, 1.5, 0.0, Double.MAX_VALUE)
         builder.pop()
 
         /* 电动 T2 */
 
         builder.comment("T2 Electric Elytra Settings").push("fe_t2")
-        FE_T2_MAX_FE = builder.comment(MAX_FE_COMMENT).defineInRange(
-            MAX_FE_KEY, 1250000, 0, Int.MAX_VALUE
-        )
-        FE_T2_FE_COST = builder.comment(FE_COST_COMMENT).define(
-            FE_COST_KEY, "50*x+250*y+10"
-        )
-        FE_T2_DURABILITY = builder.comment(DURABILITY_COMMENT).defineInRange(
-            DURABILITY_KEY, 2550, 0, Int.MAX_VALUE
-        )
-        FE_T2_BOOST_FORCE = builder.comment(BOOST_FORCE_COMMENT).defineInRange(
-            BOOST_FORCE_KEY, 2.0, 0.0, Double.MAX_VALUE
-        )
+        FE_T2_MAX_FE = builder
+            .comment(MAX_FE_COMMENT)
+            .defineInRange(MAX_FE_KEY, 1250000, 0, Int.MAX_VALUE)
+        FE_T2_FE_COST = builder
+            .comment(FE_COST_COMMENT)
+            .define(FE_COST_KEY, "50*x+250*y+10")
+        FE_T2_DURABILITY = builder
+            .comment(DURABILITY_COMMENT)
+            .defineInRange(DURABILITY_KEY, 2550, 0, Int.MAX_VALUE)
+        FE_T2_BOOST_FORCE = builder
+            .comment(BOOST_FORCE_COMMENT)
+            .defineInRange(BOOST_FORCE_KEY, 2.0, 0.0, Double.MAX_VALUE)
         builder.pop()
 
+        /* 创造 */
+
         builder.comment("Creative Boosted Elytra Settings").push("creative")
-        CREATIVE_BOOST_POWER = builder.defineInRange(
-            BOOST_FORCE_KEY, 4.0, 0.0, Double.MAX_VALUE
-        )
+        CREATIVE_BOOST_POWER = builder
+            .defineInRange(BOOST_FORCE_KEY, 4.0, 0.0, Double.MAX_VALUE)
+        builder.pop()
+
+        /* 杂项 */
+
+        builder.comment("Misc").push("misc")
+        BAN_FIREWORK_BOOST = builder
+            .comment("Prevent vanilla firework from boosting elytra flight")
+            .define("no_firework_boost", true)
         builder.pop()
 
         CONFIG = builder.build()
