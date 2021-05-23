@@ -32,9 +32,9 @@ object ModBrewingRecipes {
             try {
                 BrewingRecipeRegistry.addRecipe(
                     LazyBrewingRecipe({
-                        Ingredient.fromStacks(ItemStack(Items.POTION).also {
+                        IngredientFactory.newNBTIngredient((ItemStack(Items.POTION).also {
                             PotionUtils.addPotionToItemStack(it, potion)
-                        })
+                        }))
                     }, { lazyIngredient.value }, { lazyResult.value })
                 )
             } catch (e: Exception) {
