@@ -22,6 +22,7 @@ object ModItems {
                 maxEnergy { ElyBoosterModConfig.FE_T1_MAX_FE.get() }
                 costFormula = LazyFormula { ElyBoosterModConfig.FE_T1_FE_COST.get() }.wrap()
                 maxDamage(ElyBoosterModConfig.FE_T1_DURABILITY.get())
+                rarity(Rarity.UNCOMMON)
             }
         )
     }!!
@@ -36,7 +37,7 @@ object ModItems {
                 maxEnergy { ElyBoosterModConfig.FE_T2_MAX_FE.get() }
                 costFormula = LazyFormula { ElyBoosterModConfig.FE_T2_FE_COST.get() }.wrap()
                 maxDamage(ElyBoosterModConfig.FE_T2_DURABILITY.get())
-                rarity(Rarity.UNCOMMON)
+                rarity(Rarity.RARE)
             }
         )
     }!!
