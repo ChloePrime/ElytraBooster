@@ -9,6 +9,7 @@ import net.minecraftforge.fml.config.ModConfig
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 
 /**
+ * TODO 来点免撞击伤害和加强动力撞碎方块
  * @author ChloePrime
  */
 @Mod(ElytraBoosterMod.MODID)
