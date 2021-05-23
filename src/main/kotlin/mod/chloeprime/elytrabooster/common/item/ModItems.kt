@@ -57,7 +57,7 @@ object ModItems {
     }!!
 
     val ROCKET_FUEL = REGISTRY.register("rocket_fuel") {
-        ColoredItem(Item.Properties().group(ModItemGroup), 0xCC9F13)
+        ColoredItem(Item.Properties().rarity(Rarity.UNCOMMON).group(ModItemGroup), 0xCC9F13)
     }!!
     
     val ELECTRIC_THRUSTER = REGISTRY.register("electric_thruster") {
@@ -65,6 +65,6 @@ object ModItems {
     }!!
 
     val PLASMA_THRUSTER = REGISTRY.register("plasma_thruster") {
-        Item(Item.Properties().group(ModItemGroup))
+        Item(Item.Properties().rarity(Rarity.RARE).group(ModItemGroup))
     }!!
 }
