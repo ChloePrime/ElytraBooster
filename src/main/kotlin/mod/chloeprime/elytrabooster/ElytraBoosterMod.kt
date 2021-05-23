@@ -6,6 +6,7 @@ import mod.chloeprime.elytrabooster.common.item.ModItems
 import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.config.ModConfig
+import org.apache.logging.log4j.LogManager
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 
 /**
@@ -15,6 +16,7 @@ import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 @Mod(ElytraBoosterMod.MODID)
 object ElytraBoosterMod {
     const val MODID = "elytra_booster"
+    val LOGGER = LogManager.getLogger("ElytraBooster Logger")
 
     init {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ElyBoosterModConfig.CONFIG)
