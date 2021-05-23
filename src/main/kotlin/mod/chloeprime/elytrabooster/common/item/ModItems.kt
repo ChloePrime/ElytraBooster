@@ -48,4 +48,14 @@ object ModItems {
             { ElyBoosterModConfig.CREATIVE_BOOST_POWER.get() },
         )
     }!!
+
+    /* 合成材料 */
+
+    val JET_FUEL = REGISTRY.register("jet_fuel") {
+        Item(Item.Properties().group(ModItemGroup))
+    }!!
+
+    val PLASMA_THRUSTER = REGISTRY.register("plasma_thruster") {
+        Item(Item.Properties().group(ModItemGroup))
+    }!!
 }

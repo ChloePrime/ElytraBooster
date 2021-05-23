@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "PTP",
+    "P P"
+  ],
+  "key": {
+    "T": {
+      "item": "minecraft:conduit"
+    },
+    "P": {
+      "item": "minecraft:netherite_scrap"
+    },
+    "I": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "result": {
+    "item": "elytra_booster:plasma_thruster",
+    "count": 1
+  }
+}
