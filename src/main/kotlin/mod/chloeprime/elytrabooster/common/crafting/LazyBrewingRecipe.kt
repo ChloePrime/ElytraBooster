@@ -6,23 +6,26 @@ import net.minecraftforge.common.brewing.BrewingRecipe
 import java.util.function.Supplier
 
 class LazyBrewingRecipe(
-    private val input: Supplier<Ingredient>,
-    private val ingredient: Supplier<Ingredient>,
-    private val output: Supplier<ItemStack>
+    input: Supplier<Ingredient>,
+    ingredient: Supplier<Ingredient>,
+    output: Supplier<ItemStack>
 ): BrewingRecipe(Ingredient.EMPTY, Ingredient.EMPTY, ItemStack.EMPTY) {
     /* IBrewingRecipe的实现 */
+    private val inputValue by lazy { input.get() }
+    private val ingredientValue by lazy { ingredient.get() }
+    private val outputValue by lazy { output.get() }
 
     override fun isInput(stack: ItemStack): Boolean {
-        return input.get().test(stack)
+        return inputValue.test(stack)
     }
 
     override fun isIngredient(stack: ItemStack): Boolean {
-        return ingredient.get().test(stack)
+        return ingredientValue.test(stack)
     }
 
     override fun getOutput(input: ItemStack, ingredient: ItemStack): ItemStack {
         return if (isInput(input) && isIngredient(ingredient)) {
-            output.get().copy()
+            outputValue.copy()
         } else {
             ItemStack.EMPTY
         }
@@ -30,7 +33,7 @@ class LazyBrewingRecipe(
 
     /* BrewingRecipe的重写 */
 
-    override fun getInput() = input.get()
-    override fun getIngredient() = ingredient.get()
-    override fun getOutput() = output.get()
+    override fun getInput() = inputValue
+    override fun getIngredient() = ingredientValue
+    override fun getOutput() = outputValue
 }
