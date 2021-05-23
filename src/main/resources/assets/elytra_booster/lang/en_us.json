@@ -4,6 +4,8 @@
   "item.elytra_booster.boosted_elytra_fe_t2": "Plasma Boosted Elytra",
   "item.elytra_booster.boosted_elytra_creative": "Creative Boost Elytra",
   "item.elytra_booster.jet_fuel": "Aviation Kerosene",
+  "item.elytra_booster.rocket_fuel": "Solid Rocket Fuel",
+  "item.elytra_booster.electric_thruster": "Electric Thruster",
   "item.elytra_booster.plasma_thruster": "Plasma Thruster",
   "itemGroup.elytra_booster": "Boosted Elytra",
   "elytra_booster.boost_force": "Propulsive Force"

@@ -53,6 +53,14 @@ object ModItems {
     /* 合成材料 */
 
     val JET_FUEL = REGISTRY.register("jet_fuel") {
+        ColoredItem(Item.Properties().group(ModItemGroup), 0x9EF94A)
+    }!!
+
+    val ROCKET_FUEL = REGISTRY.register("rocket_fuel") {
+        ColoredItem(Item.Properties().group(ModItemGroup), 0xCC9F13)
+    }!!
+    
+    val ELECTRIC_THRUSTER = REGISTRY.register("electric_thruster") {
         Item(Item.Properties().group(ModItemGroup))
     }!!
 
