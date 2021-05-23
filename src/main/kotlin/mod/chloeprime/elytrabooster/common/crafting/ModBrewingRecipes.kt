@@ -17,7 +17,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 object ModBrewingRecipes {
     private val recipes = arrayOf(
         /* 煤炭/木炭 + 力量1 -> 航空煤油 */
-        Triple(Potions.STRENGTH, lazy { Ingredient.fromTag(ItemTags.COALS) }, lazy { ModItems.JET_FUEL.get().defaultInstance }),
+        Triple(Potions.LONG_SWIFTNESS, lazy { Ingredient.fromTag(ItemTags.COALS) }, lazy { ModItems.JET_FUEL.get().defaultInstance }),
         /* 龙息 + 力量2 -> 固体火箭燃料 */
         Triple(Potions.STRONG_STRENGTH, lazyOf(Ingredient.fromItems(Items.DRAGON_BREATH)), lazy { ModItems.ROCKET_FUEL.get().defaultInstance }),
     )
