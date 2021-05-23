@@ -6,7 +6,7 @@ import java.util.function.DoubleSupplier
 import java.util.function.IntSupplier
 import java.util.function.ToIntFunction
 
-class BoostedElytraProperties(
+open class BoostedElytraProperties(
     var boostForce: DoubleSupplier,
     var maxEnergy: IntSupplier,
     var costFormula: ToIntFunction<IElytraInputCap>
