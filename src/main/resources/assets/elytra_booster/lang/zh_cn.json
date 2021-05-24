@@ -4,6 +4,7 @@
   "item.elytra_booster.boosted_elytra_fe_t2": "等离子推进鞘翅",
   "item.elytra_booster.boosted_elytra_creative": "创造推进鞘翅",
   "item.elytra_booster.jet_fuel": "航空煤油",
+  "fluid.elytra_booster.jet_fuel": "航空煤油",
   "item.elytra_booster.rocket_fuel": "固体火箭燃料",
   "item.elytra_booster.electric_thruster": "电动推进器",
   "item.elytra_booster.plasma_thruster": "电浆推进器",
