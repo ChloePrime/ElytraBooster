@@ -34,15 +34,6 @@ object ModNetworking {
             .decoder(::CElytraInputPacket)
             .consumer(CElytraInputPacket::handlePackage)
             .add()
-
-        CHANNEL.messageBuilder(
-            SEnergyUpdatePacket::class.java,
-            nextId,
-            NetworkDirection.PLAY_TO_CLIENT
-        ).encoder(SEnergyUpdatePacket::writeToBuffer)
-            .decoder(::SEnergyUpdatePacket)
-            .consumer(SEnergyUpdatePacket::handlePackage)
-            .add()
     }
 
     @SubscribeEvent

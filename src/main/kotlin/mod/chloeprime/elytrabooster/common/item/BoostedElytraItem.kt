@@ -4,14 +4,11 @@ import mod.chloeprime.elytrabooster.api.common.IBoostedElytraItem
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
 import mod.chloeprime.elytrabooster.common.caps.ISettableEnergyStorage
 import mod.chloeprime.elytrabooster.common.caps.energy
-import mod.chloeprime.elytrabooster.common.network.ModNetworking
-import mod.chloeprime.elytrabooster.common.network.SEnergyUpdatePacket
 import mod.chloeprime.elytrabooster.common.util.TextFormats
 import mod.chloeprime.elytrabooster.common.util.plus
 import mod.chloeprime.elytrabooster.common.util.translated
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
@@ -28,7 +25,6 @@ import net.minecraftforge.common.capabilities.CapabilityInject
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.common.util.LazyOptional
 import net.minecraftforge.energy.IEnergyStorage
-import net.minecraftforge.fml.network.PacketDistributor
 import kotlin.math.min
 
 /**
