@@ -8,7 +8,6 @@ import net.minecraft.inventory.EquipmentSlotType
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.fml.RegistryObject
 import net.minecraftforge.registries.DeferredRegister
-import java.lang.IllegalStateException
 
 /**
  * @author ChloePrime

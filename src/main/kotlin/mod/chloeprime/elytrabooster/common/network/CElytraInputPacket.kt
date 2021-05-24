@@ -5,7 +5,6 @@ import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
 import net.minecraft.network.PacketBuffer
 import net.minecraft.util.math.MathHelper
 import net.minecraftforge.fml.network.NetworkEvent
-import org.apache.logging.log4j.LogManager
 import java.util.function.Supplier
 
 /**
