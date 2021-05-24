@@ -29,13 +29,4 @@ class FluidRegistryEntry(
      * 注册名 [name]_bucket
      */
     val bucket: RegistryObject<out BucketItem>
-) {
-    companion object {
-        val INSTANCES = mutableListOf<FluidRegistryEntry>()
-    }
-
-    init {
-        INSTANCES.add(this)
-    }
-}
-
+)

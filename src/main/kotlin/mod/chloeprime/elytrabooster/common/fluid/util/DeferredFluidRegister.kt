@@ -14,6 +14,7 @@ import net.minecraftforge.fluids.ForgeFlowingFluid
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
 import org.apache.commons.lang3.mutable.MutableObject
+import java.util.*
 
 class DeferredFluidRegister private constructor(
     val modid: String,
@@ -21,6 +22,8 @@ class DeferredFluidRegister private constructor(
     private val items: DeferredRegister<Item>
 ) {
     private val fluids = DeferredRegister.create(ForgeRegistries.FLUIDS, modid)!!
+    private val _entries = LinkedList<FluidRegistryEntry>()
+    val entries: Collection<FluidRegistryEntry> = _entries
 
     companion object {
         @JvmStatic
@@ -29,6 +32,8 @@ class DeferredFluidRegister private constructor(
             blocks: DeferredRegister<Block>,
             items: DeferredRegister<Item>
         ) = DeferredFluidRegister(modid, blocks, items)
+
+        private val VANILLA_WATER_TEXTURE = ResourceLocation("block/water")
     }
 
     fun enqueueToBus(bus: IEventBus) {
@@ -79,6 +84,20 @@ class DeferredFluidRegister private constructor(
             return this
         }
 
+        private var customTexture: ResourceLocation? = null
+        fun useVanillaWaterTexture(): Builder {
+            customTexture = ResourceLocation("block/water")
+            return this
+        }
+        fun customTextureLocation(texPath: String): Builder {
+            customTexture = ResourceLocation(modid, texPath)
+            return this
+        }
+        fun customTextureLocation(texPath: ResourceLocation): Builder {
+            customTexture = texPath
+            return this
+        }
+
         /**
          * 执行自动化流体注册。
          * 一次性注册流体源+流动流体+流体方块+桶
@@ -111,18 +130,26 @@ class DeferredFluidRegister private constructor(
                 BucketItem(source, Item.Properties().group(itemGroup).containerItem(Items.BUCKET))
             }!!
             // 设置流体的各类属性
-            val stillTexture = ResourceLocation(modid, "blocks/${name}_still")
-            val flowingTexture = ResourceLocation(modid, "blocks/${name}_flow")
+            val texPathBase = (customTexture ?: ResourceLocation(modid, "blocks/${name}"))
+            val stillTexture =
+                ResourceLocation(texPathBase.namespace, "${texPathBase.path}_still")
+            val flowingTexture =
+                ResourceLocation(texPathBase.namespace, "${texPathBase.path}_flow")
+            val overlay =
+                ResourceLocation(texPathBase.namespace, "${texPathBase.path}_overlay")
             // Attributes
             val attributes = FluidAttributes
                 .builder(stillTexture, flowingTexture)
+                .overlay(overlay)
                 .apply { attributeOperator() }
             // Properties
             props.value = ForgeFlowingFluid.Properties(
                 source, flowing, attributes
             ).bucket(bucket).block(block).apply { propertiesOperator() }
             // 生成结果
-            return FluidRegistryEntry(name, source, flowing, block, bucket)
+            return FluidRegistryEntry(name, source, flowing, block, bucket).also {
+                _entries.add(it)
+            }
         }
     }
 }

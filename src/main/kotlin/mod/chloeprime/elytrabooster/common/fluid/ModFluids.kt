@@ -19,12 +19,14 @@ object ModFluids {
                 .create(Material.WATER)
                 .hardnessAndResistance(100F)
         )
+        .customTextureLocation("block/oil")
         .applyToFluidAttributes {
-            color(0x9EF94A)
+            color(0xE09EF94A.toInt())
             density(4000)
             viscosity(4000)
-        }.applyToFluidProperties {
-            slopeFindDistance(6)
+        }
+        .applyToFluidProperties {
             explosionResistance(100F)
-        }.register()
+        }
+        .register()
 }
