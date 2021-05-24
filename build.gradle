@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
         mavenCentral()
     }
     dependencies {
@@ -20,6 +19,9 @@ archivesBaseName = 'ElytraBooster'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 repositories {
+    flatDir {
+        dir 'lib'
+    }
     maven { url = "https://maven.theillusivec4.top/" }
     maven {
         name = 'kotlinforforge'
@@ -45,6 +47,7 @@ dependencies {
     // JEI仅用于验证配方是否正确，不参与编译。
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-1.16.5:7.7.0.99")
+    runtimeOnly fg.deobf("_:Mekanism-1.16.5:10.0.21.448")
 }
 
 compileKotlin {
