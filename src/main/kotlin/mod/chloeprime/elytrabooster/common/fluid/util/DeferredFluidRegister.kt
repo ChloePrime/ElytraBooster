@@ -34,6 +34,7 @@ class DeferredFluidRegister private constructor(
         ) = DeferredFluidRegister(modid, blocks, items)
 
         private val VANILLA_WATER_TEXTURE = ResourceLocation("block/water")
+        private const val DISABLE_BLOCK_PLACEMENT = 1
     }
 
     fun enqueueToBus(bus: IEventBus) {
@@ -86,15 +87,23 @@ class DeferredFluidRegister private constructor(
 
         private var customTexture: ResourceLocation? = null
         fun useVanillaWaterTexture(): Builder {
-            customTexture = ResourceLocation("block/water")
+            customTexture = VANILLA_WATER_TEXTURE
             return this
         }
+
         fun customTextureLocation(texPath: String): Builder {
             customTexture = ResourceLocation(modid, texPath)
             return this
         }
+
         fun customTextureLocation(texPath: ResourceLocation): Builder {
             customTexture = texPath
+            return this
+        }
+
+        private var disabledFlags = 0
+        fun disableBlockPlacement(): Builder {
+            disabledFlags = disabledFlags or DISABLE_BLOCK_PLACEMENT
             return this
         }
 
@@ -103,28 +112,31 @@ class DeferredFluidRegister private constructor(
          * 一次性注册流体源+流动流体+流体方块+桶
          */
         fun register(): FluidRegistryEntry {
-            val props = MutableObject<ForgeFlowingFluid.Properties?>(null)
+            val propRef = MutableObject<ForgeFlowingFluid.Properties?>(null)
             // 注册流体
 
             /**
              * 水源流体
              */
             val source = fluids.register(name) {
-                ForgeFlowingFluid.Source(props.value!!)
+                ForgeFlowingFluid.Source(propRef.value!!)
             }!!
 
             /**
              * 流动的流体
              */
             val flowing = fluids.register("${name}_flowing") {
-                ForgeFlowingFluid.Flowing(props.value!!)
+                ForgeFlowingFluid.Flowing(propRef.value!!)
             }!!
 
             // 注册方块
             val adjustedBlockProps = blockProperties.doesNotBlockMovement().noDrops()
-            val block = blocks.register(name) {
-                FlowingFluidBlock(source, adjustedBlockProps)
-            }
+            val enableBlock = disabledFlags and DISABLE_BLOCK_PLACEMENT == 0
+            val block = if (enableBlock) {
+                blocks.register(name) {
+                    FlowingFluidBlock(source, adjustedBlockProps)
+                }
+            } else null
             // 注册桶
             val bucket = items.register("${name}_bucket") {
                 BucketItem(source, Item.Properties().group(itemGroup).containerItem(Items.BUCKET))
@@ -143,9 +155,13 @@ class DeferredFluidRegister private constructor(
                 .overlay(overlay)
                 .apply { attributeOperator() }
             // Properties
-            props.value = ForgeFlowingFluid.Properties(
+            var prop = ForgeFlowingFluid.Properties(
                 source, flowing, attributes
-            ).bucket(bucket).block(block).apply { propertiesOperator() }
+            ).bucket(bucket).apply { propertiesOperator() }
+            if (enableBlock) {
+                prop = prop.block(block!!)
+            }
+            propRef.value = prop
             // 生成结果
             return FluidRegistryEntry(name, source, flowing, block, bucket).also {
                 _entries.add(it)

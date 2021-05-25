@@ -19,6 +19,7 @@ object ModFluids {
                 .create(Material.WATER)
                 .hardnessAndResistance(100F)
         )
+        .disableBlockPlacement()
         .customTextureLocation("block/oil")
         .applyToFluidAttributes {
             color(0xE09EF94A.toInt())
