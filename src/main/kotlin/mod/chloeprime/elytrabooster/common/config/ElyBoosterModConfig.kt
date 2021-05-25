@@ -3,11 +3,17 @@ package mod.chloeprime.elytrabooster.common.config
 import net.minecraftforge.common.ForgeConfigSpec
 
 private const val MAX_FE_COMMENT = "Max FE Stored"
-private const val FE_COST_COMMENT = "FE Cost Formula ('x' means input value of turning and 'y' means input value of forward boost.)"
+private const val CHARGE_SPEED_COMMENT = "Max FE Charge Speed"
+private val FE_COST_COMMENT = arrayOf(
+    "FE Cost Formula ",
+    "'x' means input value of turning ",
+    "and 'y' means input value of forward boost."
+)
 private const val DURABILITY_COMMENT = "Max Durability"
 private const val BOOST_FORCE_COMMENT = "Propulsive Force"
 
 private const val MAX_FE_KEY = "maxEnergy"
+private const val CHARGE_SPEED_KEY = "chargeSpeed"
 private const val FE_COST_KEY = "energyCostFormula"
 private const val DURABILITY_KEY = "durability"
 private const val BOOST_FORCE_KEY = "boostForce"
@@ -27,6 +33,7 @@ object ElyBoosterModConfig {
     /* T1 电动鞘翅 */
 
     val FE_T1_MAX_FE: ForgeConfigSpec.IntValue
+    val FE_T1_CHARGE_SPEED: ForgeConfigSpec.ConfigValue<Int>
     val FE_T1_FE_COST: ForgeConfigSpec.ConfigValue<String>
     val FE_T1_DURABILITY: ForgeConfigSpec.IntValue
     val FE_T1_BOOST_FORCE: ForgeConfigSpec.DoubleValue
@@ -34,6 +41,7 @@ object ElyBoosterModConfig {
     /* T2 电动鞘翅 */
 
     val FE_T2_MAX_FE: ForgeConfigSpec.IntValue
+    val FE_T2_CHARGE_SPEED: ForgeConfigSpec.ConfigValue<Int>
     val FE_T2_FE_COST: ForgeConfigSpec.ConfigValue<String>
     val FE_T2_DURABILITY: ForgeConfigSpec.IntValue
     val FE_T2_BOOST_FORCE: ForgeConfigSpec.DoubleValue
@@ -67,8 +75,11 @@ object ElyBoosterModConfig {
         FE_T1_MAX_FE = builder
             .comment(MAX_FE_COMMENT)
             .defineInRange(MAX_FE_KEY, 50000, 0, Int.MAX_VALUE)
+        FE_T1_CHARGE_SPEED = builder
+            .comment(CHARGE_SPEED_COMMENT)
+            .define(CHARGE_SPEED_KEY, 100)
         FE_T1_FE_COST = builder
-            .comment(FE_COST_COMMENT)
+            .comment(*FE_COST_COMMENT)
             .define(FE_COST_KEY, "10*x+50*y+2")
         FE_T1_DURABILITY = builder
             .comment(DURABILITY_COMMENT)
@@ -84,8 +95,11 @@ object ElyBoosterModConfig {
         FE_T2_MAX_FE = builder
             .comment(MAX_FE_COMMENT)
             .defineInRange(MAX_FE_KEY, 1250000, 0, Int.MAX_VALUE)
+        FE_T2_CHARGE_SPEED = builder
+            .comment(CHARGE_SPEED_COMMENT)
+            .define(CHARGE_SPEED_KEY, 1000)
         FE_T2_FE_COST = builder
-            .comment(FE_COST_COMMENT)
+            .comment(*FE_COST_COMMENT)
             .define(FE_COST_KEY, "50*x+250*y+10")
         FE_T2_DURABILITY = builder
             .comment(DURABILITY_COMMENT)

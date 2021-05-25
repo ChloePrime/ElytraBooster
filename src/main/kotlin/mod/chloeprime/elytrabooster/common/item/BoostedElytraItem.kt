@@ -47,6 +47,7 @@ open class BoostedElytraItem(
     }
 
     private val maxEnergy = properties.maxEnergy
+    private val chargeSpeed = properties.chargeSpeed
     private val costFormula = properties.costFormula
 
     // 电力需求
@@ -106,7 +107,7 @@ open class BoostedElytraItem(
 
         override fun receiveEnergy(given: Int, simulate: Boolean): Int {
             val current = energyStored
-            val actualReceive = min(given, maxEnergyStored - current)
+            val actualReceive = minOf(given, maxEnergyStored - current, chargeSpeed.asInt)
             if (!simulate) {
                 energyStored = current + actualReceive
             }

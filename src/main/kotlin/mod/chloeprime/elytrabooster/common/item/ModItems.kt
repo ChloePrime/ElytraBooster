@@ -20,6 +20,7 @@ object ModItems {
             BoostedElytraProperties().apply {
                 boostForce { ElyBoosterModConfig.FE_T1_BOOST_FORCE.get() }
                 maxEnergy { ElyBoosterModConfig.FE_T1_MAX_FE.get() }
+                chargeSpeed { ElyBoosterModConfig.FE_T1_CHARGE_SPEED.get() }
                 costFormula = LazyFormula { ElyBoosterModConfig.FE_T1_FE_COST.get() }.wrap()
                 maxDamage(ElyBoosterModConfig.FE_T1_DURABILITY.get())
                 rarity(Rarity.UNCOMMON)
@@ -35,6 +36,7 @@ object ModItems {
             BoostedElytraProperties().apply {
                 boostForce { ElyBoosterModConfig.FE_T2_BOOST_FORCE.get() }
                 maxEnergy { ElyBoosterModConfig.FE_T2_MAX_FE.get() }
+                chargeSpeed { ElyBoosterModConfig.FE_T2_CHARGE_SPEED.get() }
                 costFormula = LazyFormula { ElyBoosterModConfig.FE_T2_FE_COST.get() }.wrap()
                 maxDamage(ElyBoosterModConfig.FE_T2_DURABILITY.get())
                 rarity(Rarity.RARE)

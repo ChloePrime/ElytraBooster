@@ -9,9 +9,10 @@ import java.util.function.ToIntFunction
 open class BoostedElytraProperties(
     var boostForce: DoubleSupplier,
     var maxEnergy: IntSupplier,
+    var chargeSpeed: IntSupplier,
     var costFormula: ToIntFunction<IElytraInputCap>
 ): Item.Properties() {
-    constructor() : this({ 0.0 }, { 0 }, ToIntFunction { 0 })
+    constructor() : this({ 0.0 }, { 0 }, { 0 }, ToIntFunction { 0 })
 
     fun boostForce(boostForce: DoubleSupplier): BoostedElytraProperties {
         this.boostForce = boostForce
@@ -20,6 +21,11 @@ open class BoostedElytraProperties(
 
     fun maxEnergy(maxEnergy: IntSupplier): BoostedElytraProperties {
         this.maxEnergy = maxEnergy
+        return this
+    }
+
+    fun chargeSpeed(chargeSpeed: IntSupplier): BoostedElytraProperties {
+        this.chargeSpeed = chargeSpeed
         return this
     }
 
