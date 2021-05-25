@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "IEI",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "E": {
+      "item": "elytra_booster:jet_engine"
+    }
+  },
+  "result": {
+    "item": "elytra_booster:electric_thruster",
+    "count": 1
+  }
+}

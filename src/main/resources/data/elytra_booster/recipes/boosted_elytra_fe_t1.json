@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T T",
+    "NEN",
+    "T T"
+  ],
+  "key": {
+    "E": {
+      "item": "minecraft:elytra"
+    },
+    "T": {
+      "item": "elytra_booster:electric_thruster"
+    },
+    "N": {
+      "item": "minecraft:netherite_scrap"
+    }
+  },
+  "result": {
+    "item": "elytra_booster:boosted_elytra_fe_t1",
+    "count": 1
+  }
+}

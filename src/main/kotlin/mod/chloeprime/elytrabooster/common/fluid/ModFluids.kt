@@ -22,7 +22,25 @@ object ModFluids {
         .disableBlockPlacement()
         .customTextureLocation("block/oil")
         .applyToFluidAttributes {
-            color(0xE09EF94A.toInt())
+            color(0xC09EF94A.toInt())
+            density(4000)
+            viscosity(4000)
+        }
+        .applyToFluidProperties {
+            explosionResistance(100F)
+        }
+        .register()
+    val ROCKET_FUEL = REGISTRY.builder("rocket_fuel")
+        .itemGroup(ModItemGroup)
+        .blockProperties(
+            AbstractBlock.Properties
+                .create(Material.WATER)
+                .hardnessAndResistance(100F)
+        )
+        .disableBlockPlacement()
+        .customTextureLocation("block/oil")
+        .applyToFluidAttributes {
+            color(0xE0CC9F13.toInt())
             density(4000)
             viscosity(4000)
         }

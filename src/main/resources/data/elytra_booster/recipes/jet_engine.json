@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "AMA",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "M": {
+      "item": "minecraft:lodestone"
+    },
+    "A": {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "result": {
+    "item": "elytra_booster:jet_engine",
+    "count": 4
+  }
+}
