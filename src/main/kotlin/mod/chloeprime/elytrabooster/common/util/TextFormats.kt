@@ -6,6 +6,29 @@ import net.minecraft.util.text.IFormattableTextComponent
  * 本Mod中部分文本的统一化生成方法
  */
 object TextFormats {
+    private val units = arrayOf("K", "M", "G")
+
+    /**
+     * 更好地表示大数。
+     */
+    fun formatBigNumber(num: Int): String {
+        var i = num
+        var decimal = 0F
+        var divideCount = 0
+        while ((i <= -1000 || i >= 1000) && divideCount < units.size) {
+            ++divideCount
+            decimal = i / 1000F
+            i /= 1000
+        }
+        if (divideCount > 0) {
+            return String.format(
+                if (i < 10) "%.2f" else "%.1f",
+                decimal
+            ) + units[divideCount - 1]
+        }
+        return i.toString()
+    }
+
     /**
      * 求 [dividend] 占 [divisor] 的百分比，
      * 并保留两位小数，返回文本。
@@ -29,10 +52,10 @@ object TextFormats {
             TEXT(" ") + translated(unit)
         }
 
-        return TEXT(current.toString()).applyStyle { setColor(color) } +
+        return TEXT(formatBigNumber(current)).applyStyle { setColor(color) } +
                 unitText +
                 TEXT(" / ").withColor(0xFFFFFF) +
-                TEXT(max.toString()).withColor(color) +
+                TEXT(formatBigNumber(max)).withColor(color) +
                 unitText +
                 TEXT(" (").withColor(0xFFFFFF) +
                 TEXT(getPercentageText(current, max)).withColor (color) +
