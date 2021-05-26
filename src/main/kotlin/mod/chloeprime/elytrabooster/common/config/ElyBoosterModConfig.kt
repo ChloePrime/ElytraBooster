@@ -50,18 +50,18 @@ object ElyBoosterModConfig {
         /* 电动 T1 */
 
         FE_T1 = FeElytraConfigEntry.create(builder, 1, FeElytraConfigDefaultValues().apply {
-            maxFE = 50000
-            chargeSpeed = 100
-            feCost = "10*x+50*y+2"
+            maxFE = 250000
+            chargeSpeed = 500
+            feCost = "50*x+250*y+10"
             boostForce = 1.5
         })
 
         /* 电动 T2 */
 
         FE_T2 = FeElytraConfigEntry.create(builder, 2, FeElytraConfigDefaultValues().apply {
-            maxFE = 1250000
-            chargeSpeed = 1000
-            feCost = "50*x+250*y+10"
+            maxFE = 6250000
+            chargeSpeed = 5000
+            feCost = "250*x+1250*y+50"
             boostForce = 2.0
         })
 
