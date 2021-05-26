@@ -2,8 +2,6 @@ package mod.chloeprime.elytrabooster.common.item
 
 import mod.chloeprime.elytrabooster.ElytraBoosterMod
 import mod.chloeprime.elytrabooster.common.config.ElyBoosterModConfig
-import mod.chloeprime.elytrabooster.common.config.LazyFormula
-import mod.chloeprime.elytrabooster.common.config.wrap
 import net.minecraft.item.Item
 import net.minecraft.item.Rarity
 import net.minecraftforge.registries.DeferredRegister
@@ -19,6 +17,7 @@ object ModItems {
         BoostedElytraItem(
             BoostedElytraProperties().apply {
                 acceptConfig(ElyBoosterModConfig.FE_T1)
+                maxStackSize(1)
                 rarity(Rarity.UNCOMMON)
             }
         )
@@ -31,6 +30,7 @@ object ModItems {
         BoostedElytraItem(
             BoostedElytraProperties().apply {
                 acceptConfig(ElyBoosterModConfig.FE_T2)
+                maxStackSize(1)
                 rarity(Rarity.RARE)
             }
         )

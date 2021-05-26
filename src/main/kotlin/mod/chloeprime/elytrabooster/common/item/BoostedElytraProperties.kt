@@ -43,7 +43,6 @@ open class BoostedElytraProperties(
         maxEnergy { config.maxFE.get() }
         chargeSpeed { config.chargeSpeed.get() }
         costFormula = LazyFormula { config.feCost.get() }.wrap()
-        maxDamage(config.durability.get())
         return this
     }
 }

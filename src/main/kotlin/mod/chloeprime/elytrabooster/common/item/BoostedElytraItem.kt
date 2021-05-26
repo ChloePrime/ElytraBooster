@@ -57,23 +57,25 @@ open class BoostedElytraItem(
             stack.getCapability(cap).map {
                 it.energyStored > 0
             }.orElse(false)
-        } ?: false) && isUsable(stack)
+        } ?: false)
     }
 
     // 耗电
 
-    override fun elytraFlightTick(stack: ItemStack, entity: LivingEntity, flightTicks: Int): Boolean {
-        return super.elytraFlightTick(stack, entity, flightTicks) && run {
-            if (entity.world.isRemote) {
-                return@run true
-            }
-            entity.getCapability(INPUT_CAP!!).map { input ->
-                stack.getCapability(ENERGY_CAP!!).map {
-                    it.energy -= costFormula.applyAsInt(input)
-                    it.energyStored > 0
-                }.orElse(false)
-            }.orElse(true)
+    override fun elytraFlightTick(
+        stack: ItemStack,
+        entity: LivingEntity,
+        flightTicks: Int
+    ): Boolean {
+        if (entity.world.isRemote) {
+            return true
         }
+        return entity.getCapability(INPUT_CAP!!).map { input ->
+            stack.getCapability(ENERGY_CAP!!).map {
+                it.energy -= costFormula.applyAsInt(input)
+                it.energyStored > 0
+            }.orElse(false)
+        }.orElse(true)
     }
 
     // 储电

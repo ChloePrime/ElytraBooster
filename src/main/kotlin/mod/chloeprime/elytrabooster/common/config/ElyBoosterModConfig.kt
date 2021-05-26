@@ -2,20 +2,6 @@ package mod.chloeprime.elytrabooster.common.config
 
 import net.minecraftforge.common.ForgeConfigSpec
 
-private const val MAX_FE_COMMENT = "Max FE Stored"
-private const val CHARGE_SPEED_COMMENT = "Max FE Charge Speed"
-private val FE_COST_COMMENT = arrayOf(
-    "FE Cost Formula ",
-    "'x' means input value of turning ",
-    "and 'y' means input value of forward boost."
-)
-private const val DURABILITY_COMMENT = "Max Durability"
-private const val BOOST_FORCE_COMMENT = "Propulsive Force"
-
-private const val MAX_FE_KEY = "maxEnergy"
-private const val CHARGE_SPEED_KEY = "chargeSpeed"
-private const val FE_COST_KEY = "energyCostFormula"
-private const val DURABILITY_KEY = "durability"
 private const val BOOST_FORCE_KEY = "boostForce"
 
 /**
@@ -67,7 +53,6 @@ object ElyBoosterModConfig {
             maxFE = 50000
             chargeSpeed = 100
             feCost = "10*x+50*y+2"
-            durability = 432
             boostForce = 1.5
         })
 
@@ -77,7 +62,6 @@ object ElyBoosterModConfig {
             maxFE = 1250000
             chargeSpeed = 1000
             feCost = "50*x+250*y+10"
-            durability = 2550
             boostForce = 2.0
         })
 
