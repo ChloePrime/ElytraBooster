@@ -17,8 +17,10 @@ import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
+import org.w3c.dom.Attr
 import java.util.*
 import java.util.function.DoubleSupplier
+import kotlin.properties.Delegates
 
 /**
  * 无任何消耗的推进鞘翅
@@ -26,7 +28,7 @@ import java.util.function.DoubleSupplier
  */
 open class BoostedElytraItemBase(
     properties: Properties,
-    boostForce: DoubleSupplier
+    private val boostForce: DoubleSupplier
 ) : ElytraItem(setGroup(properties)), IBoostedElytraItem {
     companion object {
         @JvmStatic
@@ -41,15 +43,27 @@ open class BoostedElytraItemBase(
     override fun canElytraFly(stack: ItemStack, entity: LivingEntity) = true
     override fun getEquipmentSlot(stack: ItemStack) = SLOT
 
-    private val attributes by lazy {
-        ImmutableMultimap.of(
+    private var lastObservedBoostForce = Double.NaN
+    private var _attributes: ImmutableMultimap<Attribute, AttributeModifier>? =null
+    private val attributes get(): ImmutableMultimap<Attribute, AttributeModifier> {
+        val newBoostForce = boostForce.asDouble
+        if (newBoostForce.isNaN()) {
+            throw IllegalArgumentException("Boost force of $registryName is NaN")
+        }
+        if (newBoostForce == lastObservedBoostForce) {
+            return _attributes!!
+        }
+        lastObservedBoostForce = newBoostForce
+        _attributes = ImmutableMultimap.of(
             ElytraBoosterApi.Attributes.BOOST_SPEED.get(),
-            AttributeModifier(ATTRIBUTE_MODIFIER_ID,
+            AttributeModifier(
+                ATTRIBUTE_MODIFIER_ID,
                 "Boosted Elytra Boost Force",
-                boostForce.asDouble,
+                newBoostForce,
                 AttributeModifier.Operation.ADDITION
             )
         )
+        return _attributes!!
     }
     /**
      * 提供推力属性

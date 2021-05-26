@@ -1,6 +1,10 @@
 package mod.chloeprime.elytrabooster.common.item
 
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
+import mod.chloeprime.elytrabooster.common.config.ElyBoosterModConfig
+import mod.chloeprime.elytrabooster.common.config.FeElytraConfigEntry
+import mod.chloeprime.elytrabooster.common.config.LazyFormula
+import mod.chloeprime.elytrabooster.common.config.wrap
 import net.minecraft.item.Item
 import java.util.function.DoubleSupplier
 import java.util.function.IntSupplier
@@ -31,6 +35,15 @@ open class BoostedElytraProperties(
 
     fun costFormula(costFormula: ToIntFunction<IElytraInputCap>): BoostedElytraProperties {
         this.costFormula = costFormula
+        return this
+    }
+
+    fun acceptConfig(config: FeElytraConfigEntry): BoostedElytraProperties {
+        boostForce { config.boostForce.get() }
+        maxEnergy { config.maxFE.get() }
+        chargeSpeed { config.chargeSpeed.get() }
+        costFormula = LazyFormula { config.feCost.get() }.wrap()
+        maxDamage(config.durability.get())
         return this
     }
 }

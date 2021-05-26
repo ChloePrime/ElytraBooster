@@ -32,19 +32,11 @@ object ElyBoosterModConfig {
 
     /* T1 电动鞘翅 */
 
-    val FE_T1_MAX_FE: ForgeConfigSpec.IntValue
-    val FE_T1_CHARGE_SPEED: ForgeConfigSpec.ConfigValue<Int>
-    val FE_T1_FE_COST: ForgeConfigSpec.ConfigValue<String>
-    val FE_T1_DURABILITY: ForgeConfigSpec.IntValue
-    val FE_T1_BOOST_FORCE: ForgeConfigSpec.DoubleValue
+    val FE_T1: FeElytraConfigEntry
 
     /* T2 电动鞘翅 */
 
-    val FE_T2_MAX_FE: ForgeConfigSpec.IntValue
-    val FE_T2_CHARGE_SPEED: ForgeConfigSpec.ConfigValue<Int>
-    val FE_T2_FE_COST: ForgeConfigSpec.ConfigValue<String>
-    val FE_T2_DURABILITY: ForgeConfigSpec.IntValue
-    val FE_T2_BOOST_FORCE: ForgeConfigSpec.DoubleValue
+    val FE_T2: FeElytraConfigEntry
 
     /* 创造推进鞘翅 */
 
@@ -71,43 +63,23 @@ object ElyBoosterModConfig {
 
         /* 电动 T1 */
 
-        builder.comment("T1 Electric Elytra Settings").push("fe_t1")
-        FE_T1_MAX_FE = builder
-            .comment(MAX_FE_COMMENT)
-            .defineInRange(MAX_FE_KEY, 50000, 0, Int.MAX_VALUE)
-        FE_T1_CHARGE_SPEED = builder
-            .comment(CHARGE_SPEED_COMMENT)
-            .define(CHARGE_SPEED_KEY, 100)
-        FE_T1_FE_COST = builder
-            .comment(*FE_COST_COMMENT)
-            .define(FE_COST_KEY, "10*x+50*y+2")
-        FE_T1_DURABILITY = builder
-            .comment(DURABILITY_COMMENT)
-            .defineInRange(DURABILITY_KEY, 432, 0, Int.MAX_VALUE)
-        FE_T1_BOOST_FORCE = builder
-            .comment(BOOST_FORCE_COMMENT)
-            .defineInRange(BOOST_FORCE_KEY, 1.5, 0.0, Double.MAX_VALUE)
-        builder.pop()
+        FE_T1 = FeElytraConfigEntry.create(builder, 1, FeElytraConfigDefaultValues().apply {
+            maxFE = 50000
+            chargeSpeed = 100
+            feCost = "10*x+50*y+2"
+            durability = 432
+            boostForce = 1.5
+        })
 
         /* 电动 T2 */
 
-        builder.comment("T2 Electric Elytra Settings").push("fe_t2")
-        FE_T2_MAX_FE = builder
-            .comment(MAX_FE_COMMENT)
-            .defineInRange(MAX_FE_KEY, 1250000, 0, Int.MAX_VALUE)
-        FE_T2_CHARGE_SPEED = builder
-            .comment(CHARGE_SPEED_COMMENT)
-            .define(CHARGE_SPEED_KEY, 1000)
-        FE_T2_FE_COST = builder
-            .comment(*FE_COST_COMMENT)
-            .define(FE_COST_KEY, "50*x+250*y+10")
-        FE_T2_DURABILITY = builder
-            .comment(DURABILITY_COMMENT)
-            .defineInRange(DURABILITY_KEY, 2550, 0, Int.MAX_VALUE)
-        FE_T2_BOOST_FORCE = builder
-            .comment(BOOST_FORCE_COMMENT)
-            .defineInRange(BOOST_FORCE_KEY, 2.0, 0.0, Double.MAX_VALUE)
-        builder.pop()
+        FE_T2 = FeElytraConfigEntry.create(builder, 2, FeElytraConfigDefaultValues().apply {
+            maxFE = 1250000
+            chargeSpeed = 1000
+            feCost = "50*x+250*y+10"
+            durability = 2550
+            boostForce = 2.0
+        })
 
         /* 创造 */
 

@@ -18,11 +18,7 @@ object ModItems {
     val BOOSTED_ELYTRA_FE_T1 = REGISTRY.register("boosted_elytra_fe_t1") {
         BoostedElytraItem(
             BoostedElytraProperties().apply {
-                boostForce { ElyBoosterModConfig.FE_T1_BOOST_FORCE.get() }
-                maxEnergy { ElyBoosterModConfig.FE_T1_MAX_FE.get() }
-                chargeSpeed { ElyBoosterModConfig.FE_T1_CHARGE_SPEED.get() }
-                costFormula = LazyFormula { ElyBoosterModConfig.FE_T1_FE_COST.get() }.wrap()
-                maxDamage(ElyBoosterModConfig.FE_T1_DURABILITY.get())
+                acceptConfig(ElyBoosterModConfig.FE_T1)
                 rarity(Rarity.UNCOMMON)
             }
         )
@@ -34,11 +30,7 @@ object ModItems {
     val BOOSTED_ELYTRA_FE_T2 = REGISTRY.register("boosted_elytra_fe_t2") {
         BoostedElytraItem(
             BoostedElytraProperties().apply {
-                boostForce { ElyBoosterModConfig.FE_T2_BOOST_FORCE.get() }
-                maxEnergy { ElyBoosterModConfig.FE_T2_MAX_FE.get() }
-                chargeSpeed { ElyBoosterModConfig.FE_T2_CHARGE_SPEED.get() }
-                costFormula = LazyFormula { ElyBoosterModConfig.FE_T2_FE_COST.get() }.wrap()
-                maxDamage(ElyBoosterModConfig.FE_T2_DURABILITY.get())
+                acceptConfig(ElyBoosterModConfig.FE_T2)
                 rarity(Rarity.RARE)
             }
         )
