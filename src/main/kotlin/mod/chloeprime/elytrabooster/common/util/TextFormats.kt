@@ -10,6 +10,8 @@ object TextFormats {
 
     /**
      * 更好地表示大数。
+     * 缩减后整数部分数字 <10 时，保留两位小数，
+     * 否则保留一位小数
      */
     fun formatBigNumber(num: Int): String {
         var i = num
