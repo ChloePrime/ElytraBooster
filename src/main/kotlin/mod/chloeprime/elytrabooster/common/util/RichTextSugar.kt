@@ -7,7 +7,7 @@ import java.util.*
  * @UE4
  */
 @Suppress("FunctionName")
-fun TEXT(string: String) =
+fun TEXT(string: String): ITextComponent =
     if(string.isEmpty()) EMPTY_TEXT else StringTextComponent(string)
 
 /**
@@ -19,7 +19,7 @@ private val EMPTY_TEXT =
 /**
  * 更简洁地构建翻译字符串
  */
-fun translated(langKey: String): IFormattableTextComponent =
+fun translated(langKey: String): ITextComponent =
     if (langKey.isEmpty()) EMPTY_TEXT else TranslationTextComponent(langKey)
 
 fun translated(langKey: String, vararg args: Any) =
@@ -28,25 +28,25 @@ fun translated(langKey: String, vararg args: Any) =
 /**
  * 针对MC富文本的字符串加法
  */
-operator fun IFormattableTextComponent.plus(other: IFormattableTextComponent): IFormattableTextComponent =
-    this.appendSibling(other)
+operator fun ITextComponent.plus(other: ITextComponent): ITextComponent =
+    this.cast().appendSibling(other)
 
 /**
  * 针对MC富文本的字符串加法
  * 忽视空字符串
  */
-operator fun IFormattableTextComponent.plus(other: String): IFormattableTextComponent {
-    if (other.isEmpty()) return this
-    return this.appendString(other)
+operator fun ITextComponent.plus(other: String): ITextComponent {
+    if (other.isEmpty()) return this.cast()
+    return this.cast().appendString(other)
 }
 
-fun IFormattableTextComponent.withColor(c: Int): IFormattableTextComponent =
-    this.modifyStyle { it.setColor(Color.fromInt(c)) }
+fun ITextComponent.withColor(c: Int): ITextComponent =
+    this.cast().modifyStyle { it.setColor(Color.fromInt(c)) }
 
-fun IFormattableTextComponent.applyStyle(action: StylePipeline.() -> Unit): IFormattableTextComponent {
+fun ITextComponent.applyStyle(action: StylePipeline.() -> Unit): ITextComponent {
     val pipeline = StylePipeline()
     pipeline.action()
-    return this.modifyStyle(pipeline)
+    return this.cast().modifyStyle(pipeline)
 }
 
 class StylePipeline internal constructor(): (Style) -> Style {
@@ -84,3 +84,7 @@ class StylePipeline internal constructor(): (Style) -> Style {
         return result
     }
 }
+
+private fun ITextComponent.cast(): IFormattableTextComponent =
+    if (this is IFormattableTextComponent) this
+    else StringTextComponent("").appendSibling(this)
