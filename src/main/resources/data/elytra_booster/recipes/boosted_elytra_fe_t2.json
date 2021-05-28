@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "TET",
+    " D "
+  ],
+  "key": {
+    "E": {
+      "item": "minecraft:elytra"
+    },
+    "T": {
+      "item": "elytra_booster:plasma_thruster"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "elytra_booster:boosted_elytra_fe_t2",
+    "count": 1
+  }
+}
