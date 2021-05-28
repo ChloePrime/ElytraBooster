@@ -2,6 +2,7 @@ package mod.chloeprime.elytrabooster.common.item
 
 import mod.chloeprime.elytrabooster.ElytraBoosterMod
 import mod.chloeprime.elytrabooster.common.config.ElyBoosterModConfig
+import mod.chloeprime.elytrabooster.common.fluid.ModFluids
 import net.minecraft.item.Item
 import net.minecraft.item.Rarity
 import net.minecraftforge.registries.DeferredRegister
@@ -47,11 +48,14 @@ object ModItems {
     /* 合成材料 */
 
     val JET_FUEL = REGISTRY.register("jet_fuel") {
-        ColoredItem(Item.Properties().group(ModItemGroup), 0x9EF94A)
+        LiquidBottle(Item.Properties().group(ModItemGroup), ModFluids.JET_FUEL.source)
     }!!
 
     val ROCKET_FUEL = REGISTRY.register("rocket_fuel") {
-        ColoredItem(Item.Properties().rarity(Rarity.UNCOMMON).group(ModItemGroup), 0xCC9F13)
+        LiquidBottle(
+            Item.Properties().rarity(Rarity.UNCOMMON).group(ModItemGroup),
+            ModFluids.ROCKET_FUEL.source
+        )
     }!!
 
     val JET_ENGINE = REGISTRY.register("jet_engine") {
