@@ -1,6 +1,7 @@
 package mod.chloeprime.elytrabooster.common.util
 
 import net.minecraft.util.text.IFormattableTextComponent
+import net.minecraft.util.text.ITextComponent
 
 /**
  * 本Mod中部分文本的统一化生成方法
@@ -46,12 +47,12 @@ object TextFormats {
      * @param max 上限值（耐久上限/储电上限等）
      * @param unit 数值的物理单位
      */
-    fun getProgressText(current: Int, max: Int, color: Int, unit: String = ""): IFormattableTextComponent {
+    fun getProgressText(current: Int, max: Int, color: Int, unit: String = ""): ITextComponent {
         // 单位前空一格
         val unitText = if (unit.isEmpty()) {
             TEXT("")
         } else {
-            TEXT(" ") + translated(unit)
+            translated(unit)
         }
 
         return TEXT(formatBigNumber(current)).applyStyle { setColor(color) } +

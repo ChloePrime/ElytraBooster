@@ -4,9 +4,8 @@ import mod.chloeprime.elytrabooster.api.common.IBoostedElytraItem
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
 import mod.chloeprime.elytrabooster.common.caps.ISettableEnergyStorage
 import mod.chloeprime.elytrabooster.common.caps.energy
+import mod.chloeprime.elytrabooster.common.config.FeElytraConfigEntry
 import mod.chloeprime.elytrabooster.common.util.TextFormats
-import mod.chloeprime.elytrabooster.common.util.plus
-import mod.chloeprime.elytrabooster.common.util.translated
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemGroup
@@ -25,15 +24,32 @@ import net.minecraftforge.common.capabilities.CapabilityInject
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.common.util.LazyOptional
 import net.minecraftforge.energy.IEnergyStorage
+import java.util.function.IntSupplier
 import kotlin.math.min
 
 /**
- * 需要消耗能源的推进鞘翅
+ * 消耗FE能源的推进鞘翅
  * @author ChloePrime
  */
-open class BoostedElytraItem(
-    properties: BoostedElytraProperties,
+open class EnergyBoostedElytraItem(
+    properties: Properties,
 ) : BoostedElytraItemBase(properties, properties.boostForce), IBoostedElytraItem {
+    open class Properties(
+        var chargeSpeed: IntSupplier,
+    ): BoostedElytraProperties<FeElytraConfigEntry>() {
+        constructor() : this({ 0 })
+
+        fun chargeSpeed(chargeSpeed: IntSupplier): Properties {
+            this.chargeSpeed = chargeSpeed
+            return this
+        }
+
+        override fun acceptConfig(config: FeElytraConfigEntry): Properties {
+            super.acceptConfig(config)
+            chargeSpeed { config.chargeSpeed.get() }
+            return this
+        }
+    }
     companion object {
         const val DURABILITY_BAR_HUE = 0.5f
 
@@ -174,18 +190,10 @@ open class BoostedElytraItem(
             stack.getCapability(ENERGY_CAP!!).ifPresent {
                 tooltip.add(
                     TextFormats.getProgressText(
-                        it.energyStored, it.maxEnergyStored, 0x00FFFF, "FE"
+                        it.energyStored, it.maxEnergyStored, 0x00FFFF, " FE"
                     )
                 )
             }
-        }
-        if (stack.isDamageable) {
-            val dur = stack.maxDamage - stack.damage
-            tooltip.add(
-                translated("elytra_booster.item.durability") + TextFormats.getProgressText(
-                    dur, stack.maxDamage, 0xA0A0A0
-                )
-            )
         }
         super.addInformation(stack, worldIn, tooltip, flagIn)
     }

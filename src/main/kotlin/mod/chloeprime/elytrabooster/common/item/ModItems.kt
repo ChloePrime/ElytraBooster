@@ -15,8 +15,8 @@ object ModItems {
      * 普通的电推鞘翅
      */
     val BOOSTED_ELYTRA_FE_T1 = REGISTRY.register("boosted_elytra_fe_t1") {
-        BoostedElytraItem(
-            BoostedElytraProperties().apply {
+        EnergyBoostedElytraItem(
+            EnergyBoostedElytraItem.Properties().apply {
                 acceptConfig(ElyBoosterModConfig.FE_T1)
                 maxStackSize(1)
                 rarity(Rarity.UNCOMMON)
@@ -28,11 +28,21 @@ object ModItems {
      * 高级电推鞘翅
      */
     val BOOSTED_ELYTRA_FE_T2 = REGISTRY.register("boosted_elytra_fe_t2") {
-        BoostedElytraItem(
-            BoostedElytraProperties().apply {
+        EnergyBoostedElytraItem(
+            EnergyBoostedElytraItem.Properties().apply {
                 acceptConfig(ElyBoosterModConfig.FE_T2)
                 maxStackSize(1)
                 rarity(Rarity.RARE)
+            }
+        )
+    }!!
+
+    val BOOSTED_ELYTRA_FUEL_T1 = REGISTRY.register("boosted_elytra_fuel_t1") {
+        FuelBoostedElytraItem(
+            FuelBoostedElytraItem.Properties().apply {
+                acceptConfig(ElyBoosterModConfig.FUEL_T1)
+                maxStackSize(1)
+                fuelType = ModFluids.JET_FUEL.source
             }
         )
     }!!

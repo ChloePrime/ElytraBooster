@@ -16,16 +16,11 @@ object ElyBoosterModConfig {
 
     val AIR_DRAG_SCALE: ForgeConfigSpec.DoubleValue
 
-    /* T1 电动鞘翅 */
+    /* 不同的鞘翅 */
 
+    val FUEL_T1: FuelElytraConfigEntry
     val FE_T1: FeElytraConfigEntry
-
-    /* T2 电动鞘翅 */
-
     val FE_T2: FeElytraConfigEntry
-
-    /* 创造推进鞘翅 */
-
     val CREATIVE_BOOST_POWER: ForgeConfigSpec.DoubleValue
 
     /* 杂项 */
@@ -50,18 +45,24 @@ object ElyBoosterModConfig {
         /* 电动 T1 */
 
         FE_T1 = FeElytraConfigEntry.create(builder, 1, FeElytraConfigDefaultValues().apply {
-            maxFE = 250000
+            maxFuel = 250000
             chargeSpeed = 500
-            feCost = "50*x+250*y+10"
+            fuelCost = "50*x+250*y+10"
             boostForce = 1.5
         })
 
         /* 电动 T2 */
 
         FE_T2 = FeElytraConfigEntry.create(builder, 2, FeElytraConfigDefaultValues().apply {
-            maxFE = 6250000
+            maxFuel = 6250000
             chargeSpeed = 5000
-            feCost = "250*x+1250*y+50"
+            fuelCost = "250*x+1250*y+50"
+            boostForce = 2.0
+        })
+
+        FUEL_T1 = FuelElytraConfigEntry.create(builder, 1, FuelElytraConfigDefaultValues().apply {
+            maxFuel = 5000
+            fuelCost = "1*x+3*y+1"
             boostForce = 2.0
         })
 

@@ -1,5 +1,7 @@
 {
   "elytra_booster.item.durability": "耐久度: ",
+  "elytra_booster.item.fuel": "燃料: ",
+  "elytra_booster.item.fuel.prep": " ",
   "item.elytra_booster.boosted_elytra_fe_t1": "电推推进鞘翅",
   "item.elytra_booster.boosted_elytra_fe_t2": "等离子推进鞘翅",
   "item.elytra_booster.boosted_elytra_creative": "创造推进鞘翅",

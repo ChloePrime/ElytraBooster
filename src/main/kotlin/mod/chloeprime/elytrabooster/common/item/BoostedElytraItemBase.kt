@@ -44,27 +44,29 @@ open class BoostedElytraItemBase(
     override fun getEquipmentSlot(stack: ItemStack) = SLOT
 
     private var lastObservedBoostForce = Double.NaN
-    private var _attributes: ImmutableMultimap<Attribute, AttributeModifier>? =null
-    private val attributes get(): ImmutableMultimap<Attribute, AttributeModifier> {
-        val newBoostForce = boostForce.asDouble
-        if (newBoostForce.isNaN()) {
-            throw IllegalArgumentException("Boost force of $registryName is NaN")
-        }
-        if (newBoostForce == lastObservedBoostForce) {
+    private var _attributes: ImmutableMultimap<Attribute, AttributeModifier>? = null
+    private val attributes
+        get(): ImmutableMultimap<Attribute, AttributeModifier> {
+            val newBoostForce = boostForce.asDouble
+            if (newBoostForce.isNaN()) {
+                throw IllegalArgumentException("Boost force of $registryName is NaN")
+            }
+            if (newBoostForce == lastObservedBoostForce) {
+                return _attributes!!
+            }
+            lastObservedBoostForce = newBoostForce
+            _attributes = ImmutableMultimap.of(
+                ElytraBoosterApi.Attributes.BOOST_SPEED.get(),
+                AttributeModifier(
+                    ATTRIBUTE_MODIFIER_ID,
+                    "Boosted Elytra Boost Force",
+                    newBoostForce,
+                    AttributeModifier.Operation.ADDITION
+                )
+            )
             return _attributes!!
         }
-        lastObservedBoostForce = newBoostForce
-        _attributes = ImmutableMultimap.of(
-            ElytraBoosterApi.Attributes.BOOST_SPEED.get(),
-            AttributeModifier(
-                ATTRIBUTE_MODIFIER_ID,
-                "Boosted Elytra Boost Force",
-                newBoostForce,
-                AttributeModifier.Operation.ADDITION
-            )
-        )
-        return _attributes!!
-    }
+
     /**
      * 提供推力属性
      */
