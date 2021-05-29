@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "IBI",
+    "ITI"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "T": {
+      "item": "minecraft:dispenser"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "elytra_booster:fuel_thruster",
+    "count": 1
+  }
+}
