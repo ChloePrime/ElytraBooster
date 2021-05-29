@@ -71,6 +71,18 @@ object ModItems {
         )
     }!!
 
+    /* 燃油鞘翅合成材料 */
+
+    val FUEL_THRUSTER = REGISTRY.register("fuel_thruster") {
+        Item(Item.Properties().group(ModItemGroup))
+    }!!
+
+    val ROCKET_THRUSTER = REGISTRY.register("rocket_thruster") {
+        Item(Item.Properties().group(ModItemGroup))
+    }!!
+
+    /* 电鞘翅合成材料 */
+
     val JET_ENGINE = REGISTRY.register("jet_engine") {
         Item(Item.Properties().group(ModItemGroup))
     }!!
