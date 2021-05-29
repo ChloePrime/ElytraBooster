@@ -25,6 +25,19 @@ object ModItems {
     }!!
 
     /**
+     * 燃油鞘翅T2
+     */
+    val BOOSTED_ELYTRA_FUEL_T2 = REGISTRY.register("boosted_elytra_fuel_t2") {
+        FuelBoostedElytraItem(
+            FuelBoostedElytraItem.Properties().apply {
+                acceptConfig(ElyBoosterModConfig.FUEL_T2)
+                maxStackSize(1)
+                fuelType = ModFluids.ROCKET_FUEL.source
+            }
+        )
+    }!!
+
+    /**
      * 普通的电推鞘翅
      */
     val BOOSTED_ELYTRA_FE_T1 = REGISTRY.register("boosted_elytra_fe_t1") {

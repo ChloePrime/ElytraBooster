@@ -19,6 +19,7 @@ object ElyBoosterModConfig {
     /* 不同的鞘翅 */
 
     val FUEL_T1: FuelElytraConfigEntry
+    val FUEL_T2: FuelElytraConfigEntry
     val FE_T1: FeElytraConfigEntry
     val FE_T2: FeElytraConfigEntry
     val CREATIVE_BOOST_POWER: ForgeConfigSpec.DoubleValue
@@ -42,14 +43,28 @@ object ElyBoosterModConfig {
             ).defineInRange("airDrag", 1.0, 0.0, Double.MAX_VALUE)
         builder.pop()
 
-        /* 燃油 T1 */
+        /**
+         * 燃油 T1，
+         * 默认配置可飞行6000刻，
+         * 推进飞行750刻。
+         */
 
         FUEL_T1 = FuelElytraConfigEntry.create(builder, 1, FuelElytraConfigDefaultValues().apply {
-            maxFuel = 5000
-            fuelCost = "1*x+3*y+1"
+            maxFuel = 6000
+            fuelCost = "1*x+7*y+1"
             boostForce = 2.0
         })
 
+        /**
+         * 燃油 T2，
+         * 默认配置可飞行3750刻，
+         * 推进飞行1250刻。
+         */
+        FUEL_T2 = FuelElytraConfigEntry.create(builder, 2, FuelElytraConfigDefaultValues().apply {
+            maxFuel = 3750
+            fuelCost = "2*y+1"
+            boostForce = 3.0
+        })
 
         /* 电动 T1 */
 
