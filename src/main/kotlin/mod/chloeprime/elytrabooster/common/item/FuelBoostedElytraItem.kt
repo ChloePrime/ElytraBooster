@@ -2,7 +2,6 @@ package mod.chloeprime.elytrabooster.common.item
 
 import mod.chloeprime.elytrabooster.api.common.IBoostedElytraItem
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
-import mod.chloeprime.elytrabooster.common.config.ElytraConfigEntry
 import mod.chloeprime.elytrabooster.common.config.FuelElytraConfigEntry
 import mod.chloeprime.elytrabooster.common.util.TextFormats
 import mod.chloeprime.elytrabooster.common.util.plus
@@ -41,8 +40,9 @@ open class FuelBoostedElytraItem(
     ): BoostedElytraProperties<FuelElytraConfigEntry>() {
         constructor() : this(Fluids.EMPTY.delegate)
     }
+
     companion object {
-        const val DURABILITY_BAR_HUE = 0.5f
+        const val DURABILITY_BAR_HUE = 21F / 180
 
         @JvmStatic
         @set:CapabilityInject(IFluidHandlerItem::class)
@@ -90,7 +90,16 @@ open class FuelBoostedElytraItem(
     // 储电
 
     override fun initCapabilities(stack: ItemStack, nbt: CompoundNBT?): ICapabilityProvider? {
-        return FluidHandlerItemStack(stack, maxEnergy.asInt)
+        /**
+         * 限制内容物类型的流体容器（限制为燃料）
+         */
+        return object : FluidHandlerItemStack(stack, maxEnergy.asInt) {
+            override fun canFillFluidType(fluid: FluidStack) =
+                fluid.fluid == fuelType.get()
+
+            override fun canDrainFluidType(fluid: FluidStack) =
+                fluid.fluid == fuelType.get()
+        }
     }
 
     // 让耐久条显示电力情况
