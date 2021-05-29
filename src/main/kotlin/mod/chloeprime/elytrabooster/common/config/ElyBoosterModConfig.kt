@@ -42,6 +42,15 @@ object ElyBoosterModConfig {
             ).defineInRange("airDrag", 1.0, 0.0, Double.MAX_VALUE)
         builder.pop()
 
+        /* 燃油 T1 */
+
+        FUEL_T1 = FuelElytraConfigEntry.create(builder, 1, FuelElytraConfigDefaultValues().apply {
+            maxFuel = 5000
+            fuelCost = "1*x+3*y+1"
+            boostForce = 2.0
+        })
+
+
         /* 电动 T1 */
 
         FE_T1 = FeElytraConfigEntry.create(builder, 1, FeElytraConfigDefaultValues().apply {
@@ -57,12 +66,6 @@ object ElyBoosterModConfig {
             maxFuel = 6250000
             chargeSpeed = 5000
             fuelCost = "250*x+1250*y+50"
-            boostForce = 2.0
-        })
-
-        FUEL_T1 = FuelElytraConfigEntry.create(builder, 1, FuelElytraConfigDefaultValues().apply {
-            maxFuel = 5000
-            fuelCost = "1*x+3*y+1"
             boostForce = 2.0
         })
 
