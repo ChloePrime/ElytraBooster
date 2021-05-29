@@ -48,7 +48,6 @@ object ElyBoosterModConfig {
          * 默认配置可飞行6000刻，
          * 推进飞行750刻。
          */
-
         FUEL_T1 = FuelElytraConfigEntry.create(builder, 1, FuelElytraConfigDefaultValues().apply {
             maxFuel = 6000
             fuelCost = "1*x+7*y+1"
@@ -56,31 +55,38 @@ object ElyBoosterModConfig {
         })
 
         /**
-         * 燃油 T2，
-         * 默认配置可飞行3750刻，
-         * 推进飞行1250刻。
+         * 燃油 T2。
+         * 由于使用的燃料很珍贵，所以策划方式与其他型号不同。
+         * 默认配置下，每酿造1轮（750L），
+         * 可飞行750刻，推进150刻。
          */
         FUEL_T2 = FuelElytraConfigEntry.create(builder, 2, FuelElytraConfigDefaultValues().apply {
-            maxFuel = 3750
-            fuelCost = "2*y+1"
+            maxFuel = 9000
+            fuelCost = "4*y+1"
             boostForce = 3.0
         })
 
-        /* 电动 T1 */
-
+        /**
+         * 电动 T1
+         * 默认配置可飞行10000刻，
+         * 推进1000刻。
+         */
         FE_T1 = FeElytraConfigEntry.create(builder, 1, FeElytraConfigDefaultValues().apply {
             maxFuel = 250000
             chargeSpeed = 500
-            fuelCost = "50*x+250*y+10"
+            fuelCost = "10*x+225*y+25"
             boostForce = 1.5
         })
 
-        /* 电动 T2 */
-
+        /**
+         * 电动 T2
+         * 默认配置可飞行25000刻（接近附魔了耐久3的原版鞘翅），
+         * 推进3125刻。
+         */
         FE_T2 = FeElytraConfigEntry.create(builder, 2, FeElytraConfigDefaultValues().apply {
             maxFuel = 6250000
             chargeSpeed = 5000
-            fuelCost = "250*x+1250*y+50"
+            fuelCost = "25*x+1750*y+250"
             boostForce = 2.0
         })
 
