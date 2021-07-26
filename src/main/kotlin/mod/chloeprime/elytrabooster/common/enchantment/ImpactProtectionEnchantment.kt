@@ -1,5 +1,6 @@
 package mod.chloeprime.elytrabooster.common.enchantment
 
+import mod.chloeprime.elytrabooster.common.enchantment.ModEnchantments.isLookingDown
 import mod.chloeprime.elytrabooster.common.util.fastLength
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentHelper
@@ -16,6 +17,9 @@ import kotlin.math.acos
 
 /**
  * 减少“感受到动能”伤害（鞘翅撞击）所造成的伤害。
+ * 与“天狗弹头”附魔冲突。
+ *
+ * @author ChloePrime
  */
 @Mod.EventBusSubscriber
 class ImpactProtectionEnchantment: Enchantment(
@@ -34,9 +38,16 @@ class ImpactProtectionEnchantment: Enchantment(
         private fun getMaxFallDamage(enchLevel: Int) = 20 - 5 * enchLevel
     }
 
+    override fun getMinEnchantability(level: Int) = 10 * level
+    override fun getMaxEnchantability(level: Int) = 10 * level + 30
+    override fun getMaxLevel() = 3
+    override fun canApplyTogether(ench: Enchantment): Boolean {
+        return ench !is TenguWarheadEnchantment && super.canApplyTogether(ench)
+    }
+
     init {
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, ::onLivingHurt)
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, ::onLivingTick)
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, this::onLivingHurt)
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, this::onLivingTick)
     }
     /**
      * 对鞘翅撞击伤害进行强效减伤，
@@ -77,7 +88,7 @@ class ImpactProtectionEnchantment: Enchantment(
         if (e.entityLiving.fallDistance <= minOfMaxFallDistance) {
             return
         }
-        if (!e.entityLiving.isElytraFlying || !isLookingDown(e.entityLiving)) {
+        if (!e.entityLiving.isElytraFlying || e.entityLiving.isLookingDown()) {
             return
         }
         val enchLevel = EnchantmentHelper.getMaxEnchantmentLevel(this, e.entityLiving)
@@ -88,18 +99,6 @@ class ImpactProtectionEnchantment: Enchantment(
             e.entityLiving.fallDistance = maxFallDistance.toFloat()
         }
     }
-
-    private fun isLookingDown(entity: LivingEntity): Boolean {
-        val headVec = entity.lookVec
-        // 被判定为鞘翅撞击时，视线方向与-y轴的最小夹角（45°）
-        val minAngle = Math.PI / 4
-        // 求向量与-y轴的夹角，并判断是否处于头朝下。
-        return acos(-headVec.y / headVec.fastLength()) <= minAngle
-    }
-
-    override fun getMinEnchantability(level: Int) = 10 * level
-    override fun getMaxEnchantability(level: Int) = 10 * level + 30
-    override fun getMaxLevel() = 3
 
     override fun calcModifierDamage(level: Int, source: DamageSource): Int {
         val type = getImpactType(source)

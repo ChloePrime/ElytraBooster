@@ -21,5 +21,7 @@
   "item.elytra_booster.plasma_thruster": "电浆推进器",
   "itemGroup.elytra_booster": "推进鞘翅",
   "enchantment.elytra_booster.impact_protection": "头部冲击保护",
+  "enchantment.elytra_booster.tengu_warhead": "天狗弹头",
+  "death.attack.elytra_booster.tengu_warhead": "%1$s站在了天狗牌®导弹头的杀伤半径内",
   "elytra_booster.boost_force": "推进力"
 }
