@@ -5,6 +5,7 @@ import mod.chloeprime.elytrabooster.common.util.fastLength
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.enchantment.EnchantmentType
+import net.minecraft.enchantment.ProtectionEnchantment
 import net.minecraft.entity.LivingEntity
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraft.util.DamageSource
@@ -13,13 +14,13 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.world.Explosion
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.living.LivingDamageEvent
-import net.minecraftforge.event.entity.living.LivingEvent
 import net.minecraftforge.event.entity.living.LivingHurtEvent
 import net.minecraftforge.eventbus.api.EventPriority
 
 /**
- * "天狗弹头"附魔
+ * "天狗弹头"附魔，
  * 撞击！爆炸！
+ * 附带摔落保护效果，以减少撞击后摔死的几率。
  *
  * @author ChloePrime
  */
@@ -34,6 +35,20 @@ class TenguWarheadEnchantment: Enchantment(
     override fun isTreasureEnchantment() = true
     override fun canApplyTogether(ench: Enchantment): Boolean {
         return ench !is ImpactProtectionEnchantment && super.canApplyTogether(ench)
+    }
+
+    /**
+     * 带摔落保护效果。
+     * 原版摔落保护 4 返回 12
+     * 此处返回 10
+     * @see [ProtectionEnchantment.calcDamageByCreature]
+     */
+    override fun calcModifierDamage(level: Int, source: DamageSource): Int {
+        return if (source == DamageSource.FALL) {
+            10
+        } else {
+            super.calcModifierDamage(level, source)
+        }
     }
 
     init {
@@ -88,27 +103,41 @@ class TenguWarheadEnchantment: Enchantment(
             entity.posX, entity.posY, entity.posZ,
             explosionPower, false, Explosion.Mode.BREAK
         )
+
+        // 停止飞行状态
+        entity.tryCancelFlight()
     }
 
     private fun causeWarheadDamage(self: LivingEntity, speed: Float) {
+        /**
+         * 攻击力 / 射程
+         */
+        val rangeScale = 5
         val power = (20 + 30 / MathHelper.fastInvSqrt(speed.toDouble()))
-        val roughBB = AxisAlignedBB(-power, -power, -power, power, power, power).offset(self.positionVec)
+        val range = power / rangeScale
+        val roughBB = AxisAlignedBB(-range, -range, -range, range, range, range).offset(self.positionVec)
 
         for (target in self.entity.world.getEntitiesWithinAABB(LivingEntity::class.java, roughBB)) {
             // 不会伤害自己
             if (target === self) continue
 
             val distance = target.positionVec.subtract(self.positionVec).fastLength()
-            if (distance > power) {
+            if (distance > range) {
                 continue
             }
-            // 伤害 = (√power - √distance) ^ 2
-            val sqrtPower = 1 / MathHelper.fastInvSqrt(power).toFloat()
-            val sqrtDist = 1 / MathHelper.fastInvSqrt(distance).toFloat()
-            val sqrtDmg = sqrtPower - sqrtDist
+            // 伤害 = √(power ^ 2 - (distance * scale) ^ 2)
+            // 伤害随距离从 power 衰减到 0
+            val damageAmount = 1 / MathHelper.fastInvSqrt(
+                power * power - rangeScale * rangeScale * distance * distance
+            ).toFloat()
             target.attackEntityFrom(
-                ModDamageSources.TENGU_WARHEAD, sqrtDmg * sqrtDmg
+                ModDamageSources.TENGU_WARHEAD, damageAmount
             )
         }
+    }
+
+    private fun LivingEntity.tryCancelFlight() {
+        fallDistance = 0F
+        isOnGround = true
     }
 }
