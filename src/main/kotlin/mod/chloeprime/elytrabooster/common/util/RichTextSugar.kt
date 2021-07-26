@@ -7,7 +7,7 @@ import java.util.*
  * @UE4
  */
 @Suppress("FunctionName")
-fun TEXT(string: String): ITextComponent =
+fun TEXT(string: String): IFormattableTextComponent =
     if(string.isEmpty()) EMPTY_TEXT else StringTextComponent(string)
 
 /**
@@ -19,7 +19,7 @@ private val EMPTY_TEXT =
 /**
  * 更简洁地构建翻译字符串
  */
-fun translated(langKey: String): ITextComponent =
+fun translated(langKey: String): IFormattableTextComponent =
     if (langKey.isEmpty()) EMPTY_TEXT else TranslationTextComponent(langKey)
 
 fun translated(langKey: String, vararg args: Any) =

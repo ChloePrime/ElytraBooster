@@ -1,12 +1,22 @@
 package mod.chloeprime.elytrabooster.common.item
 
+import mod.chloeprime.elytrabooster.common.util.TextFormats
+import mod.chloeprime.elytrabooster.common.util.applyStyle
+import mod.chloeprime.elytrabooster.common.util.translated
+import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.fluid.Fluid
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.CompoundNBT
+import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.TextFormatting
+import net.minecraft.world.World
+import net.minecraftforge.common.capabilities.Capability
+import net.minecraftforge.common.capabilities.CapabilityInject
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.fluids.FluidStack
+import net.minecraftforge.fluids.capability.IFluidHandlerItem
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple
 import java.util.function.Supplier
 
@@ -17,6 +27,11 @@ open class LiquidBottle(
     properties: Properties,
     private val _fluid: Supplier<out Fluid>
 ): Item(properties.maxStackSize(1)), IColoredItem {
+    companion object {
+        @JvmStatic
+        @set:CapabilityInject(IFluidHandlerItem::class)
+        var FLUID_CAP: Capability<IFluidHandlerItem>? = null
+    }
     /**
      * 将物品颜色委托给流体颜色。
      */
@@ -37,5 +52,28 @@ open class LiquidBottle(
         } else {
             super.initCapabilities(stack, nbt)
         }
+    }
+
+    override fun addInformation(
+        stack: ItemStack,
+        worldIn: World?,
+        tooltip: MutableList<ITextComponent>,
+        flagIn: ITooltipFlag
+    ) {
+        FLUID_CAP?.let { cap ->
+            stack.getCapability(cap).ifPresent {
+                val fluid = it.getFluidInTank(0)
+                tooltip.add(translated(
+                    "elytra_booster.item.fuel.bottle.tooltip",
+                    TextFormats.formatBigNumber(fluid.amount),
+                    _fluid.get().attributes.getDisplayName(fluid)
+                ))
+                tooltip.add(
+                    translated("elytra_booster.item.fuel.bottle.tooltip.2")
+                        .mergeStyle(TextFormatting.GRAY)
+                )
+            }
+        }
+        super.addInformation(stack, worldIn, tooltip, flagIn)
     }
 }
