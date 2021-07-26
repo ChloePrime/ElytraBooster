@@ -1,6 +1,8 @@
 {
   "elytra_booster.item.fuel": "Fuel: ",
   "elytra_booster.item.fuel.prep": " of ",
+  "elytra_booster.item.fuel.bottle.tooltip": "Contains %sL of liquid %s",
+  "elytra_booster.item.fuel.bottle.tooltip.2": "Right click fluid containers to transfer content to it",
   "item.elytra_booster.boosted_elytra_fuel_t1": "Boosted Elytra",
   "item.elytra_booster.boosted_elytra_fuel_t2": "Rocket Elytra",
   "item.elytra_booster.boosted_elytra_fe_t1": "Electric Boosted Elytra",
@@ -18,5 +20,6 @@
   "item.elytra_booster.electric_thruster": "Electric Thruster",
   "item.elytra_booster.plasma_thruster": "Plasma Thruster",
   "itemGroup.elytra_booster": "Boosted Elytra",
+  "enchantment.elytra_booster.impact_protection": "Head Impact Protection",
   "elytra_booster.boost_force": "Propulsive Force"
 }

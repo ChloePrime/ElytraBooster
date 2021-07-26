@@ -22,6 +22,7 @@ repositories {
     flatDir {
         dir 'lib'
     }
+    mavenCentral()
     maven { url = "https://maven.theillusivec4.top/" }
     maven {
         name = 'kotlinforforge'

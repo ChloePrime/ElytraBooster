@@ -3,6 +3,7 @@ package mod.chloeprime.elytrabooster
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
 import mod.chloeprime.elytrabooster.common.block.ModBlocks
 import mod.chloeprime.elytrabooster.common.config.ElyBoosterModConfig
+import mod.chloeprime.elytrabooster.common.enchantment.ModEnchantments
 import mod.chloeprime.elytrabooster.common.fluid.ModFluids
 import mod.chloeprime.elytrabooster.common.item.ModItems
 import net.minecraftforge.fml.ModLoadingContext
@@ -26,7 +27,8 @@ object ElytraBoosterMod {
         val eventBus = MOD_CONTEXT.getKEventBus()
         ModBlocks.REGISTRY.register(eventBus)
         ModItems.REGISTRY.register(eventBus)
+        ModEnchantments.REGISTRY.register(eventBus)
         ModFluids.REGISTRY.enqueueToBus(eventBus)
-        ElytraBoosterApi.Attributes.REGISTRY.register(MOD_CONTEXT.getKEventBus())
+        ElytraBoosterApi.Attributes.REGISTRY.register(eventBus)
     }
 }

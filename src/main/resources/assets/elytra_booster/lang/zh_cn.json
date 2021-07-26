@@ -1,6 +1,8 @@
 {
   "elytra_booster.item.fuel": "燃料: ",
   "elytra_booster.item.fuel.prep": " ",
+  "elytra_booster.item.fuel.bottle.tooltip": "内含%sL%s溶液",
+  "elytra_booster.item.fuel.bottle.tooltip.2": "右键流体容器以将瓶内流体倒入其中",
   "item.elytra_booster.boosted_elytra_fuel_t1": "燃油推进鞘翅",
   "item.elytra_booster.boosted_elytra_fuel_t2": "火箭推进鞘翅",
   "item.elytra_booster.boosted_elytra_fe_t1": "电推推进鞘翅",
@@ -18,5 +20,6 @@
   "item.elytra_booster.electric_thruster": "电动推进器",
   "item.elytra_booster.plasma_thruster": "电浆推进器",
   "itemGroup.elytra_booster": "推进鞘翅",
+  "enchantment.elytra_booster.impact_protection": "头部冲击保护",
   "elytra_booster.boost_force": "推进力"
 }
