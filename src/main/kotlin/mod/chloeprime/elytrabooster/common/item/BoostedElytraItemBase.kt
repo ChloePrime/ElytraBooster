@@ -3,6 +3,7 @@ package mod.chloeprime.elytrabooster.common.item
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
+import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi.isFlyingWithBooster
 import mod.chloeprime.elytrabooster.api.common.IBoostedElytraItem
 import mod.chloeprime.elytrabooster.common.util.Aerodynamics
 import mod.chloeprime.elytrabooster.common.util.withLength
@@ -17,10 +18,8 @@ import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
-import org.w3c.dom.Attr
 import java.util.*
 import java.util.function.DoubleSupplier
-import kotlin.properties.Delegates
 
 /**
  * 无任何消耗的推进鞘翅
@@ -91,7 +90,7 @@ internal object ElytraBoostingEventHandler {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onPlayerTick(e: TickEvent.PlayerTickEvent) {
         if (e.phase === TickEvent.Phase.END) return
-        if (!ElytraBoosterApi.isFlyingWithBooster(e.player)) return
+        if (!e.player.isFlyingWithBooster) return
 
         val input = ElytraBoosterApi.getElytraInputOrNull(e.player) ?: return
         // 空气阻力公式 F=0.5CρSv^2=cv^2 c为常数，v为速度

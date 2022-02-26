@@ -34,17 +34,19 @@ object ElytraBoosterApi {
      * 判断一个实体是否装备了可推进的鞘翅
      */
     @JvmStatic
-    fun isEquippingBoostedElytra(entity: LivingEntity): Boolean {
-        return entity.getItemStackFromSlot(EquipmentSlotType.CHEST).item is IBoostedElytraItem
-    }
+    val LivingEntity.isEquippingBoostedElytra: Boolean
+        get() {
+            return getItemStackFromSlot(EquipmentSlotType.CHEST).item is IBoostedElytraItem
+        }
 
     /**
      * 判断一个实体是否处于飞行并穿戴了可推进鞘翅
      */
     @JvmStatic
-    fun isFlyingWithBooster(entity: LivingEntity): Boolean {
-        return entity.isElytraFlying && isEquippingBoostedElytra(entity)
-    }
+    val LivingEntity.isFlyingWithBooster: Boolean
+        get() {
+            return isElytraFlying && isEquippingBoostedElytra
+        }
 
     /**
      * 强制获取推进鞘翅输入状态 （ELYTRA_INPUT 能力附加的对象），

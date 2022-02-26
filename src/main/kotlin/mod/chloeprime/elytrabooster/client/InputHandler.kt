@@ -1,6 +1,7 @@
 package mod.chloeprime.elytrabooster.client
 
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
+import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi.isFlyingWithBooster
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
 import mod.chloeprime.elytrabooster.common.network.CElytraInputPacket
 import mod.chloeprime.elytrabooster.common.network.ModNetworking
@@ -27,7 +28,7 @@ internal object InputHandler {
         // 如果玩家没有进入世界，则返回
         if (Minecraft.getInstance().world == null) return
         val player = Minecraft.getInstance().player ?: return
-        if (!ElytraBoosterApi.isFlyingWithBooster(player)) return
+        if (!player.isFlyingWithBooster) return
 
         recordInput(player)
     }
@@ -43,7 +44,7 @@ internal object InputHandler {
         }
 
         val player = Minecraft.getInstance().player ?: return
-        if (!ElytraBoosterApi.isFlyingWithBooster(player)) return
+        if (!player.isFlyingWithBooster) return
 
         val maxSpeed = player.getAttributeValue(BOOST_FORCE_ATTRIBUTE)
         player.rotationYaw +=

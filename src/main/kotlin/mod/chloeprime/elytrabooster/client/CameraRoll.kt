@@ -1,6 +1,7 @@
 package mod.chloeprime.elytrabooster.client
 
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
+import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi.isFlyingWithBooster
 import mod.chloeprime.elytrabooster.common.util.Time
 import net.minecraft.client.Minecraft
 import net.minecraft.client.settings.PointOfView
@@ -51,7 +52,7 @@ object CameraRoll {
 
         val player = MINECRAFT.player ?: return
 
-        targetRoll = if (!ElytraBoosterApi.isFlyingWithBooster(player)) {
+        targetRoll = if (!player.isFlyingWithBooster) {
             0.0F
         } else {
             val input = ElytraBoosterApi.getElytraInputOrNull(player) ?: return
