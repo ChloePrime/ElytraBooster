@@ -11,7 +11,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.attributes.Attribute
 import net.minecraft.entity.ai.attributes.AttributeModifier
 import net.minecraft.inventory.EquipmentSlotType
-import net.minecraft.item.ElytraItem
+import net.minecraft.item.IArmorMaterial
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.vector.Vector3d
 import net.minecraftforge.event.TickEvent
@@ -26,9 +26,11 @@ import java.util.function.DoubleSupplier
  * @author ChloePrime
  */
 open class BoostedElytraItemBase(
+    armorMaterial: IArmorMaterial,
     properties: Properties,
     private val boostForce: DoubleSupplier
-) : ElytraItem(setGroup(properties)), IBoostedElytraItem {
+) : ArmoredElytra(armorMaterial, setGroup(properties)), IBoostedElytraItem {
+
     companion object {
         @JvmStatic
         protected val SLOT = EquipmentSlotType.CHEST
@@ -39,6 +41,8 @@ open class BoostedElytraItemBase(
         }
     }
 
+    override fun isRepairable(stack: ItemStack) = false
+    override fun getIsRepairable(toRepair: ItemStack, repair: ItemStack) = false
     override fun canElytraFly(stack: ItemStack, entity: LivingEntity) = true
     override fun getEquipmentSlot(stack: ItemStack) = SLOT
 
@@ -67,13 +71,22 @@ open class BoostedElytraItemBase(
         }
 
     /**
-     * 提供推力属性
+     * 将推力属性与父类提供的盔甲值合并。
      */
     override fun getAttributeModifiers(
         slot: EquipmentSlotType,
         stack: ItemStack
     ): Multimap<Attribute, AttributeModifier> {
-        return if (slot == SLOT) attributes else super.getAttributeModifiers(slot, stack)
+        val superman = super.getAttributeModifiers(slot, stack)
+        return if (slot == this.slot) {
+            // 盔甲值 + 推进力
+            ImmutableMultimap.builder<Attribute, AttributeModifier>()
+                .putAll(attributes)
+                .putAll(superman)
+                .build()
+        } else {
+            superman
+        }
     }
 }
 

@@ -8,6 +8,7 @@ import net.minecraft.item.Rarity
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
 
+@Suppress("unused")
 object ModItems {
     val REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, ElytraBoosterMod.MODID)!!
 
@@ -16,6 +17,7 @@ object ModItems {
      */
     val BOOSTED_ELYTRA_FUEL_T1 = REGISTRY.register("boosted_elytra_fuel_t1") {
         FuelBoostedElytraItem(
+            ModArmorMaterials.FUEL_ARMORS,
             FuelBoostedElytraItem.Properties().apply {
                 acceptConfig(ElyBoosterModConfig.FUEL_T1)
                 maxStackSize(1)
@@ -29,6 +31,7 @@ object ModItems {
      */
     val BOOSTED_ELYTRA_FUEL_T2 = REGISTRY.register("boosted_elytra_fuel_t2") {
         FuelBoostedElytraItem(
+            ModArmorMaterials.FUEL_ARMORS,
             FuelBoostedElytraItem.Properties().apply {
                 acceptConfig(ElyBoosterModConfig.FUEL_T2)
                 maxStackSize(1)
@@ -42,6 +45,7 @@ object ModItems {
      */
     val BOOSTED_ELYTRA_FE_T1 = REGISTRY.register("boosted_elytra_fe_t1") {
         EnergyBoostedElytraItem(
+            ModArmorMaterials.ELECTRIC_1,
             EnergyBoostedElytraItem.Properties().apply {
                 acceptConfig(ElyBoosterModConfig.FE_T1)
                 maxStackSize(1)
@@ -55,6 +59,7 @@ object ModItems {
      */
     val BOOSTED_ELYTRA_FE_T2 = REGISTRY.register("boosted_elytra_fe_t2") {
         EnergyBoostedElytraItem(
+            ModArmorMaterials.ELECTRIC_2,
             EnergyBoostedElytraItem.Properties().apply {
                 acceptConfig(ElyBoosterModConfig.FE_T2)
                 maxStackSize(1)
@@ -66,6 +71,7 @@ object ModItems {
     val CREATIVE_BOOSTED_ELYTRA = REGISTRY.register("boosted_elytra_creative") {
         @Suppress("MoveLambdaOutsideParentheses")
         BoostedElytraItemBase(
+            ModArmorMaterials.CREATIVE_ELYTRA,
             Item.Properties().maxStackSize(1).rarity(Rarity.EPIC),
             { ElyBoosterModConfig.CREATIVE_BOOST_POWER.get() },
         )

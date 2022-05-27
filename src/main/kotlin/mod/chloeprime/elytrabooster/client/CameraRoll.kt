@@ -70,7 +70,9 @@ object CameraRoll {
     fun onCameraSetup(e: EntityViewRenderEvent.CameraSetup) {
         if (MINECRAFT.world == null) return
         if (MINECRAFT.gameSettings.pointOfView === PointOfView.FIRST_PERSON) {
-            e.roll += roll
+            if (abs(roll) > 1e-2f) {
+                e.roll += roll
+            }
         }
     }
 

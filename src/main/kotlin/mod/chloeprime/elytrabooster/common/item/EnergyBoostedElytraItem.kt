@@ -8,6 +8,7 @@ import mod.chloeprime.elytrabooster.common.config.FeElytraConfigEntry
 import mod.chloeprime.elytrabooster.common.util.TextFormats
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
+import net.minecraft.item.IArmorMaterial
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
@@ -32,8 +33,10 @@ import kotlin.math.min
  * @author ChloePrime
  */
 open class EnergyBoostedElytraItem(
+    armorMaterial: IArmorMaterial,
     properties: Properties,
-) : BoostedElytraItemBase(properties, properties.boostForce), IBoostedElytraItem {
+) : BoostedElytraItemBase(armorMaterial, properties, properties.boostForce), IBoostedElytraItem {
+
     open class Properties(
         var chargeSpeed: IntSupplier,
     ): BoostedElytraProperties<FeElytraConfigEntry>() {

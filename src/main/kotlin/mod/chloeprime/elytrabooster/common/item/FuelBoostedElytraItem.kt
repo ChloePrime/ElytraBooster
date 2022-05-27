@@ -10,6 +10,7 @@ import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.LivingEntity
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.Fluids
+import net.minecraft.item.IArmorMaterial
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundNBT
@@ -33,11 +34,13 @@ import java.util.function.Supplier
  * @author ChloePrime
  */
 open class FuelBoostedElytraItem(
+    armorMaterial: IArmorMaterial,
     properties: Properties,
-) : BoostedElytraItemBase(properties, properties.boostForce), IBoostedElytraItem {
-    open class Properties (
+) : BoostedElytraItemBase(armorMaterial, properties, properties.boostForce), IBoostedElytraItem {
+
+    open class Properties(
         var fuelType: Supplier<out Fluid>,
-    ): BoostedElytraProperties<FuelElytraConfigEntry>() {
+    ) : BoostedElytraProperties<FuelElytraConfigEntry>() {
         constructor() : this(Fluids.EMPTY.delegate)
     }
 
