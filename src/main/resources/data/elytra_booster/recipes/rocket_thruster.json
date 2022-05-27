@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "ITI",
+    "GBG"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:brewing_stand"
+    },
+    "T": {
+      "item": "minecraft:dispenser"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "elytra_booster:rocket_thruster",
+    "count": 1
+  }
+}

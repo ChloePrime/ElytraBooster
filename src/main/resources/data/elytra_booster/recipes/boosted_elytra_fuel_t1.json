@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T T",
+    "SES",
+    "T T"
+  ],
+  "key": {
+    "E": {
+      "item": "minecraft:elytra"
+    },
+    "T": {
+      "item": "elytra_booster:fuel_thruster"
+    },
+    "S": {
+      "item": "minecraft:shulker_shell"
+    }
+  },
+  "result": {
+    "item": "elytra_booster:boosted_elytra_fuel_t1",
+    "count": 1
+  }
+}
