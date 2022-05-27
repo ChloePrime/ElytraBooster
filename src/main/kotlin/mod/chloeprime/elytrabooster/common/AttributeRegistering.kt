@@ -15,7 +15,7 @@ object AttributeRegistering {
     @SubscribeEvent
     fun setupAttributes(e: EntityAttributeModificationEvent) {
         e.types.forEach {
-            e.add(it, ElytraBoosterApi.Attributes.BOOST_SPEED.get())
+            e.add(it, ElytraBoosterApi.Attributes.BOOST_FORCE.get())
         }
     }
 }

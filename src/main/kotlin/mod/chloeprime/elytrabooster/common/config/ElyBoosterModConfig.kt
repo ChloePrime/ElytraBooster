@@ -51,7 +51,7 @@ object ElyBoosterModConfig {
         FUEL_T1 = FuelElytraConfigEntry.create(builder, 1, FuelElytraConfigDefaultValues().apply {
             maxFuel = 6000
             fuelCost = "1*x+7*y+1"
-            boostForce = 2.0
+            boostForce = 5.0
         })
 
         /**
@@ -63,7 +63,7 @@ object ElyBoosterModConfig {
         FUEL_T2 = FuelElytraConfigEntry.create(builder, 2, FuelElytraConfigDefaultValues().apply {
             maxFuel = 9000
             fuelCost = "4*y+1"
-            boostForce = 3.0
+            boostForce = 7.5
         })
 
         /**
@@ -75,7 +75,7 @@ object ElyBoosterModConfig {
             maxFuel = 250000
             chargeSpeed = 500
             fuelCost = "10*x+225*y+25"
-            boostForce = 1.5
+            boostForce = 4.0
         })
 
         /**
@@ -87,14 +87,14 @@ object ElyBoosterModConfig {
             maxFuel = 6250000
             chargeSpeed = 5000
             fuelCost = "25*x+1750*y+250"
-            boostForce = 2.0
+            boostForce = 5.0
         })
 
         /* 创造 */
 
         builder.comment("Creative Boosted Elytra Settings").push("creative")
         CREATIVE_BOOST_POWER = builder
-            .defineInRange(BOOST_FORCE_KEY, 4.0, 0.0, Double.MAX_VALUE)
+            .defineInRange(BOOST_FORCE_KEY, 10.0, 0.0, Double.MAX_VALUE)
         builder.pop()
 
         /* 杂项 */

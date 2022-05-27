@@ -2,14 +2,13 @@ package mod.chloeprime.elytrabooster.common.caps
 
 import mod.chloeprime.elytrabooster.ElytraBoosterMod
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
-import mod.chloeprime.elytrabooster.api.common.ModCaps
+import mod.chloeprime.elytrabooster.api.common.ElytraBoosterCapabilities
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundNBT
 import net.minecraft.nbt.FloatNBT
 import net.minecraft.nbt.INBT
-import net.minecraft.nbt.IntNBT
 import net.minecraft.util.Direction
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.capabilities.Capability
@@ -34,7 +33,7 @@ class Provider(
     private val entity: LivingEntity
 ): ICapabilityProvider {
     override fun <T> getCapability(cap: Capability<T>, side: Direction?): LazyOptional<T> {
-        return ModCaps.ELYTRA_INPUT!!.orEmpty(cap, LazyOptional.of { capInstance })
+        return ElytraBoosterCapabilities.ELYTRA_INPUT!!.orEmpty(cap, LazyOptional.of { capInstance })
     }
 
     private val capInstance by lazy {
@@ -98,8 +97,8 @@ internal object Attaching {
     @SubscribeEvent
     fun onPlayerClone(e: PlayerEvent.Clone) {
         if (e.isWasDeath) return
-        val old = e.original.getCapability(ModCaps.ELYTRA_INPUT!!)
-        val new = e.player.getCapability(ModCaps.ELYTRA_INPUT!!)
+        val old = e.original.getCapability(ElytraBoosterCapabilities.ELYTRA_INPUT!!)
+        val new = e.player.getCapability(ElytraBoosterCapabilities.ELYTRA_INPUT!!)
         if (!(old.isPresent && new.isPresent)) return
 
         new.ifPresent { n ->

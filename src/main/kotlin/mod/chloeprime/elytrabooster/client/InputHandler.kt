@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.Mod
 internal object InputHandler {
     private var input: IElytraInputCap? = null
     private val BOOST_FORCE_ATTRIBUTE by lazy {
-        ElytraBoosterApi.Attributes.BOOST_SPEED.get()
+        ElytraBoosterApi.Attributes.BOOST_FORCE.get()
     }
 
     @SubscribeEvent
@@ -46,9 +46,9 @@ internal object InputHandler {
         val player = Minecraft.getInstance().player ?: return
         if (!player.isFlyingWithBooster) return
 
-        val maxSpeed = player.getAttributeValue(BOOST_FORCE_ATTRIBUTE)
+        val force = player.getAttributeValue(BOOST_FORCE_ATTRIBUTE)
         player.rotationYaw +=
-            Aerodynamics.getAngularAcceleration(player.motion, maxSpeed.toFloat()) *
+            Aerodynamics.getAngularAcceleration(player.motion, force.toFloat()) *
                 -input!!.moveStrafe * CameraRoll.rollRate * Time.deltaTime
     }
 

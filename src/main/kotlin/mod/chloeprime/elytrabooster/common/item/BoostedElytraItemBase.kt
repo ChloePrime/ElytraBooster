@@ -55,7 +55,7 @@ open class BoostedElytraItemBase(
             }
             lastObservedBoostForce = newBoostForce
             _attributes = ImmutableMultimap.of(
-                ElytraBoosterApi.Attributes.BOOST_SPEED.get(),
+                ElytraBoosterApi.Attributes.BOOST_FORCE.get(),
                 AttributeModifier(
                     ATTRIBUTE_MODIFIER_ID,
                     "Boosted Elytra Boost Force",

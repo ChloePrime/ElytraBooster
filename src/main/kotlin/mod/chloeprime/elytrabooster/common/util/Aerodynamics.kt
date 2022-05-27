@@ -24,6 +24,11 @@ object Aerodynamics {
      */
     private const val AIR_DRAG_BASE = (0.5F * 0.2F * 1.2258F * 2 / 50F) / 400F * 540F
 
+    /**
+     * 为了好看，Attributes 使用的单位与物理学国际单位间有一定的缩放比例，此数为字面量的放大倍率。
+     */
+    private const val RPG_TO_PHYSICS_UNIT_SCALE = 2.5f
+
     val AIR_DRAG by lazy {
         AIR_DRAG_BASE * ElyBoosterModConfig.AIR_DRAG_SCALE.get().toFloat()
     }
@@ -33,9 +38,8 @@ object Aerodynamics {
     }
 
     fun getAccelerationForPlayer(player: PlayerEntity): Float {
-        return getAccelerationForGoalSpeed(
-            player.getAttributeValue(ElytraBoosterApi.Attributes.BOOST_SPEED.get()).toFloat()
-        )
+        val attribute = player.getAttributeValue(ElytraBoosterApi.Attributes.BOOST_FORCE.get()).toFloat()
+        return getAccelerationForGoalSpeed(attribute / RPG_TO_PHYSICS_UNIT_SCALE)
     }
 
     /**
@@ -44,10 +48,10 @@ object Aerodynamics {
      */
     private const val STANDARD_ROTATE_SPEED = Math.PI.toFloat() / 6
 
-    fun getAngularAcceleration(motion: Vector3d, goalSpeed: Float): Float {
-        if (goalSpeed < 1e-5F) {
-            return 0F
-        }
-        return STANDARD_ROTATE_SPEED * motion.fastLength().toFloat() / goalSpeed
+    /**
+     * @param force 推进力数值，单位为 RPG 单位（使用时需除以 2.5）
+     */
+    fun getAngularAcceleration(motion: Vector3d, force: Float): Float {
+        return STANDARD_ROTATE_SPEED * motion.fastLength().toFloat() / (force / RPG_TO_PHYSICS_UNIT_SCALE)
     }
 }

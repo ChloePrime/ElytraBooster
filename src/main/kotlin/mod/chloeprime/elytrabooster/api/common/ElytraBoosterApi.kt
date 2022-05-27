@@ -20,7 +20,7 @@ object ElytraBoosterApi {
         val REGISTRY = DeferredRegister.create(Attribute::class.java, MODID)!!
 
         @JvmField
-        val BOOST_SPEED: RegistryObject<Attribute> = REGISTRY.register("boost_speed") {
+        val BOOST_FORCE: RegistryObject<Attribute> = REGISTRY.register("boost_force") {
             RangedAttribute(
                 "$MODID.boost_force",
                 0.0, 0.0, Double.MAX_VALUE
@@ -54,7 +54,7 @@ object ElytraBoosterApi {
      */
     @JvmStatic
     fun getElytraInput(provider: ICapabilityProvider): IElytraInputCap {
-        return provider.getCapability(ModCaps.ELYTRA_INPUT!!).orElseThrow {
+        return provider.getCapability(ElytraBoosterCapabilities.ELYTRA_INPUT!!).orElseThrow {
             IllegalStateException("Accessing caps before init")
         }
     }
@@ -65,7 +65,7 @@ object ElytraBoosterApi {
      */
     @JvmStatic
     fun getElytraInputOrNull(provider: ICapabilityProvider): IElytraInputCap? {
-        return ModCaps.ELYTRA_INPUT?.let {
+        return ElytraBoosterCapabilities.ELYTRA_INPUT?.let {
             val optional = provider.getCapability(it)
             return if (optional.isPresent) optional.resolve().get() else null
         }
