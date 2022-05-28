@@ -3,6 +3,7 @@ package mod.chloeprime.elytrabooster.client
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi.isFlyingWithBooster
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
+import mod.chloeprime.elytrabooster.client.event.BoostedElytraInputEvent
 import mod.chloeprime.elytrabooster.common.network.CElytraInputPacket
 import mod.chloeprime.elytrabooster.common.network.ModNetworking
 import mod.chloeprime.elytrabooster.common.util.Aerodynamics
@@ -11,6 +12,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.player.ClientPlayerEntity
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
@@ -26,6 +28,7 @@ internal object InputHandler {
     @SubscribeEvent
     fun onInput(e: TickEvent.ClientTickEvent) {
         // 如果玩家没有进入世界，则返回
+        if (e.phase == TickEvent.Phase.END) return
         if (Minecraft.getInstance().world == null) return
         val player = Minecraft.getInstance().player ?: return
         if (!player.isFlyingWithBooster) return
@@ -49,22 +52,23 @@ internal object InputHandler {
         val force = player.getAttributeValue(BOOST_FORCE_ATTRIBUTE)
         player.rotationYaw +=
             Aerodynamics.getAngularAcceleration(player.motion, force.toFloat()) *
-                -input!!.moveStrafe * CameraRoll.rollRate * Time.deltaTime
+                    -input!!.moveStrafe * CameraRoll.rollRate * Time.deltaTime
     }
 
     private fun recordInput(player: ClientPlayerEntity) {
-        input = ElytraBoosterApi.getElytraInputOrNull(player) ?: return
+        val inp = ElytraBoosterApi.getElytraInputOrNull(player) ?: return
+        this.input = inp
 
         val curInput = player.movementInput
-        val dirty =
-            input!!.moveStrafe != curInput.moveStrafe ||
-                    input!!.moveForward != curInput.moveForward
+        val strafeDirty = inp.moveStrafe != curInput.moveStrafe
+        val forwardDirty = inp.moveForward != curInput.moveForward
 
-        input!!.moveStrafe = curInput.moveStrafe
-        input!!.moveForward = curInput.moveForward
+        inp.moveStrafe = curInput.moveStrafe
+        inp.moveForward = curInput.moveForward
 
-        if (dirty) {
-            ModNetworking.CHANNEL.sendToServer(CElytraInputPacket(input!!))
+        if (strafeDirty || forwardDirty) {
+            MinecraftForge.EVENT_BUS.post(BoostedElytraInputEvent(player, inp, strafeDirty, forwardDirty))
+            ModNetworking.CHANNEL.sendToServer(CElytraInputPacket(inp))
         }
     }
 }

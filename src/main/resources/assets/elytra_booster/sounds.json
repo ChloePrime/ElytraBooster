@@ -1,0 +1,42 @@
+{
+  "fuel_engine_start": {
+    "subtitle": "fuel_engine_start",
+    "replace": "true",
+    "sounds": [
+      {
+        "name": "elytra_booster:fuel_engine_start",
+        "stream": true
+      }
+    ]
+  },
+  "fuel_engine_loop": {
+    "subtitle": "fuel_engine_loop",
+    "replace": "true",
+    "sounds": [
+      {
+        "name": "elytra_booster:fuel_engine_loop",
+        "stream": true
+      }
+    ]
+  },
+  "jet_engine_start": {
+    "subtitle": "jet_engine_start",
+    "replace": "true",
+    "sounds": [
+      {
+        "name": "elytra_booster:jet_engine_start",
+        "stream": true
+      }
+    ]
+  },
+  "jet_engine_loop": {
+    "subtitle": "jet_engine_loop",
+    "replace": "true",
+    "sounds": [
+      {
+        "name": "elytra_booster:jet_engine_loop",
+        "stream": true
+      }
+    ]
+  }
+}

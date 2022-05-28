@@ -4,6 +4,7 @@ import mod.chloeprime.elytrabooster.ElytraBoosterMod
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.attributes.Attribute
 import net.minecraft.entity.ai.attributes.RangedAttribute
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.EquipmentSlotType
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.fml.RegistryObject
@@ -46,6 +47,14 @@ object ElytraBoosterApi {
     val LivingEntity.isFlyingWithBooster: Boolean
         get() {
             return isElytraFlying && isEquippingBoostedElytra
+        }
+
+    @JvmStatic
+    val LivingEntity.isBoosting: Boolean
+        get() {
+            return isFlyingWithBooster
+                    && this is PlayerEntity
+                    && getElytraInput(this).isBoosting
         }
 
     /**
