@@ -27,11 +27,6 @@ object ElytraAudioRegistry {
     fun new(entity: LivingEntity) = get(entity.getItemStackFromSlot(CHEST).item)?.invoke(entity)
 
 
-    private val FUEL_START_LESSER: (LivingEntity) -> ISound = {
-        LoopedElytraSoundStart(it, FUEL_ENGINE_START.get(), FUEL_LOOP, 1f).apply {
-            scaleVolume(0.8f)
-        }
-    }
     private val FUEL_START: (LivingEntity) -> ISound = {
         LoopedElytraSoundStart(it, FUEL_ENGINE_START.get(), FUEL_LOOP, 1f)
     }
@@ -55,7 +50,7 @@ object ElytraAudioRegistry {
 
     @SubscribeEvent
     fun init(e: FMLCommonSetupEvent) {
-        ItemToSound[ModItems.BOOSTED_ELYTRA_FUEL_T1.get()] = FUEL_START_LESSER
+        ItemToSound[ModItems.BOOSTED_ELYTRA_FUEL_T1.get()] = JET_START
         ItemToSound[ModItems.BOOSTED_ELYTRA_FUEL_T2.get()] = FUEL_START
         ItemToSound[ModItems.BOOSTED_ELYTRA_FE_T1.get()] = JET_START_LESSER
         ItemToSound[ModItems.BOOSTED_ELYTRA_FE_T2.get()] = JET_START
