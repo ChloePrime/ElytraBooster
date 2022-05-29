@@ -18,7 +18,7 @@
   "item.elytra_booster.rocket_thruster": "火箭推进器",
   "item.elytra_booster.jet_engine": "电动马达",
   "item.elytra_booster.electric_thruster": "电动推进器",
-  "item.elytra_booster.plasma_thruster": "电浆推进器",
+  "item.elytra_booster.plasma_thruster": "霍尔推进器",
   "itemGroup.elytra_booster": "推进鞘翅",
   "enchantment.elytra_booster.impact_protection": "头部冲击保护",
   "enchantment.elytra_booster.tengu_warhead": "天狗弹头",
