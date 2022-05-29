@@ -1,33 +1,42 @@
 package mod.chloeprime.elytrabooster.common.util
 
-import net.minecraft.util.text.IFormattableTextComponent
 import net.minecraft.util.text.ITextComponent
 
 /**
  * 本Mod中部分文本的统一化生成方法
  */
 object TextFormats {
-    private val units = arrayOf("K", "M", "G")
+    private val UNITS = charArrayOf('n', 'μ', 'm', '1', 'K', 'M', 'G')
+    private const val UNIT_OF_1 = 3
 
     /**
      * 更好地表示大数。
      * 缩减后整数部分数字 <10 时，保留两位小数，
      * 否则保留一位小数
      */
-    fun formatBigNumber(num: Int): String {
+    fun formatBigNumber(num: Int, shift: Int = 0): String {
         var i = num
-        var decimal = 0F
+        var decimal = num.toFloat()
         var divideCount = 0
-        while ((i <= -1000 || i >= 1000) && divideCount < units.size) {
+        val maxDivides = UNITS.size - UNIT_OF_1 - 1
+        while ((i <= -1000 || i >= 1000) && divideCount < maxDivides) {
             ++divideCount
             decimal = i / 1000F
             i /= 1000
         }
-        if (divideCount > 0) {
-            return String.format(
-                if (i < 10) "%.2f" else "%.1f",
-                decimal
-            ) + units[divideCount - 1]
+        val idx = divideCount + UNIT_OF_1 + shift
+        if ((divideCount or shift) != 0 && idx in UNITS.indices) {
+            val unit = UNITS[idx]
+            val basePart = if (divideCount != 0) {
+                String.format(
+                    if (i < 10) "%.2f" else "%.1f",
+                    decimal
+                )
+            } else {
+                i.toString()
+            }
+            val unitPart = if (idx == UNIT_OF_1) ("") else (unit.toString())
+            return basePart + unitPart
         }
         return i.toString()
     }
@@ -47,21 +56,25 @@ object TextFormats {
      * @param max 上限值（耐久上限/储电上限等）
      * @param unit 数值的物理单位
      */
-    fun getProgressText(current: Int, max: Int, color: Int, unit: String = ""): ITextComponent {
-        // 单位前空一格
+    fun getProgressText(
+        current: Int, max: Int,
+        color: Int,
+        unit: String = "", unitShift: Int = 0
+    ): ITextComponent {
+
         val unitText = if (unit.isEmpty()) {
             TEXT("")
         } else {
             translated(unit)
         }
 
-        return TEXT(formatBigNumber(current)).applyStyle { setColor(color) } +
+        return TEXT(formatBigNumber(current, unitShift)).applyStyle { setColor(color) } +
                 unitText +
                 TEXT(" / ").withColor(0xFFFFFF) +
-                TEXT(formatBigNumber(max)).withColor(color) +
+                TEXT(formatBigNumber(max, unitShift)).withColor(color) +
                 unitText +
                 TEXT(" (").withColor(0xFFFFFF) +
-                TEXT(getPercentageText(current, max)).withColor (color) +
+                TEXT(getPercentageText(current, max)).withColor(color) +
                 TEXT("%)").withColor(0xFFFFFF)
     }
 }

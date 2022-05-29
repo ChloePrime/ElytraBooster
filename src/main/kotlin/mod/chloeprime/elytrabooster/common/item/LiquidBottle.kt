@@ -1,7 +1,6 @@
 package mod.chloeprime.elytrabooster.common.item
 
 import mod.chloeprime.elytrabooster.common.util.TextFormats
-import mod.chloeprime.elytrabooster.common.util.applyStyle
 import mod.chloeprime.elytrabooster.common.util.translated
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.fluid.Fluid
@@ -68,7 +67,7 @@ open class LiquidBottle(
                 val fluid = it.getFluidInTank(0)
                 tooltip.add(translated(
                     "elytra_booster.item.fuel.bottle.tooltip",
-                    TextFormats.formatBigNumber(fluid.amount),
+                    TextFormats.formatBigNumber(fluid.amount, -1),
                     _fluid.get().attributes.getDisplayName(fluid)
                 ))
                 tooltip.add(

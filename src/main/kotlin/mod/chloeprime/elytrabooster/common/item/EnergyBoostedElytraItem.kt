@@ -193,7 +193,7 @@ open class EnergyBoostedElytraItem(
             stack.getCapability(ENERGY_CAP!!).ifPresent {
                 tooltip.add(
                     TextFormats.getProgressText(
-                        it.energyStored, it.maxEnergyStored, 0x00FFFF, " FE"
+                        it.energyStored, it.maxEnergyStored, 0x00FFFF, "FE"
                     )
                 )
             }

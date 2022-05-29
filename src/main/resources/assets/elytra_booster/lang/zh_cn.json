@@ -1,7 +1,7 @@
 {
   "elytra_booster.item.fuel": "燃料: ",
   "elytra_booster.item.fuel.prep": " ",
-  "elytra_booster.item.fuel.bottle.tooltip": "内含%sL%s溶液",
+  "elytra_booster.item.fuel.bottle.tooltip": "内含 %sB %s溶液",
   "elytra_booster.item.fuel.bottle.tooltip.2": "右键流体容器以将瓶内流体倒入其中",
   "item.elytra_booster.boosted_elytra_fuel_t1": "燃油涡轮鞘翅",
   "item.elytra_booster.boosted_elytra_fuel_t2": "火箭推进鞘翅",

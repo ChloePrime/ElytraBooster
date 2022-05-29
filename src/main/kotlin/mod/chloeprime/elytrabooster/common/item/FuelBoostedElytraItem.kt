@@ -158,7 +158,8 @@ open class FuelBoostedElytraItem(
                 TextFormats.getProgressText(
                     fuelTank.getFluidInTank(0).amount,
                     fuelTank.getTankCapacity(0),
-                    0xFFA500, "L"
+                    0xFFA500,
+                    "B", -1
                 ) +
                 // 介词，中文语言下为一个空格
                 translated("elytra_booster.item.fuel.prep") +

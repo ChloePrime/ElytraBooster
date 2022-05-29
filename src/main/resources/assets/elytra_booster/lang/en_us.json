@@ -1,7 +1,7 @@
 {
   "elytra_booster.item.fuel": "Fuel: ",
   "elytra_booster.item.fuel.prep": " of ",
-  "elytra_booster.item.fuel.bottle.tooltip": "Contains %sL of liquid %s",
+  "elytra_booster.item.fuel.bottle.tooltip": "Contains %sB of liquid %s",
   "elytra_booster.item.fuel.bottle.tooltip.2": "Right click fluid containers to transfer content to it",
   "item.elytra_booster.boosted_elytra_fuel_t1": "Elytra with Fuel Turbine",
   "item.elytra_booster.boosted_elytra_fuel_t2": "Rocket Boosted Elytra",
