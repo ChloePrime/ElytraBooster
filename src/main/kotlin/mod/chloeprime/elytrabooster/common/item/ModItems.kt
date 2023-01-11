@@ -3,8 +3,8 @@ package mod.chloeprime.elytrabooster.common.item
 import mod.chloeprime.elytrabooster.ElytraBoosterMod
 import mod.chloeprime.elytrabooster.common.config.ElyBoosterModConfig
 import mod.chloeprime.elytrabooster.common.fluid.ModFluids
-import net.minecraft.item.Item
-import net.minecraft.item.Rarity
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.Rarity
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
 
@@ -20,7 +20,7 @@ object ModItems {
             ModArmorMaterials.FUEL_ARMORS,
             FuelBoostedElytraItem.Properties().apply {
                 acceptConfig(ElyBoosterModConfig.FUEL_T1)
-                maxStackSize(1)
+                stacksTo(1)
                 fuelType = ModFluids.JET_FUEL.source
             }
         )
@@ -34,7 +34,7 @@ object ModItems {
             ModArmorMaterials.FUEL_ARMORS,
             FuelBoostedElytraItem.Properties().apply {
                 acceptConfig(ElyBoosterModConfig.FUEL_T2)
-                maxStackSize(1)
+                stacksTo(1)
                 fuelType = ModFluids.ROCKET_FUEL.source
             }
         )
@@ -48,7 +48,7 @@ object ModItems {
             ModArmorMaterials.ELECTRIC_1,
             EnergyBoostedElytraItem.Properties().apply {
                 acceptConfig(ElyBoosterModConfig.FE_T1)
-                maxStackSize(1)
+                stacksTo(1)
                 rarity(Rarity.UNCOMMON)
             }
         )
@@ -62,7 +62,7 @@ object ModItems {
             ModArmorMaterials.ELECTRIC_2,
             EnergyBoostedElytraItem.Properties().apply {
                 acceptConfig(ElyBoosterModConfig.FE_T2)
-                maxStackSize(1)
+                stacksTo(1)
                 rarity(Rarity.RARE)
             }
         )
@@ -72,7 +72,7 @@ object ModItems {
         @Suppress("MoveLambdaOutsideParentheses")
         BoostedElytraItemBase(
             ModArmorMaterials.CREATIVE_ELYTRA,
-            Item.Properties().maxStackSize(1).rarity(Rarity.EPIC),
+            Item.Properties().stacksTo(1).rarity(Rarity.EPIC),
             { ElyBoosterModConfig.CREATIVE_BOOST_POWER.get() },
         )
     }!!
@@ -80,12 +80,12 @@ object ModItems {
     /* 合成材料 */
 
     val JET_FUEL = REGISTRY.register("jet_fuel") {
-        LiquidBottle(Item.Properties().group(ModItemGroup), ModFluids.JET_FUEL.source)
+        LiquidBottle(Item.Properties().tab(ModItemGroup), ModFluids.JET_FUEL.source)
     }!!
 
     val ROCKET_FUEL = REGISTRY.register("rocket_fuel") {
         LiquidBottle(
-            Item.Properties().rarity(Rarity.UNCOMMON).group(ModItemGroup),
+            Item.Properties().rarity(Rarity.UNCOMMON).tab(ModItemGroup),
             ModFluids.ROCKET_FUEL.source
         )
     }!!
@@ -93,24 +93,24 @@ object ModItems {
     /* 燃油鞘翅合成材料 */
 
     val FUEL_THRUSTER = REGISTRY.register("fuel_thruster") {
-        Item(Item.Properties().group(ModItemGroup))
+        Item(Item.Properties().tab(ModItemGroup))
     }!!
 
     val ROCKET_THRUSTER = REGISTRY.register("rocket_thruster") {
-        Item(Item.Properties().group(ModItemGroup))
+        Item(Item.Properties().tab(ModItemGroup))
     }!!
 
     /* 电鞘翅合成材料 */
 
     val JET_ENGINE = REGISTRY.register("jet_engine") {
-        Item(Item.Properties().group(ModItemGroup))
+        Item(Item.Properties().tab(ModItemGroup))
     }!!
     
     val ELECTRIC_THRUSTER = REGISTRY.register("electric_thruster") {
-        Item(Item.Properties().group(ModItemGroup))
+        Item(Item.Properties().tab(ModItemGroup))
     }!!
 
     val PLASMA_THRUSTER = REGISTRY.register("plasma_thruster") {
-        Item(Item.Properties().rarity(Rarity.RARE).group(ModItemGroup))
+        Item(Item.Properties().rarity(Rarity.RARE).tab(ModItemGroup))
     }!!
 }

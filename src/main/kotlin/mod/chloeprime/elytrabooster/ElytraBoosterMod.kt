@@ -7,6 +7,7 @@ import mod.chloeprime.elytrabooster.common.config.ElyBoosterModConfig
 import mod.chloeprime.elytrabooster.common.enchantment.ModEnchantments
 import mod.chloeprime.elytrabooster.common.fluid.ModFluids
 import mod.chloeprime.elytrabooster.common.item.ModItems
+import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.config.ModConfig
@@ -14,7 +15,7 @@ import org.apache.logging.log4j.LogManager
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 
 /**
- * TODO 来点免撞击伤害和加强动力撞碎方块
+ * TODO 来点加强动力撞碎方块
  * @author ChloePrime
  */
 @Mod(ElytraBoosterMod.MODID)

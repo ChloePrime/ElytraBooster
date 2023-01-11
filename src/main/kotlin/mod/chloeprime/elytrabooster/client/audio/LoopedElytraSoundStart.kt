@@ -1,9 +1,9 @@
 package mod.chloeprime.elytrabooster.client.audio
 
-import net.minecraft.client.audio.ISound
-import net.minecraft.entity.LivingEntity
-import net.minecraft.util.SoundCategory
-import net.minecraft.util.SoundEvent
+import net.minecraft.client.resources.sounds.SoundInstance
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.entity.LivingEntity
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -11,9 +11,9 @@ import net.minecraftforge.api.distmarker.OnlyIn
 class LoopedElytraSoundStart(
     entity: LivingEntity,
     se: SoundEvent,
-    private val loopSound: (LivingEntity) -> ISound,
+    private val loopSound: (LivingEntity) -> SoundInstance,
     private val loopStart: Float
-) : ElytraSoundBase(entity, se, SoundCategory.PLAYERS) {
+) : ElytraSoundBase(entity, se, SoundSource.PLAYERS) {
 
     override fun tick() {
         super.tick()

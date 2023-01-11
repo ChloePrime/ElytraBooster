@@ -2,7 +2,7 @@ package mod.chloeprime.elytrabooster.common.enchantment
 
 import mod.chloeprime.elytrabooster.ElytraBoosterMod
 import mod.chloeprime.elytrabooster.common.util.fastLength
-import net.minecraft.entity.LivingEntity
+import net.minecraft.world.entity.LivingEntity
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
 import kotlin.math.acos
@@ -21,7 +21,7 @@ object ModEnchantments {
     }
 
     internal fun LivingEntity.isLookingDown(): Boolean {
-        val headVec = this.lookVec
+        val headVec = this.lookAngle
         // 被判定为鞘翅撞击时，视线方向与-y轴的最小夹角（45°）
         val minAngle = Math.PI / 4
         // 求向量与-y轴的夹角，并判断是否处于头朝下。

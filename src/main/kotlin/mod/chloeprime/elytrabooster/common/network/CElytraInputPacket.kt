@@ -2,9 +2,9 @@ package mod.chloeprime.elytrabooster.common.network
 
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
-import net.minecraft.network.PacketBuffer
-import net.minecraft.util.math.MathHelper
-import net.minecraftforge.fml.network.NetworkEvent
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.util.Mth
+import net.minecraftforge.network.NetworkEvent
 import java.util.function.Supplier
 
 /**
@@ -14,14 +14,14 @@ class CElytraInputPacket(
     private val strafe: Float,
     private val forward: Float
 ) {
-    constructor(packet: PacketBuffer) : this(
+    constructor(packet: FriendlyByteBuf) : this(
         // 防止外挂端输入-1到1之外的值
-        MathHelper.clamp(packet.readFloat(), -1F, 1F),
-        MathHelper.clamp(packet.readFloat(), -1F, 1F)
+        Mth.clamp(packet.readFloat(), -1F, 1F),
+        Mth.clamp(packet.readFloat(), -1F, 1F)
     )
     constructor(input: IElytraInputCap) : this(input.moveStrafe, input.moveForward)
 
-    fun writeToBuffer(buffer: PacketBuffer) {
+    fun writeToBuffer(buffer: FriendlyByteBuf) {
         buffer.writeFloat(strafe)
         buffer.writeFloat(forward)
     }

@@ -1,10 +1,9 @@
 package mod.chloeprime.elytrabooster.client.audio
 
-import net.minecraft.entity.LivingEntity
-import net.minecraft.util.SoundCategory
-import net.minecraft.util.SoundEvent
-import net.minecraft.util.math.MathHelper.clamp
-import net.minecraft.util.math.MathHelper.lerp
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundSource
+import net.minecraft.util.Mth.*
+import net.minecraft.world.entity.LivingEntity
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
@@ -16,7 +15,7 @@ class LoopedElytraSound(
      * 单位：秒
      */
     private val fadeIn: Float = 0f,
-) : ElytraSoundBase(entity, se, SoundCategory.PLAYERS) {
+) : ElytraSoundBase(entity, se, SoundSource.PLAYERS) {
 
     override fun tick() {
         super.tick()

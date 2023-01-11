@@ -1,9 +1,9 @@
 package mod.chloeprime.elytrabooster.common.config
 
-import jdk.nashorn.api.scripting.ClassFilter
-import jdk.nashorn.api.scripting.NashornScriptEngineFactory
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
 import org.apache.logging.log4j.LogManager
+import org.openjdk.nashorn.api.scripting.ClassFilter
+import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory
 import java.util.function.Supplier
 import java.util.function.ToIntFunction
 import javax.script.Compilable

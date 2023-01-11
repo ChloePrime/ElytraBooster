@@ -1,20 +1,20 @@
 package mod.chloeprime.elytrabooster.common.item
 
 import mod.chloeprime.elytrabooster.common.util.TextFormats
+import mod.chloeprime.elytrabooster.common.util.findCapabilityKey
 import mod.chloeprime.elytrabooster.common.util.translated
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.fluid.Fluid
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TextFormatting
-import net.minecraft.world.World
+import net.minecraft.ChatFormatting
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.chat.Component
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
+import net.minecraft.world.item.TooltipFlag
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.material.Fluid
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.capabilities.CapabilityInject
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.capability.IFluidHandlerItem
@@ -27,23 +27,22 @@ private val EMPTY_BOTTLE = ItemStack(Items.GLASS_BOTTLE)
 open class LiquidBottle(
     properties: Properties,
     private val _fluid: Supplier<out Fluid>
-): Item(properties.maxStackSize(1)), IColoredItem {
+) : Item(properties.stacksTo(1)), IColoredItem {
     companion object {
-        @JvmStatic
-        @set:CapabilityInject(IFluidHandlerItem::class)
-        var FLUID_CAP: Capability<IFluidHandlerItem>? = null
+        var FLUID_CAP: Capability<IFluidHandlerItem> = findCapabilityKey()
     }
+
     /**
      * 将物品颜色委托给流体颜色。
      */
     override val color get() = _fluid.get().attributes.color
-    override fun initCapabilities(stack: ItemStack, nbt: CompoundNBT?): ICapabilityProvider? {
+    override fun initCapabilities(stack: ItemStack, nbt: CompoundTag?): ICapabilityProvider? {
         return if (javaClass == LiquidBottle::class.java) {
             /**
              * 魔改过的流体容器，
              * 瓶内液体始终不会发生变化。
              */
-            object: FluidHandlerItemStackSimple.SwapEmpty(
+            object : FluidHandlerItemStackSimple.SwapEmpty(
                 stack, EMPTY_BOTTLE.copy(), BOTTLE_VOLUME
             ) {
                 override fun getFluid(): FluidStack {
@@ -56,26 +55,26 @@ open class LiquidBottle(
     }
 
     @OnlyIn(Dist.CLIENT)
-    override fun addInformation(
+    override fun appendHoverText(
         stack: ItemStack,
-        worldIn: World?,
-        tooltip: MutableList<ITextComponent>,
-        flagIn: ITooltipFlag
+        worldIn: Level?,
+        tooltip: MutableList<Component>,
+        flagIn: TooltipFlag
     ) {
-        FLUID_CAP?.let { cap ->
-            stack.getCapability(cap).ifPresent {
-                val fluid = it.getFluidInTank(0)
-                tooltip.add(translated(
+        stack.getCapability(FLUID_CAP).ifPresent {
+            val fluid = it.getFluidInTank(0)
+            tooltip.add(
+                translated(
                     "elytra_booster.item.fuel.bottle.tooltip",
                     TextFormats.formatBigNumber(fluid.amount, -1),
                     _fluid.get().attributes.getDisplayName(fluid)
-                ))
-                tooltip.add(
-                    translated("elytra_booster.item.fuel.bottle.tooltip.2")
-                        .mergeStyle(TextFormatting.GRAY)
                 )
-            }
+            )
+            tooltip.add(
+                translated("elytra_booster.item.fuel.bottle.tooltip.2")
+                    .withStyle(ChatFormatting.GRAY)
+            )
         }
-        super.addInformation(stack, worldIn, tooltip, flagIn)
+        super.appendHoverText(stack, worldIn, tooltip, flagIn)
     }
 }

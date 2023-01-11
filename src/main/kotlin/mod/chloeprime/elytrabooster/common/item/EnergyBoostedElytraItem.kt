@@ -6,22 +6,24 @@ import mod.chloeprime.elytrabooster.common.caps.ISettableEnergyStorage
 import mod.chloeprime.elytrabooster.common.caps.energy
 import mod.chloeprime.elytrabooster.common.config.FeElytraConfigEntry
 import mod.chloeprime.elytrabooster.common.util.TextFormats
-import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.entity.LivingEntity
-import net.minecraft.item.IArmorMaterial
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.IntNBT
-import net.minecraft.util.Direction
-import net.minecraft.util.NonNullList
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.world.World
+import mod.chloeprime.elytrabooster.common.util.getBarWidth01
+import mod.chloeprime.elytrabooster.common.util.findCapabilityKey
+import mod.chloeprime.elytrabooster.common.util.toFullBarWidth
+import net.minecraft.core.Direction
+import net.minecraft.core.NonNullList
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.IntTag
+import net.minecraft.network.chat.Component
+import net.minecraft.util.Mth
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.ArmorMaterial
+import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.TooltipFlag
+import net.minecraft.world.level.Level
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.capabilities.CapabilityInject
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.common.util.LazyOptional
 import net.minecraftforge.energy.IEnergyStorage
@@ -33,13 +35,13 @@ import kotlin.math.min
  * @author ChloePrime
  */
 open class EnergyBoostedElytraItem(
-    armorMaterial: IArmorMaterial,
+    armorMaterial: ArmorMaterial,
     properties: Properties,
 ) : BoostedElytraItemBase(armorMaterial, properties, properties.boostForce), IBoostedElytraItem {
 
     open class Properties(
         var chargeSpeed: IntSupplier,
-    ): BoostedElytraProperties<FeElytraConfigEntry>() {
+    ) : BoostedElytraProperties<FeElytraConfigEntry>() {
         constructor() : this({ 0 })
 
         fun chargeSpeed(chargeSpeed: IntSupplier): Properties {
@@ -53,16 +55,13 @@ open class EnergyBoostedElytraItem(
             return this
         }
     }
+
     companion object {
         const val DURABILITY_BAR_HUE = 0.5f
 
-        @JvmStatic
-        @set:CapabilityInject(IEnergyStorage::class)
-        var ENERGY_CAP: Capability<IEnergyStorage>? = null
+        var ENERGY_CAP: Capability<IEnergyStorage> = findCapabilityKey()
 
-        @JvmStatic
-        @set:CapabilityInject(IElytraInputCap::class)
-        var INPUT_CAP: Capability<IElytraInputCap>? = null
+        var INPUT_CAP: Capability<IElytraInputCap> = findCapabilityKey()
     }
 
     private val maxEnergy = properties.maxEnergy
@@ -72,11 +71,10 @@ open class EnergyBoostedElytraItem(
     // 电力需求
 
     override fun canElytraFly(stack: ItemStack, entity: LivingEntity): Boolean {
-        return (ENERGY_CAP?.let { cap ->
-            stack.getCapability(cap).map {
-                it.energyStored > 0
-            }.orElse(false)
-        } ?: false)
+        return stack.getCapability(ENERGY_CAP).map {
+            it.energyStored > 0
+        }.orElse(false)
+
     }
 
     // 耗电
@@ -86,11 +84,11 @@ open class EnergyBoostedElytraItem(
         entity: LivingEntity,
         flightTicks: Int
     ): Boolean {
-        if (entity.world.isRemote) {
+        if (entity.level.isClientSide) {
             return true
         }
-        return entity.getCapability(INPUT_CAP!!).map { input ->
-            stack.getCapability(ENERGY_CAP!!).map {
+        return entity.getCapability(INPUT_CAP).map { input ->
+            stack.getCapability(ENERGY_CAP).map {
                 it.energy -= costFormula.applyAsInt(input)
                 it.energyStored > 0
             }.orElse(false)
@@ -99,7 +97,7 @@ open class EnergyBoostedElytraItem(
 
     // 储电
 
-    override fun initCapabilities(stack: ItemStack, nbt: CompoundNBT?): ICapabilityProvider? {
+    override fun initCapabilities(stack: ItemStack, nbt: CompoundTag?): ICapabilityProvider? {
         return CapProvider(stack)
     }
 
@@ -109,13 +107,13 @@ open class EnergyBoostedElytraItem(
         private var instance = LazyOptional.of { this }
 
         override fun <T : Any?> getCapability(cap: Capability<T>, side: Direction?): LazyOptional<T> {
-            return ENERGY_CAP!!.orEmpty(cap, instance.cast())
+            return ENERGY_CAP.orEmpty(cap, instance.cast())
         }
 
         override fun getEnergyStored(): Int {
             val nbt = stack.orCreateTag["fe"]
-            return if (nbt is IntNBT) {
-                nbt.int
+            return if (nbt is IntTag) {
+                nbt.asInt
             } else {
                 stack.orCreateTag.putInt("fe", 0)
                 0
@@ -154,50 +152,47 @@ open class EnergyBoostedElytraItem(
 
     // 让耐久条显示电力情况
 
-    override fun showDurabilityBar(stack: ItemStack?) = true
-    override fun getRGBDurabilityForDisplay(stack: ItemStack): Int {
-        val dur = 1F - getDurabilityForDisplay(stack).toFloat()
-        return MathHelper.hsvToRGB(DURABILITY_BAR_HUE, dur, 0.25F * dur + 0.75F)
+    override fun isBarVisible(stack: ItemStack) = true
+    override fun getBarColor(stack: ItemStack): Int {
+        val dur = getBarWidth01(stack)
+        return Mth.hsvToRgb(DURABILITY_BAR_HUE, dur, 0.25F * dur + 0.75F)
     }
 
-    override fun getDurabilityForDisplay(stack: ItemStack): Double {
-        return stack.getCapability(ENERGY_CAP!!).map {
-            1F - it.energyStored.toDouble() / it.maxEnergyStored
+    override fun getBarWidth(stack: ItemStack): Int {
+        val width01 = stack.getCapability(ENERGY_CAP).map {
+            it.energyStored.toDouble() / it.maxEnergyStored
         }.orElse(0.0)
+        return toFullBarWidth(width01)
     }
 
     /**
      * 把物品加入创造标签栏，同时加入一个满电的版本
      */
-    override fun fillItemGroup(group: ItemGroup, items: NonNullList<ItemStack>) {
-        super.fillItemGroup(group, items)
-        if (!isInGroup(group)) return
+    override fun fillItemCategory(group: CreativeModeTab, items: NonNullList<ItemStack>) {
+        super.fillItemCategory(group, items)
+        if (!allowdedIn(group)) return
 
         val fullEnergyStack = defaultInstance
-        ENERGY_CAP?.let { cap ->
-            fullEnergyStack.getCapability(cap).ifPresent {
-                it.energy = it.maxEnergyStored
-                items.add(fullEnergyStack)
-            }
+        fullEnergyStack.getCapability(ENERGY_CAP).ifPresent {
+            it.energy = it.maxEnergyStored
+            items.add(fullEnergyStack)
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    override fun addInformation(
+    override fun appendHoverText(
         stack: ItemStack,
-        worldIn: World?,
-        tooltip: MutableList<ITextComponent>,
-        flagIn: ITooltipFlag
+        worldIn: Level?,
+        tooltip: MutableList<Component>,
+        flagIn: TooltipFlag
     ) {
-        if (ENERGY_CAP != null) {
-            stack.getCapability(ENERGY_CAP!!).ifPresent {
-                tooltip.add(
-                    TextFormats.getProgressText(
-                        it.energyStored, it.maxEnergyStored, 0x00FFFF, "FE"
-                    )
+        stack.getCapability(ENERGY_CAP).ifPresent {
+            tooltip.add(
+                TextFormats.getProgressText(
+                    it.energyStored, it.maxEnergyStored, 0x00FFFF, "FE"
                 )
-            }
+            )
         }
-        super.addInformation(stack, worldIn, tooltip, flagIn)
+        super.appendHoverText(stack, worldIn, tooltip, flagIn)
     }
 }

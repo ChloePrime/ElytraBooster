@@ -1,25 +1,21 @@
 package mod.chloeprime.elytrabooster.common.caps
 
 import mod.chloeprime.elytrabooster.ElytraBoosterMod
-import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterCapabilities
-import net.minecraft.entity.Entity
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundNBT
-import net.minecraft.nbt.FloatNBT
-import net.minecraft.nbt.INBT
-import net.minecraft.util.Direction
-import net.minecraft.util.ResourceLocation
+import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
+import net.minecraft.core.Direction
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.capabilities.CapabilityManager
 import net.minecraftforge.common.capabilities.ICapabilityProvider
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent
 import net.minecraftforge.common.util.LazyOptional
 import net.minecraftforge.event.AttachCapabilitiesEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 
 /**
  * 用于存储可推进鞘翅的输入信息
@@ -33,7 +29,7 @@ class Provider(
     private val entity: LivingEntity
 ): ICapabilityProvider {
     override fun <T> getCapability(cap: Capability<T>, side: Direction?): LazyOptional<T> {
-        return ElytraBoosterCapabilities.ELYTRA_INPUT!!.orEmpty(cap, LazyOptional.of { capInstance })
+        return ElytraBoosterCapabilities.ELYTRA_INPUT.orEmpty(cap, LazyOptional.of { capInstance })
     }
 
     private val capInstance by lazy {
@@ -44,40 +40,8 @@ class Provider(
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 internal object Registering {
     @SubscribeEvent
-    fun onSetup(e: FMLCommonSetupEvent) {
-        e.enqueueWork {
-            CapabilityManager.INSTANCE.register(
-                IElytraInputCap::class.java,
-                object : Capability.IStorage<IElytraInputCap> {
-                    override fun writeNBT(
-                        capability: Capability<IElytraInputCap>,
-                        instance: IElytraInputCap,
-                        side: Direction
-                    ): INBT {
-                        val result = CompoundNBT()
-                        result.putFloat("x", instance.moveStrafe)
-                        result.putFloat("z", instance.moveForward)
-                        return result
-                    }
-
-                    override fun readNBT(
-                        capability: Capability<IElytraInputCap>,
-                        instance: IElytraInputCap,
-                        side: Direction,
-                        nbt: INBT?
-                    ) {
-                        if (nbt is CompoundNBT) {
-                            val x = nbt["x"]
-                            val z = nbt["z"]
-                            if (x is FloatNBT && z is FloatNBT) {
-                                instance.moveStrafe = x.float
-                                instance.moveForward = z.float
-                            }
-                        }
-                    }
-                }
-            ) { ElytraInputCap(0F, 0F) }
-        }
+    fun onRegisterCaps(e: RegisterCapabilitiesEvent) {
+        e.register(IElytraInputCap::class.java)
     }
 }
 
@@ -86,7 +50,7 @@ internal object Attaching {
     @SubscribeEvent
     fun onAttachCapability(e: AttachCapabilitiesEvent<Entity>) {
         val payload = e.`object`
-        if (payload is PlayerEntity) {
+        if (payload is Player) {
             e.addCapability(
                 ResourceLocation(ElytraBoosterMod.MODID, "input"),
                 Provider(payload)
@@ -97,8 +61,8 @@ internal object Attaching {
     @SubscribeEvent
     fun onPlayerClone(e: PlayerEvent.Clone) {
         if (e.isWasDeath) return
-        val old = e.original.getCapability(ElytraBoosterCapabilities.ELYTRA_INPUT!!)
-        val new = e.player.getCapability(ElytraBoosterCapabilities.ELYTRA_INPUT!!)
+        val old = e.original.getCapability(ElytraBoosterCapabilities.ELYTRA_INPUT)
+        val new = e.player.getCapability(ElytraBoosterCapabilities.ELYTRA_INPUT)
         if (!(old.isPresent && new.isPresent)) return
 
         new.ifPresent { n ->

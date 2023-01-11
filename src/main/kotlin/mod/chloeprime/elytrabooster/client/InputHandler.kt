@@ -9,7 +9,7 @@ import mod.chloeprime.elytrabooster.common.network.ModNetworking
 import mod.chloeprime.elytrabooster.common.util.Aerodynamics
 import mod.chloeprime.elytrabooster.common.util.Time
 import net.minecraft.client.Minecraft
-import net.minecraft.client.entity.player.ClientPlayerEntity
+import net.minecraft.client.player.LocalPlayer
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.common.MinecraftForge
@@ -55,7 +55,7 @@ internal object InputHandler {
                     -input!!.moveStrafe * CameraRoll.rollRate * Time.deltaTime
     }
 
-    private fun recordInput(player: ClientPlayerEntity) {
+    private fun recordInput(player: LocalPlayer) {
         val inp = ElytraBoosterApi.getElytraInputOrNull(player) ?: return
         this.input = inp
 

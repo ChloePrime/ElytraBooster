@@ -1,13 +1,13 @@
 package mod.chloeprime.elytrabooster.common.fluid.util
 
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.Block
-import net.minecraft.block.FlowingFluidBlock
-import net.minecraft.item.BucketItem
-import net.minecraft.item.Item
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.Items
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.BucketItem
+import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.Items
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.LiquidBlock
+import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.fluids.FluidAttributes
 import net.minecraftforge.fluids.ForgeFlowingFluid
@@ -50,10 +50,10 @@ class DeferredFluidRegister private constructor(
         private val name: String,
     ) {
         /**
-         * 流体所属桶的 [ItemGroup]
+         * 流体所属桶的 [CreativeModeTab]
          */
-        private lateinit var itemGroup: ItemGroup
-        fun itemGroup(value: ItemGroup): Builder {
+        private lateinit var itemGroup: CreativeModeTab
+        fun itemGroup(value: CreativeModeTab): Builder {
             itemGroup = value
             return this
         }
@@ -61,8 +61,8 @@ class DeferredFluidRegister private constructor(
         /**
          * 流体方块的属性
          */
-        private lateinit var blockProperties: AbstractBlock.Properties
-        fun blockProperties(value: AbstractBlock.Properties): Builder {
+        private lateinit var blockProperties: BlockBehaviour.Properties
+        fun blockProperties(value: BlockBehaviour.Properties): Builder {
             blockProperties = value
             return this
         }
@@ -130,16 +130,16 @@ class DeferredFluidRegister private constructor(
             }!!
 
             // 注册方块
-            val adjustedBlockProps = blockProperties.doesNotBlockMovement().noDrops()
+            val adjustedBlockProps = blockProperties.noCollission().noDrops()
             val enableBlock = disabledFlags and DISABLE_BLOCK_PLACEMENT == 0
             val block = if (enableBlock) {
                 blocks.register(name) {
-                    FlowingFluidBlock(source, adjustedBlockProps)
+                    LiquidBlock(source, adjustedBlockProps)
                 }
             } else null
             // 注册桶
             val bucket = items.register("${name}_bucket") {
-                BucketItem(source, Item.Properties().group(itemGroup).containerItem(Items.BUCKET))
+                BucketItem(source, Item.Properties().tab(itemGroup).craftRemainder(Items.BUCKET))
             }!!
             // 设置流体的各类属性
             val texPathBase = (customTexture ?: ResourceLocation(modid, "blocks/${name}"))

@@ -1,7 +1,7 @@
 package mod.chloeprime.elytrabooster.common.crafting
 
-import net.minecraft.item.ItemStack
-import net.minecraft.item.crafting.Ingredient
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.crafting.Ingredient
 import net.minecraftforge.common.brewing.BrewingRecipe
 import java.util.function.Supplier
 

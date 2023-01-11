@@ -1,14 +1,15 @@
 package mod.chloeprime.elytrabooster.api.common
 
 import mod.chloeprime.elytrabooster.ElytraBoosterMod
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.ai.attributes.Attribute
-import net.minecraft.entity.ai.attributes.RangedAttribute
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.EquipmentSlotType
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.ai.attributes.Attribute
+import net.minecraft.world.entity.ai.attributes.RangedAttribute
+import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.player.Player
 import net.minecraftforge.common.capabilities.ICapabilityProvider
-import net.minecraftforge.fml.RegistryObject
 import net.minecraftforge.registries.DeferredRegister
+import net.minecraftforge.registries.ForgeRegistries
+import net.minecraftforge.registries.RegistryObject
 
 /**
  * @author ChloePrime
@@ -18,7 +19,7 @@ object ElytraBoosterApi {
 
     object Attributes {
         @JvmField
-        val REGISTRY = DeferredRegister.create(Attribute::class.java, MODID)!!
+        val REGISTRY = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, MODID)!!
 
         @JvmField
         val BOOST_FORCE: RegistryObject<Attribute> = REGISTRY.register("boost_force") {
@@ -37,7 +38,7 @@ object ElytraBoosterApi {
     @JvmStatic
     val LivingEntity.isEquippingBoostedElytra: Boolean
         get() {
-            return getItemBySlot(EquipmentSlotType.CHEST).item is IBoostedElytraItem
+            return getItemBySlot(EquipmentSlot.CHEST).item is IBoostedElytraItem
         }
 
     /**
@@ -53,7 +54,7 @@ object ElytraBoosterApi {
     val LivingEntity.isBoosting: Boolean
         get() {
             return isFlyingWithBooster
-                    && this is PlayerEntity
+                    && this is Player
                     && getElytraInput(this).isBoosting
         }
 
@@ -63,7 +64,7 @@ object ElytraBoosterApi {
      */
     @JvmStatic
     fun getElytraInput(provider: ICapabilityProvider): IElytraInputCap {
-        return provider.getCapability(ElytraBoosterCapabilities.ELYTRA_INPUT!!).orElseThrow {
+        return provider.getCapability(ElytraBoosterCapabilities.ELYTRA_INPUT).orElseThrow {
             IllegalStateException("Accessing caps before init")
         }
     }
@@ -74,9 +75,8 @@ object ElytraBoosterApi {
      */
     @JvmStatic
     fun getElytraInputOrNull(provider: ICapabilityProvider): IElytraInputCap? {
-        return ElytraBoosterCapabilities.ELYTRA_INPUT?.let {
-            val optional = provider.getCapability(it)
-            return if (optional.isPresent) optional.resolve().get() else null
-        }
+        val cap = ElytraBoosterCapabilities.ELYTRA_INPUT
+        val optional = provider.getCapability(cap)
+        return if (optional.isPresent) optional.resolve().get() else null
     }
 }

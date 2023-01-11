@@ -2,8 +2,8 @@ package mod.chloeprime.elytrabooster.client.fluid
 
 import mod.chloeprime.elytrabooster.common.fluid.ModFluids
 import mod.chloeprime.elytrabooster.common.fluid.util.FluidRegistryEntry
+import net.minecraft.client.renderer.ItemBlockRenderTypes
 import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.RenderTypeLookup
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -21,7 +21,7 @@ object FluidRenderTypeRegistry {
     }
 
     private fun registerEntry(entry: FluidRegistryEntry) {
-        RenderTypeLookup.setRenderLayer(entry.source.get(), RenderType.translucent())
-        RenderTypeLookup.setRenderLayer(entry.flowing.get(), RenderType.translucent())
+        ItemBlockRenderTypes.setRenderLayer(entry.source.get(), RenderType.translucent())
+        ItemBlockRenderTypes.setRenderLayer(entry.flowing.get(), RenderType.translucent())
     }
 }

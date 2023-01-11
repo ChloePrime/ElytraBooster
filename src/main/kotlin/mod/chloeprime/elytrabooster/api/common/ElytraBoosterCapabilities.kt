@@ -1,10 +1,8 @@
 package mod.chloeprime.elytrabooster.api.common
 
+import mod.chloeprime.elytrabooster.common.util.findCapabilityKey
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.capabilities.CapabilityInject
 
 object ElytraBoosterCapabilities {
-    @JvmField
-    @CapabilityInject(IElytraInputCap::class)
-    var ELYTRA_INPUT: Capability<IElytraInputCap>? = null
+    val ELYTRA_INPUT: Capability<IElytraInputCap> = findCapabilityKey()
 }

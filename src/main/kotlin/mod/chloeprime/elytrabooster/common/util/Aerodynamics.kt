@@ -2,8 +2,8 @@ package mod.chloeprime.elytrabooster.common.util
 
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
 import mod.chloeprime.elytrabooster.common.config.ElyBoosterModConfig
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.phys.Vec3
 
 object Aerodynamics {
     /**
@@ -37,7 +37,7 @@ object Aerodynamics {
         return goalSpeed * goalSpeed * AIR_DRAG
     }
 
-    fun getAccelerationForPlayer(player: PlayerEntity): Float {
+    fun getAccelerationForPlayer(player: Player): Float {
         val attribute = player.getAttributeValue(ElytraBoosterApi.Attributes.BOOST_FORCE.get()).toFloat()
         return getAccelerationForGoalSpeed(attribute / RPG_TO_PHYSICS_UNIT_SCALE)
     }
@@ -51,7 +51,7 @@ object Aerodynamics {
     /**
      * @param force 推进力数值，单位为 RPG 单位（使用时需除以 2.5）
      */
-    fun getAngularAcceleration(motion: Vector3d, force: Float): Float {
+    fun getAngularAcceleration(motion: Vec3, force: Float): Float {
         return STANDARD_ROTATE_SPEED * motion.fastLength().toFloat() / (force / RPG_TO_PHYSICS_UNIT_SCALE)
     }
 }

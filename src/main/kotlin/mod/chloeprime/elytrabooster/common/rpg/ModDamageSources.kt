@@ -1,10 +1,11 @@
 package mod.chloeprime.elytrabooster.common.rpg
 
 import mod.chloeprime.elytrabooster.ElytraBoosterMod
-import net.minecraft.util.DamageSource
+import net.minecraft.world.damagesource.EntityDamageSource
+import net.minecraft.world.entity.LivingEntity
 
 object ModDamageSources {
-    val TENGU_WARHEAD =
-        DamageSource("${ElytraBoosterMod.MODID}.tengu_warhead")
-        .setDamageBypassesArmor()
+    fun tenguWarhead(user: LivingEntity): EntityDamageSource {
+        return EntityDamageSource("${ElytraBoosterMod.MODID}.tengu_warhead", user)
+    }
 }

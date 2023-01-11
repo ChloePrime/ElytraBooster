@@ -1,7 +1,7 @@
 package mod.chloeprime.elytrabooster.common.util
 
 import mod.chloeprime.elytrabooster.common.config.ElyBoosterModConfig
-import net.minecraft.item.FireworkRocketItem
+import net.minecraft.world.item.FireworkRocketItem
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod

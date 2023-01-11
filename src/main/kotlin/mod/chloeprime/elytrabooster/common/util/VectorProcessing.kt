@@ -1,29 +1,29 @@
 package mod.chloeprime.elytrabooster.common.util
 
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.util.Mth
+import net.minecraft.world.phys.Vec3
 
 /**
  * 使用快速开根号算法求单位向量
  */
-fun Vector3d.fastNormalize(): Vector3d {
-    val invLength = MathHelper.fastInvSqrt(x * x + y * y + z * z)
+fun Vec3.fastNormalize(): Vec3 {
+    val invLength = Mth.fastInvSqrt(x * x + y * y + z * z)
     return if (invLength < 1e-4) {
-        Vector3d.ZERO
+        Vec3.ZERO
     } else {
-        Vector3d(x * invLength,y * invLength,z * invLength)
+        Vec3(x * invLength,y * invLength,z * invLength)
     }
 }
 
-fun Vector3d.fastLength() = 1 / MathHelper.fastInvSqrt(x * x + y * y + z * z)
+fun Vec3.fastLength() = 1 / Mth.fastInvSqrt(x * x + y * y + z * z)
 
-fun Vector3d.withLength(length: Double): Vector3d {
+fun Vec3.withLength(length: Double): Vec3 {
     return if (length < 1e-4) {
-        Vector3d.ZERO
+        Vec3.ZERO
     } else {
         // length / curLength
-        val scale = length * MathHelper.fastInvSqrt(x * x + y * y + z * z)
-        Vector3d(
+        val scale = length * Mth.fastInvSqrt(x * x + y * y + z * z)
+        Vec3(
             x * scale,
             y * scale,
             z * scale

@@ -4,7 +4,7 @@ import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
 import mod.chloeprime.elytrabooster.common.config.ElytraConfigEntry
 import mod.chloeprime.elytrabooster.common.config.LazyFormula
 import mod.chloeprime.elytrabooster.common.config.wrap
-import net.minecraft.item.Item
+import net.minecraft.world.item.Item
 import java.util.function.DoubleSupplier
 import java.util.function.IntSupplier
 import java.util.function.ToIntFunction

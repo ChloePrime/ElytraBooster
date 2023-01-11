@@ -1,9 +1,9 @@
 package mod.chloeprime.elytrabooster.common.item
 
 import mod.chloeprime.elytrabooster.ElytraBoosterMod
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemStack
+import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.world.item.ItemStack
 
-object ModItemGroup: ItemGroup(ElytraBoosterMod.MODID) {
-    override fun createIcon(): ItemStack = ItemStack(ModItems.CREATIVE_BOOSTED_ELYTRA.get())
+object ModItemGroup: CreativeModeTab(ElytraBoosterMod.MODID) {
+    override fun makeIcon(): ItemStack = ItemStack(ModItems.CREATIVE_BOOSTED_ELYTRA.get())
 }

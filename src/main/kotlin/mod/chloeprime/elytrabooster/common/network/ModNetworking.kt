@@ -1,13 +1,13 @@
 package mod.chloeprime.elytrabooster.common.network
 
 import mod.chloeprime.elytrabooster.ElytraBoosterMod
-import net.minecraft.util.ResourceLocation
+import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
-import net.minecraftforge.fml.network.NetworkDirection
-import net.minecraftforge.fml.network.NetworkRegistry
-import net.minecraftforge.fml.network.simple.SimpleChannel
+import net.minecraftforge.network.NetworkDirection
+import net.minecraftforge.network.NetworkRegistry
+import net.minecraftforge.network.simple.SimpleChannel
 import java.util.concurrent.atomic.AtomicInteger
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)

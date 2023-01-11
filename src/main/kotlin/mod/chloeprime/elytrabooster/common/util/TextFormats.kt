@@ -1,6 +1,6 @@
 package mod.chloeprime.elytrabooster.common.util
 
-import net.minecraft.util.text.ITextComponent
+import net.minecraft.network.chat.Component
 
 /**
  * 本Mod中部分文本的统一化生成方法
@@ -60,7 +60,7 @@ object TextFormats {
         current: Int, max: Int,
         color: Int,
         unit: String = "", unitShift: Int = 0
-    ): ITextComponent {
+    ): Component {
 
         val unitText = if (unit.isEmpty()) {
             TEXT("")

@@ -5,8 +5,8 @@ import mod.chloeprime.elytrabooster.common.block.ModBlocks
 import mod.chloeprime.elytrabooster.common.fluid.util.DeferredFluidRegister
 import mod.chloeprime.elytrabooster.common.item.ModItemGroup
 import mod.chloeprime.elytrabooster.common.item.ModItems
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.material.Material
+import net.minecraft.world.level.block.state.BlockBehaviour
+import net.minecraft.world.level.material.Material
 
 object ModFluids {
     val REGISTRY = DeferredFluidRegister.create(
@@ -15,9 +15,9 @@ object ModFluids {
     val JET_FUEL = REGISTRY.builder("jet_fuel")
         .itemGroup(ModItemGroup)
         .blockProperties(
-            AbstractBlock.Properties
-                .create(Material.WATER)
-                .hardnessAndResistance(100F)
+            BlockBehaviour.Properties
+                .of(Material.WATER)
+                .strength(100F)
         )
         .disableBlockPlacement()
         .customTextureLocation("block/oil")
@@ -33,9 +33,9 @@ object ModFluids {
     val ROCKET_FUEL = REGISTRY.builder("rocket_fuel")
         .itemGroup(ModItemGroup)
         .blockProperties(
-            AbstractBlock.Properties
-                .create(Material.WATER)
-                .hardnessAndResistance(100F)
+            BlockBehaviour.Properties
+                .of(Material.WATER)
+                .strength(100F)
         )
         .disableBlockPlacement()
         .customTextureLocation("block/oil")

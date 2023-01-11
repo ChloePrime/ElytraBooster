@@ -3,10 +3,10 @@ package mod.chloeprime.elytrabooster.client
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi.isFlyingWithBooster
 import mod.chloeprime.elytrabooster.common.util.Time
+import net.minecraft.client.CameraType
 import net.minecraft.client.Minecraft
-import net.minecraft.client.settings.PointOfView
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.math.MathHelper
+import net.minecraft.util.Mth
+import net.minecraft.world.entity.player.Player
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.EntityViewRenderEvent
@@ -69,16 +69,16 @@ object CameraRoll {
     @SubscribeEvent
     fun onCameraSetup(e: EntityViewRenderEvent.CameraSetup) {
         if (MINECRAFT.level == null) return
-        if (MINECRAFT.options.cameraType === PointOfView.FIRST_PERSON) {
+        if (MINECRAFT.options.cameraType === CameraType.FIRST_PERSON) {
             if (abs(roll) > 1e-2f) {
                 e.roll += roll
             }
         }
     }
 
-    private fun getActualSmoothSpeed(player: PlayerEntity): Float {
+    private fun getActualSmoothSpeed(player: Player): Float {
         val groundBonus = 3
-        return MathHelper.clamp(
+        return Mth.clamp(
             if (player.isFallFlying) {
                 SMOOTH_SPEED
             } else {
