@@ -38,7 +38,7 @@ class LoopedElytraSoundStart(
     }
 
     init {
-        repeat = false
+        looping = false
         volume = volumeScale
     }
 

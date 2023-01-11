@@ -24,7 +24,7 @@ private val ItemToSound = IdentityHashMap<Item, (LivingEntity) -> ISound>(8)
 @EventBusSubscriber(Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 object ElytraAudioRegistry {
     fun get(item: Item) = ItemToSound[item]
-    fun new(entity: LivingEntity) = get(entity.getItemStackFromSlot(CHEST).item)?.invoke(entity)
+    fun new(entity: LivingEntity) = get(entity.getItemBySlot(CHEST).item)?.invoke(entity)
 
 
     private val FUEL_START: (LivingEntity) -> ISound = {

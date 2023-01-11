@@ -22,8 +22,8 @@ abstract class ElytraSoundBase(
      * 所以需要延迟 1tick 播放音效的循环部分。
      */
     protected fun playSoundLater(sound: ISound) {
-        Minecraft.getInstance().enqueue {
-            Minecraft.getInstance().soundHandler.play(sound)
+        Minecraft.getInstance().tell {
+            Minecraft.getInstance().soundManager.play(sound)
         }
     }
 
@@ -34,8 +34,8 @@ abstract class ElytraSoundBase(
         volumeScale = newScale
     }
 
-    override fun canBeSilent() = true
-    override fun shouldPlaySound(): Boolean {
+    override fun canStartSilent() = true
+    override fun canPlaySound(): Boolean {
         return entity.isAlive && entity.isBoosting
     }
 
@@ -44,9 +44,9 @@ abstract class ElytraSoundBase(
     }
 
     protected fun updatePos() {
-        x = entity.posX
-        y = entity.posY
-        z = entity.posZ
+        x = entity.x
+        y = entity.y
+        z = entity.z
     }
 
     protected val startTimeNanos = System.nanoTime()

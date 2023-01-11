@@ -16,7 +16,7 @@ object ElytraAudioPlayer {
 
     private fun play(p: ClientPlayerEntity) {
         val snd = ElytraAudioRegistry.new(p) ?: return
-        Minecraft.getInstance().soundHandler.play(snd)
+        Minecraft.getInstance().soundManager.play(snd)
     }
 
     @SubscribeEvent

@@ -30,7 +30,7 @@ object TempElytraRenderHandler {
         if (!e.entityLiving.isEquippingBoostedElytra) {
             return
         }
-        val elytra = e.entityLiving.getItemStackFromSlot(EquipmentSlotType.CHEST)
+        val elytra = e.entityLiving.getItemBySlot(EquipmentSlotType.CHEST)
         assert(elytra.item is IBoostedElytraItem)
 
         val res = when(elytra.item) {

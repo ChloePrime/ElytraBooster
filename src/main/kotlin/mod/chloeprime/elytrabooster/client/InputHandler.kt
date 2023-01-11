@@ -29,7 +29,7 @@ internal object InputHandler {
     fun onInput(e: TickEvent.ClientTickEvent) {
         // 如果玩家没有进入世界，则返回
         if (e.phase == TickEvent.Phase.END) return
-        if (Minecraft.getInstance().world == null) return
+        if (Minecraft.getInstance().level == null) return
         val player = Minecraft.getInstance().player ?: return
         if (!player.isFlyingWithBooster) return
 
@@ -50,8 +50,8 @@ internal object InputHandler {
         if (!player.isFlyingWithBooster) return
 
         val force = player.getAttributeValue(BOOST_FORCE_ATTRIBUTE)
-        player.rotationYaw +=
-            Aerodynamics.getAngularAcceleration(player.motion, force.toFloat()) *
+        player.yRot +=
+            Aerodynamics.getAngularAcceleration(player.deltaMovement, force.toFloat()) *
                     -input!!.moveStrafe * CameraRoll.rollRate * Time.deltaTime
     }
 
@@ -59,12 +59,12 @@ internal object InputHandler {
         val inp = ElytraBoosterApi.getElytraInputOrNull(player) ?: return
         this.input = inp
 
-        val curInput = player.movementInput
-        val strafeDirty = inp.moveStrafe != curInput.moveStrafe
-        val forwardDirty = inp.moveForward != curInput.moveForward
+        val curInput = player.input
+        val strafeDirty = inp.moveStrafe != curInput.leftImpulse
+        val forwardDirty = inp.moveForward != curInput.forwardImpulse
 
-        inp.moveStrafe = curInput.moveStrafe
-        inp.moveForward = curInput.moveForward
+        inp.moveStrafe = curInput.leftImpulse
+        inp.moveForward = curInput.forwardImpulse
 
         if (strafeDirty || forwardDirty) {
             MinecraftForge.EVENT_BUS.post(BoostedElytraInputEvent(player, inp, strafeDirty, forwardDirty))

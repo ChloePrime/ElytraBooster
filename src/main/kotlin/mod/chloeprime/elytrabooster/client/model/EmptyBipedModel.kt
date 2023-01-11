@@ -12,15 +12,15 @@ import java.util.*
 @OnlyIn(Dist.CLIENT)
 class EmptyBipedModel<T : LivingEntity> : BipedModel<T>(0f) {
 
-    override fun getHeadParts(): MutableIterable<ModelRenderer> {
+    override fun headParts(): MutableIterable<ModelRenderer> {
         return Collections.emptyList()
     }
 
-    override fun getBodyParts(): MutableIterable<ModelRenderer> {
+    override fun bodyParts(): MutableIterable<ModelRenderer> {
         return Collections.emptyList()
     }
 
-    override fun render(
+    override fun renderToBuffer(
         matrixStackIn: MatrixStack,
         bufferIn: IVertexBuilder,
         packedLightIn: Int,

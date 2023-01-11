@@ -21,7 +21,7 @@ object FluidRenderTypeRegistry {
     }
 
     private fun registerEntry(entry: FluidRegistryEntry) {
-        RenderTypeLookup.setRenderLayer(entry.source.get(), RenderType.getTranslucent())
-        RenderTypeLookup.setRenderLayer(entry.flowing.get(), RenderType.getTranslucent())
+        RenderTypeLookup.setRenderLayer(entry.source.get(), RenderType.translucent())
+        RenderTypeLookup.setRenderLayer(entry.flowing.get(), RenderType.translucent())
     }
 }

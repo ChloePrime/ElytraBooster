@@ -30,8 +30,8 @@ class LoopedElytraSound(
     }
 
     init {
-        repeat = true
-        repeatDelay = 0
+        looping = true
+        delay = 0
         volume = if (fadeIn == 0f) 1f else 0f
         updatePos()
     }

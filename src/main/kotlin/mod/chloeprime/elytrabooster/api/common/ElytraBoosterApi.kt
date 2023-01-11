@@ -26,7 +26,7 @@ object ElytraBoosterApi {
                 "$MODID.boost_force",
                 0.0, 0.0, Double.MAX_VALUE
             ).apply {
-                shouldWatch = true
+                setSyncable(true)
             }
         }
     }
@@ -37,7 +37,7 @@ object ElytraBoosterApi {
     @JvmStatic
     val LivingEntity.isEquippingBoostedElytra: Boolean
         get() {
-            return getItemStackFromSlot(EquipmentSlotType.CHEST).item is IBoostedElytraItem
+            return getItemBySlot(EquipmentSlotType.CHEST).item is IBoostedElytraItem
         }
 
     /**
@@ -46,7 +46,7 @@ object ElytraBoosterApi {
     @JvmStatic
     val LivingEntity.isFlyingWithBooster: Boolean
         get() {
-            return isElytraFlying && isEquippingBoostedElytra
+            return isFallFlying && isEquippingBoostedElytra
         }
 
     @JvmStatic

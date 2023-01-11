@@ -27,7 +27,7 @@ internal object ClientTimer {
     private var cachedPartial = 0f
 
     private fun refresh() {
-        val partial = Minecraft.getInstance().renderPartialTicks
+        val partial = Minecraft.getInstance().frameTime
         //防止重复调用多次刷新
         if (abs(partial - cachedPartial) <= Float.MIN_VALUE) {
             return
@@ -40,7 +40,7 @@ internal object ClientTimer {
         deltaTime = (lastIntTick - tickBefore) + (lastPartial - partialBefore)
     }
     private fun refreshStartTime() {
-        lastIntTick = Minecraft.getInstance().world?.gameTime ?: return
-        lastPartial = Minecraft.getInstance().renderPartialTicks
+        lastIntTick = Minecraft.getInstance().level?.gameTime ?: return
+        lastPartial = Minecraft.getInstance().frameTime
     }
 }

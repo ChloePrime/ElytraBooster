@@ -48,7 +48,7 @@ object CameraRoll {
      */
     @SubscribeEvent(priority = EventPriority.HIGH)
     fun onRenderTick(e: TickEvent.RenderTickEvent) {
-        if (e.phase === TickEvent.Phase.END || MINECRAFT.isGamePaused) return
+        if (e.phase === TickEvent.Phase.END || MINECRAFT.isPaused) return
 
         val player = MINECRAFT.player ?: return
 
@@ -68,8 +68,8 @@ object CameraRoll {
      */
     @SubscribeEvent
     fun onCameraSetup(e: EntityViewRenderEvent.CameraSetup) {
-        if (MINECRAFT.world == null) return
-        if (MINECRAFT.gameSettings.pointOfView === PointOfView.FIRST_PERSON) {
+        if (MINECRAFT.level == null) return
+        if (MINECRAFT.options.cameraType === PointOfView.FIRST_PERSON) {
             if (abs(roll) > 1e-2f) {
                 e.roll += roll
             }
@@ -79,7 +79,7 @@ object CameraRoll {
     private fun getActualSmoothSpeed(player: PlayerEntity): Float {
         val groundBonus = 3
         return MathHelper.clamp(
-            if (player.isElytraFlying) {
+            if (player.isFallFlying) {
                 SMOOTH_SPEED
             } else {
                 SMOOTH_SPEED * groundBonus
