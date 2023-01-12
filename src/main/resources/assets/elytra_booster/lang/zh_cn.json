@@ -3,6 +3,10 @@
   "elytra_booster.item.fuel.prep": " ",
   "elytra_booster.item.fuel.bottle.tooltip": "内含 %sB %s溶液",
   "elytra_booster.item.fuel.bottle.tooltip.2": "右键流体容器以将瓶内流体倒入其中",
+  "elytra_booster.enchantment.leak.fuel": "漏油",
+  "elytra_booster.enchantment.leak.energy": "漏电",
+  "elytra_booster.enchantment.leak.both": "既漏油又漏电",
+  "elytra_booster.enchantment.leak.book": "漏油漏电的劣质产品",
   "item.elytra_booster.boosted_elytra_fuel_t1": "燃油涡轮鞘翅",
   "item.elytra_booster.boosted_elytra_fuel_t2": "火箭推进鞘翅",
   "item.elytra_booster.boosted_elytra_fe_t1": "电动涡轮鞘翅",
@@ -22,6 +26,7 @@
   "itemGroup.elytra_booster": "推进鞘翅",
   "enchantment.elytra_booster.impact_protection": "头部冲击保护",
   "enchantment.elytra_booster.tengu_warhead": "天狗弹头",
+  "enchantment.elytra_booster.leaking": "漏油漏电的劣质产品",
   "death.attack.elytra_booster.tengu_warhead": "%1$s站在了天狗牌®导弹头的杀伤半径内",
   "elytra_booster.boost_force": "推进力"
 }

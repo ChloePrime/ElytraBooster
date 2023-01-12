@@ -7,7 +7,9 @@ import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi
 import mod.chloeprime.elytrabooster.api.common.ElytraBoosterApi.isFlyingWithBooster
 import mod.chloeprime.elytrabooster.api.common.IBoostedElytraItem
 import mod.chloeprime.elytrabooster.client.ClientProxy
+import mod.chloeprime.elytrabooster.common.event.ElytraCostEnergyEvent
 import mod.chloeprime.elytrabooster.common.util.Aerodynamics
+import mod.chloeprime.elytrabooster.common.util.StackHelper
 import mod.chloeprime.elytrabooster.common.util.withLength
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
@@ -21,6 +23,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.phys.Vec3
 import net.minecraftforge.client.IItemRenderProperties
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -54,7 +57,7 @@ open class BoostedElytraItemBase(
         )
 
         private fun setGroup(prop: Properties): Properties {
-            return prop.tab(ModItemGroup)
+            return prop.tab(ModCreativeTab)
         }
     }
 
@@ -62,6 +65,12 @@ open class BoostedElytraItemBase(
     override fun isValidRepairItem(toRepair: ItemStack, repair: ItemStack) = false
     override fun canElytraFly(stack: ItemStack, entity: LivingEntity) = true
     override fun getEquipmentSlot(stack: ItemStack) = SLOT
+
+    protected fun modifyCost(user: LivingEntity, stack: ItemStack, oldCost: Int): Int {
+        val event = ElytraCostEnergyEvent(user, stack, oldCost)
+        MinecraftForge.EVENT_BUS.post(event)
+        return event.amount
+    }
 
     private var lastObservedBoostForce = Double.NaN
     private var _attributes: ImmutableMultimap<Attribute, AttributeModifier>? = null
@@ -117,7 +126,9 @@ open class BoostedElytraItemBase(
                 val baseAtkSpeed = player.getAttributeBaseValue(Attributes.ATTACK_SPEED)
                 val baseBoostForce = player.getAttributeBaseValue(boostForceAttr)
 
-                greenMap.removeAll(boostForceAttr)
+                attributes.entries().forEach {
+                    greenMap.remove(it.key, it.value)
+                }
                 greenMap.put(
                     boostForceAttr,
                     AttributeModifier(
@@ -148,7 +159,7 @@ open class BoostedElytraItemBase(
 
     private fun isGatheringTooltip(stackframe: StackFrame): Boolean {
         return stackframe.declaringClass == ItemStack::class.java &&
-                stackframe.methodType == GET_TOOLTIP_LINES_SIGNATURE
+                stackframe.methodType == StackHelper.GET_TOOLTIP_LINES_SIGNATURE
     }
 
     private fun getTotalMultiplierForPlayer(player: Player, attribute: Attribute): Double {

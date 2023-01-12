@@ -4,8 +4,6 @@ import mod.chloeprime.elytrabooster.api.common.IBoostedElytraItem
 import mod.chloeprime.elytrabooster.api.common.IElytraInputCap
 import mod.chloeprime.elytrabooster.common.config.FuelElytraConfigEntry
 import mod.chloeprime.elytrabooster.common.util.*
-import mod.chloeprime.elytrabooster.common.util.findCapabilityKey
-import mod.chloeprime.elytrabooster.common.util.toFullBarWidth
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
@@ -75,8 +73,9 @@ open class FuelBoostedElytraItem(
         }
         return entity.getCapability(INPUT_CAP).map { input ->
             stack.getCapability(FLUID_CAP).map {
+                val cost = modifyCost(entity, stack, costFormula.applyAsInt(input))
                 it.drain(
-                    costFormula.applyAsInt(input),
+                    cost,
                     IFluidHandler.FluidAction.EXECUTE
                 ).amount > 0
             }.orElse(false)

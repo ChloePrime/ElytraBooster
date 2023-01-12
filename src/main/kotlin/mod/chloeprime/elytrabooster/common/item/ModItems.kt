@@ -80,12 +80,12 @@ object ModItems {
     /* 合成材料 */
 
     val JET_FUEL = REGISTRY.register("jet_fuel") {
-        LiquidBottle(Item.Properties().tab(ModItemGroup), ModFluids.JET_FUEL.source)
+        LiquidBottle(Item.Properties().tab(ModCreativeTab), ModFluids.JET_FUEL.source)
     }!!
 
     val ROCKET_FUEL = REGISTRY.register("rocket_fuel") {
         LiquidBottle(
-            Item.Properties().rarity(Rarity.UNCOMMON).tab(ModItemGroup),
+            Item.Properties().rarity(Rarity.UNCOMMON).tab(ModCreativeTab),
             ModFluids.ROCKET_FUEL.source
         )
     }!!
@@ -93,24 +93,24 @@ object ModItems {
     /* 燃油鞘翅合成材料 */
 
     val FUEL_THRUSTER = REGISTRY.register("fuel_thruster") {
-        Item(Item.Properties().tab(ModItemGroup))
+        Item(Item.Properties().tab(ModCreativeTab))
     }!!
 
     val ROCKET_THRUSTER = REGISTRY.register("rocket_thruster") {
-        Item(Item.Properties().tab(ModItemGroup))
+        Item(Item.Properties().tab(ModCreativeTab))
     }!!
 
     /* 电鞘翅合成材料 */
 
     val JET_ENGINE = REGISTRY.register("jet_engine") {
-        Item(Item.Properties().tab(ModItemGroup))
+        Item(Item.Properties().tab(ModCreativeTab))
     }!!
     
     val ELECTRIC_THRUSTER = REGISTRY.register("electric_thruster") {
-        Item(Item.Properties().tab(ModItemGroup))
+        Item(Item.Properties().tab(ModCreativeTab))
     }!!
 
     val PLASMA_THRUSTER = REGISTRY.register("plasma_thruster") {
-        Item(Item.Properties().rarity(Rarity.RARE).tab(ModItemGroup))
+        Item(Item.Properties().rarity(Rarity.RARE).tab(ModCreativeTab))
     }!!
 }

@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 
 /**
+ * TODO 闪避附魔
  * TODO 来点加强动力撞碎方块
  * @author ChloePrime
  */

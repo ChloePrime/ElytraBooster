@@ -3,6 +3,10 @@
   "elytra_booster.item.fuel.prep": " of ",
   "elytra_booster.item.fuel.bottle.tooltip": "Contains %sB of liquid %s",
   "elytra_booster.item.fuel.bottle.tooltip.2": "Right click fluid containers to transfer content to it",
+  "elytra_booster.enchantment.leak.fuel": "It's leaking fuel...",
+  "elytra_booster.enchantment.leak.energy": "It leaks...",
+  "elytra_booster.enchantment.leak.both": "It leaks... both electricity and oil are leaking",
+  "elytra_booster.enchantment.leak.book": "Leakful Technology",
   "item.elytra_booster.boosted_elytra_fuel_t1": "Elytra with Fuel Turbine",
   "item.elytra_booster.boosted_elytra_fuel_t2": "Rocket Boosted Elytra",
   "item.elytra_booster.boosted_elytra_fe_t1": "Elytra with Electric Turbine",
@@ -22,6 +26,7 @@
   "itemGroup.elytra_booster": "Boosted Elytra",
   "enchantment.elytra_booster.impact_protection": "Head Impact Protection",
   "enchantment.elytra_booster.tengu_warhead": "Tengu Warhead",
+  "enchantment.elytra_booster.leaking": "Leakful Technology",
   "death.attack.elytra_booster.tengu_warhead": "%1$s stands in the lethal radius of a Tengu® missile's warhead",
   "elytra_booster.boost_force": "Propulsive Force"
 }

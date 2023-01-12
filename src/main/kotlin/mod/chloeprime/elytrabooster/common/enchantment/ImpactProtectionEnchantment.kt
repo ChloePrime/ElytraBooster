@@ -35,7 +35,7 @@ class ImpactProtectionEnchantment: Enchantment(
         private fun getMaxFallDamage(enchLevel: Int) = 20 - 5 * enchLevel
     }
 
-    override fun getMinCost(level: Int) = 10 * level
+    override fun getMinCost(level: Int) = 5 * level
     override fun getMaxCost(level: Int) = 10 * level + 30
     override fun getMaxLevel() = 3
     override fun checkCompatibility(ench: Enchantment): Boolean {

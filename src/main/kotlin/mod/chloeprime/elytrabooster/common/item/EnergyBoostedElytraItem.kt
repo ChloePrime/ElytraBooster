@@ -88,8 +88,9 @@ open class EnergyBoostedElytraItem(
             return true
         }
         return entity.getCapability(INPUT_CAP).map { input ->
+            val cost = modifyCost(entity, stack, costFormula.applyAsInt(input))
             stack.getCapability(ENERGY_CAP).map {
-                it.energy -= costFormula.applyAsInt(input)
+                it.energy -= cost
                 it.energyStored > 0
             }.orElse(false)
         }.orElse(true)
