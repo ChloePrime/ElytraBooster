@@ -9,18 +9,16 @@ import mod.chloeprime.elytrabooster.api.common.IBoostedElytraItem
 import mod.chloeprime.elytrabooster.client.ClientProxy
 import mod.chloeprime.elytrabooster.common.event.ElytraCostEnergyEvent
 import mod.chloeprime.elytrabooster.common.util.Aerodynamics
-import mod.chloeprime.elytrabooster.common.util.StackHelper
+import mod.chloeprime.elytrabooster.common.util.GET_TOOLTIP_LINES_SIGNATURE
 import mod.chloeprime.elytrabooster.common.util.withLength
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.Attribute
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ArmorMaterial
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.phys.Vec3
 import net.minecraftforge.client.IItemRenderProperties
 import net.minecraftforge.common.MinecraftForge
@@ -31,7 +29,6 @@ import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.util.thread.EffectiveSide
 import java.lang.StackWalker.StackFrame
-import java.lang.invoke.MethodType
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.DoubleSupplier
@@ -51,10 +48,6 @@ open class BoostedElytraItemBase(
         protected val SLOT = EquipmentSlot.CHEST
         private val ATTRIBUTE_MODIFIER_ID = UUID.fromString("391c255a-2c1f-4bd6-8ff4-9d4b36590c80")
         private val STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
-        private val GET_TOOLTIP_LINES_SIGNATURE = MethodType.methodType(
-            java.util.List::class.java,
-            Player::class.java, TooltipFlag::class.java
-        )
 
         private fun setGroup(prop: Properties): Properties {
             return prop.tab(ModCreativeTab)
@@ -74,7 +67,6 @@ open class BoostedElytraItemBase(
 
     private var lastObservedBoostForce = Double.NaN
     private var _attributes: ImmutableMultimap<Attribute, AttributeModifier>? = null
-    private var _attributes2Cache: ImmutableMultimap<Attribute, AttributeModifier>? = null
     private var _ignoreAttribute = false
     private val attributes
         get(): ImmutableMultimap<Attribute, AttributeModifier> {
@@ -159,30 +151,13 @@ open class BoostedElytraItemBase(
 
     private fun isGatheringTooltip(stackframe: StackFrame): Boolean {
         return stackframe.declaringClass == ItemStack::class.java &&
-                stackframe.methodType == StackHelper.GET_TOOLTIP_LINES_SIGNATURE
-    }
-
-    private fun getTotalMultiplierForPlayer(player: Player, attribute: Attribute): Double {
-        return try {
-            _ignoreAttribute = true
-            Optional.ofNullable(player.getAttribute(attribute)).stream()
-                .mapToDouble { attr ->
-                    attr.getModifiers(AttributeModifier.Operation.MULTIPLY_TOTAL).sumOf { it.amount }
-                }
-                .dropWhile { it == 0.0 }
-                .findAny()
-                .orElse(1.0)
-        } finally {
-            _ignoreAttribute = false
-        }
+                stackframe.methodType == GET_TOOLTIP_LINES_SIGNATURE
     }
 
     override fun initializeClient(consumer: Consumer<IItemRenderProperties>) {
         super.initializeClient(consumer)
         consumer.accept(ClientProxy.elytraBaseRp())
     }
-
-
 }
 
 /**

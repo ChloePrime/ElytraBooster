@@ -1,6 +1,7 @@
 package mod.chloeprime.elytrabooster.common.enchantment
 
 import mod.chloeprime.elytrabooster.common.event.ElytraCostEnergyEvent
+import mod.chloeprime.elytrabooster.common.util.GET_TOOLTIP_LINES_SIGNATURE
 import mod.chloeprime.elytrabooster.common.util.StackHelper
 import mod.chloeprime.elytrabooster.common.util.findCapabilityKey
 import net.minecraft.network.chat.MutableComponent
@@ -39,7 +40,7 @@ class EnergyLeakEnchantment : Enchantment(
     override fun isCurse() = true
     override fun getDescriptionId(): String {
         val isTooltip = STACK_WALKER.walk {
-            it.limit(8).anyMatch { frame -> frame.methodType == StackHelper.GET_TOOLTIP_LINES_SIGNATURE }
+            it.limit(8).anyMatch { frame -> frame.methodType == GET_TOOLTIP_LINES_SIGNATURE }
         }
         return if (isTooltip) NAME_PLACEHOLDER else super.getDescriptionId()
     }
