@@ -2,12 +2,10 @@ package mod.chloeprime.elytrabooster.common.enchantment
 
 import mod.chloeprime.elytrabooster.common.event.ElytraCostEnergyEvent
 import mod.chloeprime.elytrabooster.common.util.GET_TOOLTIP_LINES_SIGNATURE
-import mod.chloeprime.elytrabooster.common.util.StackHelper
 import mod.chloeprime.elytrabooster.common.util.findCapabilityKey
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.world.entity.EquipmentSlot
-import net.minecraft.world.item.EnchantedBookItem
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.enchantment.Enchantment
 import net.minecraft.world.item.enchantment.EnchantmentHelper
