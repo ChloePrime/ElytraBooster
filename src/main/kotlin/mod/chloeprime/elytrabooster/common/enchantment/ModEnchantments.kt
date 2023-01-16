@@ -22,7 +22,7 @@ object ModEnchantments {
         ImpactProtectionEnchantment()
     }
 
-    val FLY_DODGING = REGISTRY.register("maneuvering") {
+    val FLY_DODGING = REGISTRY.register("fly_dodging") {
         FlyDodgingEnchantment()
     }
 
