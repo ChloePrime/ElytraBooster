@@ -16,17 +16,14 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.Attribute
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ArmorMaterial
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.phys.Vec3
 import net.minecraftforge.client.IItemRenderProperties
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.event.TickEvent
-import net.minecraftforge.eventbus.api.EventPriority
-import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
-import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.util.thread.EffectiveSide
 import java.lang.StackWalker.StackFrame
 import java.util.*
@@ -108,7 +105,8 @@ open class BoostedElytraItemBase(
         // at ItemStack.getTooltipLines
         // at ItemStack.getAttributeModifiers
         // at Item.getAttributeModifiers        <- this method
-        val isGatheringTooltip = STACK_WALKER.walk { it.skip(2).findFirst() }.map { isGatheringTooltip(it) }.orElse(false)
+        val isGatheringTooltip =
+            STACK_WALKER.walk { it.skip(2).findFirst() }.map { isGatheringTooltip(it) }.orElse(false)
         val retAttributes = if (isGatheringTooltip && EffectiveSide.get() == LogicalSide.CLIENT) {
             // 是否让 Attributes 以绿色实际值显示
             // 实现原理为将推进力伪装成攻击速度，骗原版显示为绿色
@@ -165,30 +163,25 @@ open class BoostedElytraItemBase(
  * 加速度公式 a = a0 * lookVec - kv^2 * e(motion)
  * @author ChloePrime
  */
-@Mod.EventBusSubscriber
-internal object ElytraBoostingEventHandler {
-    /**
-     * 双端执行
-     */
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    fun onPlayerTick(e: TickEvent.PlayerTickEvent) {
-        if (e.phase === TickEvent.Phase.END) return
-        if (!e.player.isFlyingWithBooster) return
+object ElytraBoostingHandler {
+    @JvmStatic
+    fun onPlayerTravel(player: Player) {
+        if (!player.isFlyingWithBooster) return
 
-        val input = ElytraBoosterApi.getElytraInputOrNull(e.player) ?: return
+        val input = ElytraBoosterApi.getElytraInputOrNull(player) ?: return
         // 空气阻力公式 F=0.5CρSv^2=cv^2 c为常数，v为速度
 
         // v = √a0 / √k
         // a0 = v^2 * k * 加速度方向
-        val a0 = Aerodynamics.getAccelerationForPlayer(e.player) * input.moveForward
+        val a0 = Aerodynamics.getAccelerationForPlayer(player) * input.moveForward
 
-        val motion: Vec3 = e.player.deltaMovement
-        val lookDir = e.player.lookAngle
+        val motion: Vec3 = player.deltaMovement
+        val lookDir = player.lookAngle
         // kv^2
         val airResistance = Aerodynamics.AIR_DRAG * motion.lengthSqr()
         val airResistanceVec = motion.withLength(airResistance)
         // a=F/m=cF，c为常数
-        e.player.deltaMovement = motion.add(
+        player.deltaMovement = motion.add(
             a0 * lookDir.x - airResistanceVec.x,
             a0 * lookDir.y - airResistanceVec.y,
             a0 * lookDir.z - airResistanceVec.z

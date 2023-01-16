@@ -27,6 +27,7 @@ object ElyBoosterModConfig {
     /* 杂项 */
 
     val BAN_FIREWORK_BOOST: ForgeConfigSpec.BooleanValue
+    val CAUSAL_MODE: ForgeConfigSpec.BooleanValue
 
     init {
         val builder = ForgeConfigSpec.Builder()
@@ -103,6 +104,13 @@ object ElyBoosterModConfig {
         BAN_FIREWORK_BOOST = builder
             .comment("Prevent vanilla firework from boosting elytra flight")
             .define("no_firework_boost", true)
+
+        CAUSAL_MODE = builder
+            .comment(
+"""Let boosted elytra have vanilla elytra behavior mixed with booster behavior, remove extra gravity,
+and re-enables changing look direction by moving your mouse.
+Making it easier and more vanilla-like to control""")
+            .define("causal_mode", false)
         builder.pop()
 
         CONFIG = builder.build()
