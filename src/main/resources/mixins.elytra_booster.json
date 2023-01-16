@@ -1,0 +1,10 @@
+{
+  "package": "mod.chloeprime.elytrabooster.mixin",
+  "refmap": "mixins.elytra_booster.refmap.json",
+  "minVersion": "0.0.1",
+  "mixins": [
+  ],
+  "client": [
+    "client.MixinLivingEntity"
+  ]
+}
